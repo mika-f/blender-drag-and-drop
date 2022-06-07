@@ -5,8 +5,8 @@
 #include <Windows.h>
 #include <WtsApi32.h>
 
-#pragma comment( lib, "imagehlp.lib" )
-#pragma comment( lib, "wtsapi32.lib" )
+#pragma comment(lib, "imagehlp.lib")
+#pragma comment(lib, "wtsapi32.lib")
 
 HANDLE hThread;
 
@@ -14,7 +14,9 @@ struct RedirectToAttachedConsole
 {
     void operator()(Injector::reg_pack& regs) const
     {
-        printf("s");
+        const auto addr = regs.rdx;
+        const auto str = (char*)addr.i;
+        std::cout << ("[injected] drop file: ") << str << std::endl;
     }
 };
 
@@ -22,13 +24,12 @@ DWORD WINAPI BackgroundMonitor(LPVOID pData)
 {
     // MEM ADDR: XXXX'7BD18FA5 - XXXX'7BD18FAF
     // MEM PTRN: E8 7C 78 C5 FF
-    // MEM ASM : CALL 00007FF67B970830 
+    // MEM ASM : CALL 00007FF67B970830
     // ref: https://github.com/blender/blender/blob/594f47ecd2d5367ca936cf6fc6ec8168c2b360d0/source/blender/windowmanager/intern/wm_window.c#L1462
     BytePattern::temp_instance().find_pattern("E8 7C 78 C5 FF");
     if (BytePattern::temp_instance().count() > 0)
     {
-        auto address = BytePattern::temp_instance().get_first().address();
-        Injector::MakeInline<RedirectToAttachedConsole>(address, address + 1);
+        const auto address = BytePattern::temp_instance().get_first().address();
     }
     return 0;
 }

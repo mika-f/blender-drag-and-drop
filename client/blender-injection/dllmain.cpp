@@ -30,7 +30,7 @@ DWORD WINAPI BackgroundMonitor(LPVOID pData)
     if (BytePattern::temp_instance().count() > 0)
     {
         const auto address = BytePattern::temp_instance().get_first().address();
-        Injector::MakeInline<RedirectToAttachedConsole>(address, address + 11);
+        Injector::MakeInline<RedirectToAttachedConsole>(address, address + 17);
     }
     return 0;
 }

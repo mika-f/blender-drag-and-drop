@@ -10,4 +10,19 @@
 // add headers that you want to pre-compile here
 #include "framework.h"
 
+#include <cstdio>
+#include <cstdint>
+#include <algorithm>
+#include <cstddef>
+#include <filesystem>
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <sstream>
+#include <vector>
+
+#include "assembly.hpp"
+#include "byte_pattern.h"
+#include "injector.hpp"
+
 #endif //PCH_H

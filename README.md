@@ -4,7 +4,8 @@ Blender add-on for importing some files from drag-and-drop.
 
 ## Supports
 
-- Blender 3.0x (branch #3.0 - current main)
+- Blender 3.1x (branch #3.0 - current main, 64bit)
+  - Windows 10 or greater x64
 
 ## Installation
 
@@ -16,9 +17,9 @@ Blender add-on for importing some files from drag-and-drop.
 ## How to use
 
 1. Extract ZIP archive into working directory
-1. Launch Blender with `blender-launcher` such as `blender-launcher /path/to/blender.exe /path/to/injector.exe`
-1. Wait until injection finished
-1. Drag and Drop some file to 3D view, load it
+2. Launch Blender with `blender-launcher` such as `blender-launcher /path/to/blender.exe`
+3. Wait until injection finished
+4. Drag and Drop some file to 3D view, load it
 
 ## License
 

@@ -46,10 +46,19 @@ process.OutputDataReceived += async (sender, e) =>
         return;
     }
 
-    var path = str["[injected] drop file:".Length..].Trim();
-    var json = JsonSerializer.Serialize(new ImportRequest { Path = path });
-    var content = new StringContent(json, Encoding.UTF8, "application/json");
-    await client.PostAsync("http://localhost:7225/", content);
+    try
+    {
+        var path = str["[injected] drop file:".Length..].Trim();
+        Console.WriteLine("drop file: " + path);
+
+        var json = JsonSerializer.Serialize(new ImportRequest { Path = path });
+        var content = new StringContent(json, Encoding.UTF8, "application/json");
+        await client.PostAsync("http://localhost:7225/", content);
+    }
+    catch
+    {
+        // ignored
+    }
 };
 process.ErrorDataReceived += (sender, e) => Console.WriteLine(e.Data);
 

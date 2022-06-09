@@ -9,14 +9,6 @@ sys.path.append(str(dir))
 
 def launch():
     from libs.server import setup
-    from libs.installation import check_module_installed
-
-    for mod in ["flask"]:
-        let = check_module_installed(mod)
-
-    if not let:
-        print("failed to import flask")
-        return
 
     setup()
 

@@ -1,7 +1,21 @@
 import bpy
-import flask
-import os
+from http.server import BaseHTTPRequestHandler, HTTPServer
+import json
 import threading
+
+
+class HttpRequestHandler(BaseHTTPRequestHandler):
+    def do_POST(self):
+        content_length = int(self.headers["content-length"])
+        body = self.rfile.read(content_length).decode("utf-8")
+
+        json_obj = json.loads(body)
+
+        path = json_obj["path"]
+
+        bpy.types.Scene.ImportReq = path
+        self.send_response(201)
+        self.wfile.write(b"")
 
 
 def setup():
@@ -10,29 +24,9 @@ def setup():
 
 def start_flask_server():
     def launch_server():
-        try:
-            server.run(debug=True, port=7225, use_reloader=False)
-            print("start flask server at port 7225")
-        except OSError:
-            print("failed to launch flask server at port 7225")
+        with HTTPServer(("localhost", 7225), HttpRequestHandler) as server:
+            server.serve_forever()
 
     thread = threading.Thread(target=launch_server)
     thread.daemon = True
     thread.start()
-
-
-server = flask.Flask("Blender Server")
-server.config["JSON_AS_ASCII"] = False
-
-
-# get JSON from launcher such as { "path": "/c/path/to/drag/and/drop/file.fbx" }
-@server.route("/", methods=["POST"])
-def root():
-    request = flask.request
-    json = request.get_json()
-
-    path = json["path"]
-    _, ext = os.path.splitext(path)
-
-    bpy.types.Scene.ImportReq = path
-    return flask.Response(status=201)

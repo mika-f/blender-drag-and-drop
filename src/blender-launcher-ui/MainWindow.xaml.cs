@@ -35,7 +35,7 @@ public partial class MainWindow : Window
     {
         var dialog = new OpenFileDialog
         {
-            FileName = "Blender Executable (*.exe)|*.exe"
+            Filter = "Blender Executable (*.exe)|*.exe"
         };
 
         if (dialog.ShowDialog() == false)

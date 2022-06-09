@@ -9,7 +9,7 @@ Blender add-on for importing some files from drag-and-drop.
 
 ## Installation
 
-1. Download Installation Archive from [Natsuneko Laboratory](https://natsuneko.moe/en-US/import-utils/)
+1. Download Installation Archive from [Natsuneko Laboratory](https://docs.natsuneko.moe/en-US/drag-and-drop-support/)
 2. Open the Preferences window and select `Add-ons` tab
 3. Press `Install` button, select downloaded zip-archive and select `Install Add-on`
 4. Select `Community` tab and enable `Import: Drag and Drop Support`

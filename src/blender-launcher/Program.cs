@@ -30,7 +30,7 @@ if (!process.Start())
     return 1;
 
 var processId = process.Id;
-Process.Start("./blender-hook.exe", processId.ToString());
+Process.Start("./blender-hook.exe", processId.ToString()).WaitForExit();
 
 var client = new HttpClient();
 
@@ -40,7 +40,8 @@ process.OutputDataReceived += async (sender, e) =>
     if (string.IsNullOrWhiteSpace(str))
         return;
 
-    if (!str.StartsWith("[injected] drop file: "))
+
+    if (!str.StartsWith("f:"))
     {
         Console.WriteLine(str);
         return;
@@ -48,8 +49,14 @@ process.OutputDataReceived += async (sender, e) =>
 
     try
     {
-        var path = str["[injected] drop file:".Length..].Trim();
-        Console.WriteLine("drop file: " + path);
+        var path = str["f:".Length..].Trim();
+        if (!File.Exists(path))
+        {
+            Console.WriteLine("[blender-launcher] invalid file path detected");
+            return;
+        }
+
+        Console.WriteLine($"[blender-launcher] start to send {path} to blender server");
 
         var json = JsonSerializer.Serialize(new ImportRequest { Path = path });
         var content = new StringContent(json, Encoding.UTF8, "application/json");

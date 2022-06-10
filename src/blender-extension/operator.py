@@ -4,11 +4,30 @@
 # ------------------------------------------------------------------------------------------
 
 from __future__ import annotations
+from typing import Callable, Dict
 
 import bpy
 import os
 
 from bpy.types import Operator
+
+import_dic: Dict[str, Callable[[str], None]] = {
+    ".abc": lambda w: bpy.ops.wm.alembic_import(filepath=w),
+    ".bvh": lambda w: bpy.ops.import_anim.bvh(filepath=w),
+    ".fbx": lambda w: bpy.ops.import_scene.fbx(filepath=w),
+    ".dae": lambda w: bpy.ops.wm.collada_import(filepath=w),
+    ".glb": lambda w: bpy.ops.import_scene.gltf(filepath=w),
+    ".gltf": lambda w: bpy.ops.import_scene.gltf(filepath=w),
+    ".obj": lambda w: bpy.ops.import_scene.obj(filepath=w),
+    ".ply": lambda w: bpy.ops.import_mesh.ply(filepath=w),
+    ".stl": lambda w: bpy.ops.import_mesh.stl(filepath=w),
+    ".svg": lambda w: bpy.ops.import_curve.svg(filepath=w),
+    ".usd": lambda w: bpy.ops.wm.usd_import(filepath=w),
+    ".usda": lambda w: bpy.ops.wm.usd_import(filepath=w),
+    ".usdc": lambda w: bpy.ops.wm.usd_import(filepath=w),
+    ".x3d": lambda w: bpy.ops.import_scene.x3d(filepath=w),
+    ".wrl": lambda w: bpy.ops.import_scene.x3d(filepath=w),
+}
 
 
 class DropEventListener(Operator):
@@ -37,18 +56,8 @@ class DropEventListener(Operator):
             path = bpy.types.Scene.ImportReq
             _, ext = os.path.splitext(path)
 
-            if ext == ".fbx":
-                bpy.ops.import_scene.fbx(filepath=path)
-            elif ext == ".gltf":
-                bpy.ops.import_scene.gltf(filepath=path)
-            elif ext == ".glb":
-                bpy.ops.import_scene.gltf(filepath=path)
-            elif ext == ".obj":
-                bpy.ops.import_scene.obj(filepath=path)
-            elif ext == ".x3d":
-                bpy.ops.import_scene.x3d(filepath=path)
-            else:
-                print("unknown file")
+            importer = import_dic.get(ext, lambda w: print("unknown file"))
+            importer(w=path)
         except TypeError as e:
             print(e)
 

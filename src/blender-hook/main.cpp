@@ -47,7 +47,16 @@ int main(int argc, char* argv[])
         return EXIT_FAILURE;
     }
 
-    WaitForSingleObject(hThread, INFINITE);
+    const auto hResult = WaitForSingleObject(hThread, INFINITE);
+    if (!hResult)
+    {
+        wchar_t msg[512];
+        FormatMessageW(FORMAT_MESSAGE_FROM_SYSTEM, nullptr, GetLastError(), 0, msg, sizeof(msg), nullptr);
+        std::cout << msg << std::endl;
+
+        return EXIT_FAILURE;
+    }
+
     CloseHandle(hThread);
 
     return EXIT_SUCCESS;

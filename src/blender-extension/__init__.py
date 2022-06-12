@@ -18,17 +18,31 @@ bl_info = {
 if "bpy" in locals():
     import importlib
     importlib.reload(operator)
+    importlib.reload(properties)
     importlib.reload(ui)
 else:
     from . import operator
+    from . import properties
     from . import ui
 
     import bpy
+    from bpy.props import PointerProperty
 
 
 classes = [
     operator.DropEventListener,
-    ui.DropEventListenerUI
+    properties.DragAndDropSupportProperties,
+    ui.DropEventListenerUI,
+    ui.DropAlembicPropertiesUI,
+    ui.DropBvhPropertiesUI,
+    ui.DropFbxPropertiesUI,
+    ui.DropColladaPropertiesUI,
+    ui.DropGltfPropertiesUI,
+    ui.DropObjPropertiesUI,
+    ui.DropPlyPropertiesUI,
+    ui.DropStlPropertiesUI,
+    ui.DropUsdPropertiesUI,
+    ui.DropX3dPropertiesUI,
 ]
 
 
@@ -36,10 +50,15 @@ def register():
     for c in classes:
         bpy.utils.register_class(c)
 
+    bpy.types.Scene.DragAndDropSupportProperties = PointerProperty(
+        type=properties.DragAndDropSupportProperties)
+
 
 def unregister():
     for c in classes:
         bpy.utils.unregister_class(c)
+
+    del bpy.types.Scene.DragAndDropSupportProperties
 
 
 if __name__ == "__main__":

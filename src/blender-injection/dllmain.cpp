@@ -8,6 +8,26 @@
 
 HANDLE hThread;
 
+#ifdef BLENDER_3_1_0
+// MEM ADDRESS  : '02BC8CC5 - '02BC8CCF
+// MEM PATTERN  : E8 5C 7B C5 FF
+// MEM ASSEMBLY : CALL 00007FF602820830H
+// ref: https://github.com/blender/blender/blob/v3.1.0/source/blender/windowmanager/intern/wm_window.c#L1393
+#define BYTE_PATTERN "E8 5C 7B C5 FF"
+#define BYTE_OFFSET  17
+#elif defined(BLENDER_3_1_2)
+// MEM ADDRESS  : '7BD18FA5 - '7BD18FAF
+// MEM PATTERN  : E8 7C 78 C5 FF
+// MEM ASSEMBLY : CALL 00007FF67B970830
+// ref: https://github.com/blender/blender/blob/v3.1.2/source/blender/windowmanager/intern/wm_window.c#L1390
+#define BYTE_PATTERN "E8 7C 78 C5 FF"
+#define BYTE_OFFSET  17
+#else
+#define BYTE_PATTERN ""
+#define BYTE_OFFSET  0
+#endif
+
+
 struct RedirectToAttachedConsole
 {
     void operator()(Injector::reg_pack& regs) const
@@ -22,17 +42,11 @@ struct RedirectToAttachedConsole
 
 DWORD WINAPI BackgroundMonitor(LPVOID pData)
 {
-    // MEM ADDR: XXXX'7BD18FA5 - XXXX'7BD18FAF
-    // MEM PTRN: E8 7C 78 C5 FF
-    // MEM ASM : CALL 00007FF67B970830
-    // ref: https://github.com/blender/blender/blob/594f47ecd2d5367ca936cf6fc6ec8168c2b360d0/source/blender/windowmanager/intern/wm_window.c#L1462
-    BytePattern::temp_instance().find_pattern("E8 7C 78 C5 FF");
+    BytePattern::temp_instance().find_pattern(BYTE_PATTERN);
     if (BytePattern::temp_instance().count() > 0)
     {
         const auto address = BytePattern::temp_instance().get_first().address();
-        // Injector::MakeRangedNOP(address, address + 17);
-        // Injector::MakeCALL(address, address + 17, false);
-        Injector::MakeInline<RedirectToAttachedConsole>(address, address + 17);
+        Injector::MakeInline<RedirectToAttachedConsole>(address, address + BYTE_OFFSET);
     }
     else
     {

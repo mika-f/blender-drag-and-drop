@@ -52,7 +52,7 @@ process.OutputDataReceived += async (sender, e) =>
         var path = str["f:".Length..].Trim();
         if (!File.Exists(path))
         {
-            Console.WriteLine("[blender-launcher] invalid file path detected");
+            Console.WriteLine($"[blender-launcher] invalid file path detected: {path}");
             return;
         }
 

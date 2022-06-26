@@ -19,10 +19,10 @@ class HttpRequestHandler(BaseHTTPRequestHandler):
 
 
 def setup():
-    start_flask_server()
+    start_http_server()
 
 
-def start_flask_server():
+def start_http_server():
     def launch_server():
         with HTTPServer(("localhost", 7225), HttpRequestHandler) as server:
             server.serve_forever()

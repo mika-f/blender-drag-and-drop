@@ -45,6 +45,10 @@ class DropEventListener(Operator):
     def is_listening(cls):
         return cls.__listening
 
+    @classmethod
+    def reset(cls):
+        cls.__listening = False
+
     def modal(self, context, event):
         if context.area:
             context.area.tag_redraw()

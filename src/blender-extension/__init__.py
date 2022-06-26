@@ -27,6 +27,7 @@ else:
 
     import bpy
     from bpy.props import PointerProperty
+    from bpy.app.handlers import persistent
 
 
 classes = [
@@ -46,6 +47,12 @@ classes = [
 ]
 
 
+@persistent
+def post_handler(_):
+    cls = operator.DropEventListener
+    cls.reset()
+
+
 def register():
     for c in classes:
         bpy.utils.register_class(c)
@@ -53,12 +60,16 @@ def register():
     bpy.types.Scene.DragAndDropSupportProperties = PointerProperty(
         type=properties.DragAndDropSupportProperties)
 
+    bpy.app.handlers.load_post.append(post_handler)
+
 
 def unregister():
     for c in classes:
         bpy.utils.unregister_class(c)
 
     del bpy.types.Scene.DragAndDropSupportProperties
+
+    bpy.app.handlers.load_post.remove(post_handler)
 
 
 if __name__ == "__main__":

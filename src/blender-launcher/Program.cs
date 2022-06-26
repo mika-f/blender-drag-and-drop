@@ -12,13 +12,14 @@ if (args.Length != 1)
     return 1;
 
 var executable = args[0];
+var self = Path.GetFullPath(Path.GetDirectoryName(typeof(ImportRequest).Assembly.Location)!);
 var process = new Process
 {
     EnableRaisingEvents = true,
     StartInfo =
     {
         FileName = executable,
-        Arguments = $"--python {Path.GetFullPath(Path.Combine(Path.GetDirectoryName(typeof(ImportRequest).Assembly.Location)!, "blender-server", "launch.py"))}",
+        Arguments = $"--python {Path.GetFullPath(Path.Combine(self, "blender-server", "launch.py"))}",
         CreateNoWindow = true,
         RedirectStandardError = true,
         RedirectStandardOutput = true,
@@ -30,7 +31,15 @@ if (!process.Start())
     return 1;
 
 var processId = process.Id;
-Process.Start("./blender-hook.exe", processId.ToString()).WaitForExit();
+var startInfo = new ProcessStartInfo
+{
+    FileName = Path.Combine(self, "blender-hook.exe"),
+    Arguments = processId.ToString(),
+    CreateNoWindow = true,
+    UseShellExecute = false,
+    WorkingDirectory = self
+};
+Process.Start(startInfo)!.WaitForExit();
 
 var client = new HttpClient();
 

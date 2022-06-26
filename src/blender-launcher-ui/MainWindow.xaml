@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d"
         ResizeMode="NoResize"
-        Title="Blender Launcher" Height="150" Width="500">
+        Title="Blender Launcher" Height="180" Width="500">
     <StackPanel Margin="4">
         <TextBlock FontSize="18" Margin="0,4" HorizontalAlignment="Center">
             Blender Launcher for Drag-and-Drop Support
@@ -21,5 +21,6 @@
             <Button Click="OnClickOpenFileButton" Grid.Column="2" HorizontalAlignment="Right" Content="Open File..." Width="120" Padding="8,4" />
         </Grid>
         <Button x:Name="LaunchButton" Click="OnClickLaunchButton" FontSize="16" Content="Launch Blender" Padding="8,4" />
+        <Button x:Name="CreateShortcutButton" Click="OnClickCreateShortcutButton" FontSize="16" Content="Create Shortcut" Padding="8,4" />
     </StackPanel>
 </Window>

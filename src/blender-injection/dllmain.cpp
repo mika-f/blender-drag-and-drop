@@ -64,8 +64,8 @@ DWORD WINAPI BackgroundMonitor(LPVOID pData)
     }
     else
     {
-        std::cout << "failed to find byte pattern such as `E8 7C 78 C5 FF` (ASM: CALL 00007FF67B970830)" << std::endl;
-        std::cout << "Are you using Blender 3.1.2?" << std::endl;
+        std::cout << "failed to find byte pattern such as `" << BYTE_PATTERN << "`" << std::endl;
+        std::cout << "Are you using matched version of Blender?" << std::endl;
     }
     return 0;
 }

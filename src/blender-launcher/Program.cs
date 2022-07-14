@@ -12,7 +12,7 @@ if (args.Length != 1)
     return 1;
 
 var executable = args[0];
-var self = Path.GetFullPath(Path.GetDirectoryName(typeof(ImportRequest).Assembly.Location)!);
+var self = Path.GetFullPath(AppContext.BaseDirectory);
 var process = new Process
 {
     EnableRaisingEvents = true,

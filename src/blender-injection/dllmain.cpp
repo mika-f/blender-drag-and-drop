@@ -66,6 +66,9 @@ DWORD WINAPI BackgroundMonitor(LPVOID pData)
     BytePattern::temp_instance().find_pattern(BYTE_PATTERN);
     if (BytePattern::temp_instance().count() > 0)
     {
+        SetConsoleOutputCP(CP_UTF8);
+        setvbuf(stdout, nullptr, _IOFBF, 1000);
+
         const auto address = BytePattern::temp_instance().get_first().address();
         Injector::MakeInline<RedirectToAttachedConsole>(address, address + BYTE_OFFSET);
     }

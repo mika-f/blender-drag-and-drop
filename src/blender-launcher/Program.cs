@@ -23,6 +23,7 @@ var process = new Process
         CreateNoWindow = true,
         RedirectStandardError = true,
         RedirectStandardOutput = true,
+        StandardOutputEncoding = Encoding.UTF8,
         UseShellExecute = false
     }
 };

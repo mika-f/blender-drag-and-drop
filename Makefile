@@ -1,5 +1,5 @@
 ARCH = x64
-REVISION = 5
+REVISION = 6
 
 ALL_TASKS =
 ALL_TASKS += blender-3-1-0
@@ -7,6 +7,7 @@ ALL_TASKS += blender-3-1-1
 ALL_TASKS += blender-3-1-2
 ALL_TASKS += blender-3-2-0
 ALL_TASKS += blender-3-2-1
+ALL_TASKS += blender-3-2-2
 
 .PHONY: blender-3-1-0
 blender-3-1-0:
@@ -27,6 +28,10 @@ blender-3-2-0:
 .PHONY: blender-3-2-1
 blender-3-2-1:
 	build.bat $(ARCH) "Blender 3.2.1" $(REVISION)
+
+.PHONY: blender-3-2-2
+blender-3-2-2:
+	build.bat $(ARCH) "Blender 3.2.2" $(REVISION)
 
 .PHONY: clean
 clean:

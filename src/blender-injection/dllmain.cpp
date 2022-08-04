@@ -43,6 +43,13 @@ HANDLE hThread;
 // ref: https://github.com/blender/blender/blob/v3.2.1/source/blender/windowmanager/intern/wm_window.c#L1383
 #define BYTE_PATTERN "E8 A1 BD 0D FF"
 #define BYTE_OFFSET  17
+#elif defined(BLENDER_3_2_2)
+// MEM ADDRESS  : 'A88E58F0 - 'A88E58FA
+// MEM PATTERN  : E8 41 BD 0D FF
+// MEM ASSEMBLY : CALL 00007FF6A79C1640H
+// ref: https://github.com/blender/blender/blob/v3.2.2/source/blender/windowmanager/intern/wm_window.c#L1383
+#define BYTE_PATTERN "E8 41 BD 0D FF"
+#define BYTE_OFFSET  17
 #else
 #define BYTE_PATTERN ""
 #define BYTE_OFFSET  0

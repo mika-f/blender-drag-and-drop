@@ -4,9 +4,6 @@
 # ------------------------------------------------------------------------------------------
 
 from __future__ import annotations
-from cmath import log
-from enum import auto
-from glob import glob
 from typing import Callable, Dict
 
 import bpy
@@ -80,7 +77,7 @@ class DropEventListener(Operator):
     def invoke(self, context, event):
         cls = DropEventListener
 
-        if context.area.type == "VIEW_3D":
+        if context.area is None or context.area.type == "VIEW_3D":
             bpy.types.Scene.ImportReq = None
 
             if not self.is_listening():

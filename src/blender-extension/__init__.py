@@ -48,9 +48,11 @@ classes = [
 
 
 @persistent
-def post_handler(_):
+def post_load_handler(_):
     cls = operator.DropEventListener
     cls.reset()
+
+    bpy.ops.object.drop_event_listener("INVOKE_DEFAULT")
 
 
 def register():
@@ -60,7 +62,7 @@ def register():
     bpy.types.Scene.DragAndDropSupportProperties = PointerProperty(
         type=properties.DragAndDropSupportProperties)
 
-    bpy.app.handlers.load_post.append(post_handler)
+    bpy.app.handlers.load_post.append(post_load_handler)
 
 
 def unregister():
@@ -69,7 +71,7 @@ def unregister():
 
     del bpy.types.Scene.DragAndDropSupportProperties
 
-    bpy.app.handlers.load_post.remove(post_handler)
+    bpy.app.handlers.load_post.remove(post_load_handler)
 
 
 if __name__ == "__main__":

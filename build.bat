@@ -121,5 +121,8 @@ echo ***************************************************************************
 echo Packaging Artifact
 echo ******************************************************************************************************
 
-del "%DEST%.zip"
+if exist "%DEST%.zip" (
+    del "%DEST%.zip"
+)
+
 powershell compress-archive %DEST% %DEST%.zip

@@ -37,6 +37,9 @@ blender-3-2-2:
 .PHONY: blender-3-3-0
 blender-3-3-0:
 	build.bat $(ARCH) "Blender 3.3.0" $(REVISION)
+.PHONY: blender-3-3-1
+blender-3-3-1:
+	./build.bat $(ARCH) "Blender 3.3.1" $(REVISION)
 
 .PHONY: clean
 clean:

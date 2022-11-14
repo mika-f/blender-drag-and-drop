@@ -63,28 +63,28 @@ echo ***************************************************************************
 echo Build blender-hook for %2 (%ARCH%)
 echo ******************************************************************************************************
 
-"%MSBUILD%" /p:Configuration=%2 /p:Platform=%1 /t:Build src/blender-hook/blender-hook.vcxproj
+"%MSBUILD%" /p:Configuration=%2 /p:Platform=%1 /t:Rebuild src/blender-hook/blender-hook.vcxproj
 
 
 echo ******************************************************************************************************
 echo Build blender-injection for %2 (%ARCH%)
 echo ******************************************************************************************************
 
-"%MSBUILD%" /p:Configuration=%2 /p:Platform=%1 /t:Build src/blender-injection/blender-injection.vcxproj
+"%MSBUILD%" /p:Configuration=%2 /p:Platform=%1 /t:Rebuild src/blender-injection/blender-injection.vcxproj
 
 
 echo ******************************************************************************************************
 echo Build blender-launcher for %2 (%ARCH%)
 echo ******************************************************************************************************
 
-"%MSBUILD%" /p:Configuration=Release /p:Platform=%ARCH% /t:Build src/blender-launcher/blender-launcher.csproj
+"%MSBUILD%" /p:Configuration=Release /p:Platform=%ARCH% /t:Rebuild src/blender-launcher/blender-launcher.csproj
 
 
 echo ******************************************************************************************************
 echo Build blender-launcher-ui for %2 (%ARCH%)
 echo ******************************************************************************************************
 
-"%MSBUILD%" /p:Configuration=Release /p:Platform=%ARCH% /t:Build src/blender-launcher-ui/blender-launcher-ui.csproj
+"%MSBUILD%" /p:Configuration=Release /p:Platform=%ARCH% /t:Rebuild src/blender-launcher-ui/blender-launcher-ui.csproj
 
 
 echo ******************************************************************************************************

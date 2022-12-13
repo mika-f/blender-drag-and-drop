@@ -57,7 +57,6 @@ struct Patch
 {
     // old approach
     std::string BytePattern;
-    short Offset;
 
     // new approach
     unsigned long long FunctionPointer;
@@ -86,55 +85,55 @@ std::unordered_map<std::string, Patch> patchers{
     // MEM PATTERN  : E8 5C 7B C5 FF
     // MEM ASSEMBLY : CALL 00007FF602820830H
     // ref: https://github.com/blender/blender/blob/v3.1.0/source/blender/windowmanager/intern/wm_window.c#L1393
-    {"3.1.0", {"E8 5C 7B C5 FF", 17, 0}},
+    {"3.1.0", {"E8 5C 7B C5 FF", 0}},
 
     // MEM ADDRESS  : 'C6CD8FA5 - 'C6CD8FAF
     // MEM PATTERN  : E8 7C 78 C5 FF
     // MEM ASSEMBLY : CALL 00007FF7C6930830H
     // ref: https://github.com/blender/blender/blob/v3.1.1/source/blender/windowmanager/intern/wm_window.c#L1393
-    {"3.1.1", {"E8 7C 78 C5 FF", 17, 0}},
+    {"3.1.1", {"E8 7C 78 C5 FF", 0}},
 
     // MEM ADDRESS  : '7BD18FA5 - '7BD18FAF
     // MEM PATTERN  : E8 7C 78 C5 FF
     // MEM ASSEMBLY : CALL 00007FF67B970830
     // ref: https://github.com/blender/blender/blob/v3.1.2/source/blender/windowmanager/intern/wm_window.c#L1390
-    {"3.1.2", {"E8 7C 78 C5 FF", 17, 0}},
+    {"3.1.2", {"E8 7C 78 C5 FF", 0}},
 
     // MEM ADDRESS  : 'D3AB57AD - 'D3AB57B7
     // MEM PATTERN  : E8 84 BE 0D FF
     // MEM ASSEMBLY : CALL 00007FF6D2B91640H
     // ref: https://github.com/blender/blender/blob/v3.2.0/source/blender/windowmanager/intern/wm_window.c#L1381
-    {"3.2.0", {"E8 84 BE 0D FF", 17, 0}},
+    {"3.2.0", {"E8 84 BE 0D FF", 0}},
 
     // MEM ADDRESS  : '32FA5890 - '32FA589A
     // MEM PATTERN  : E8 A1 BD 0D FF
     // MEM ASSEMBLY : CALL 00007FF732081640H
     // ref: https://github.com/blender/blender/blob/v3.2.1/source/blender/windowmanager/intern/wm_window.c#L1383
-    {"3.2.1", {"E8 A1 BD 0D FF", 17, 0}},
+    {"3.2.1", {"E8 A1 BD 0D FF", 0}},
 
     // MEM ADDRESS  : 'A88E58F0 - 'A88E58FA
     // MEM PATTERN  : E8 41 BD 0D FF
     // MEM ASSEMBLY : CALL 00007FF6A79C1640H
     // ref: https://github.com/blender/blender/blob/v3.2.2/source/blender/windowmanager/intern/wm_window.c#L1383
-    {"3.2.2", {"E8 41 BD 0D FF", 17, 0}},
+    {"3.2.2", {"E8 41 BD 0D FF", 0}},
 
     // MEM ADDRESS  : '8FF9532E - '8FF95338
     // MEM PATTERN  : E8 D3 C3 0E FF
     // MEM ASSEMBLY : CALL 00007FF78F081710H
     // ref: https://github.com/blender/blender/blob/v3.3.0/source/blender/windowmanager/intern/wm_window.c#L1396
-    {"3.3.0", {"E8 D3 C3 0E FF", 17, 0}},
+    {"3.3.0", {"E8 D3 C3 0E FF", 0}},
 
     // MEM ADDRESS  : '6F2F543E - '6F2F5448
     // MEM PATTERN  : E8 C3 C2 0E FF
     // MEM ASSEMBLY : CALL 00007FF66E3E1710H
     // ref: https://github.com/blender/blender/blob/v3.3.1/source/blender/windowmanager/intern/wm_window.c#L1396
-    {"3.3.1", {"E8 C3 C2 0E FF", 17, 0}},
+    {"3.3.1", {"E8 C3 C2 0E FF", 0}},
 
     // MEM ADDRESS  : '1FC0649E - '1FC064A8
     // MEM PATTERN  : E8 23 C3 0E FF
     // MEM ASSEMBLY : CALL 00007FF61ECF27D0H
     // ref: https://github.com/blender/blender/blob/v3.3.2/source/blender/windowmanager/intern/wm_window.c#L1396
-    {"3.3.2", {"E8 23 C3 0E FF", 17, 0x00007FF7F247E3A0}}
+    {"3.3.2", {"E8 23 C3 0E FF", 0x00007FF7F247E3A0}}
 };
 
 template <typename... Args>
@@ -169,7 +168,7 @@ std::string GetVersionFromBinary()
 }
 
 // Replace CALL assembly with specific destination
-void ReplaceWithCall(const Injector::memory_pointer_tr& at, void* dest, unsigned int fill)
+void ReplaceWithCall(const Injector::memory_pointer_tr& at, void* dest)
 {
     // 7FF7'9C5D532E
     unsigned char assembly[] = {
@@ -194,7 +193,7 @@ extern "C" void PrepareForInvokeInterpreter(void* c, char* str)
     }
     else
     {
-        std::cout << str << std::endl;
+        std::cout << "f:" << str << std::endl;
     }
 }
 
@@ -204,7 +203,7 @@ DWORD WINAPI BackgroundMonitor(LPVOID pData)
     {
         const auto version = GetVersionFromBinary();
 
-        const auto [pattern, offset, pointer] = patchers.at(version);
+        const auto [pattern, pointer] = patchers.at(version);
 
         BytePattern::temp_instance().find_pattern(pattern);
         if (BytePattern::temp_instance().count() > 0)
@@ -216,7 +215,7 @@ DWORD WINAPI BackgroundMonitor(LPVOID pData)
                 hRunEvaluator = pointer;
 
             const auto address = BytePattern::temp_instance().get_first().address();
-            ReplaceWithCall(address, (void*)(&InvokeForceStdOut), offset);
+            ReplaceWithCall(address, (void*)(&InvokeForceStdOut));
         }
         else
         {

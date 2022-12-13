@@ -13,6 +13,7 @@ import bpy
 import os
 
 from bpy.types import Operator
+from bpy.props import StringProperty
 
 from .properties import DragAndDropSupportProperties
 
@@ -94,3 +95,37 @@ class DropEventListener(Operator):
                 return {'FINISHED'}
         else:
             return {'CANCELED'}
+
+
+class DropEventListener2(Operator):
+    bl_idname = "object.drop_event_listener2"
+    bl_label = "Drop Event Listener 2"
+
+    filename: StringProperty()
+
+    def invoke(self, context, _event):
+        context.window_manager.popup_menu(
+            self.draw_menu, title=bpy.path.basename(self.filepath), icon='QUESTION')
+        return {'FINISHED'}
+
+    def draw_menu(self, menu, _context):
+        layout = menu.layout
+
+        col = layout.column()
+        col.operator_context = 'EXEC_DEFAULT'
+        col.operator("object.drop_event_listener2",
+                     text="Open...", icon='LINK_BLEND')
+
+    def execute(self, context):
+        try:
+            _, ext = os.path.splitext(self.filename)
+
+            importer = import_dic.get(ext, lambda w: print("unknown file"))
+
+            props: DragAndDropSupportProperties = context.scene.DragAndDropSupportProperties
+
+            importer(w=self.filename, props=props)
+        except TypeError as e:
+            print(e)
+
+        return {'FINISHED'}

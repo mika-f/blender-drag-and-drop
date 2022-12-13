@@ -32,6 +32,7 @@ else:
 
 classes = [
     operator.DropEventListener,
+    operator.DropEventListener2,
     properties.DragAndDropSupportProperties,
     ui.DropEventListenerUI,
     ui.DropAlembicPropertiesUI,

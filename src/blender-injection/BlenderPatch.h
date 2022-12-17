@@ -37,11 +37,11 @@ private:
     std::unordered_map<std::string, std::uintptr_t> _dict = {};
     std::unordered_map<std::string, std::intptr_t> _offsets = {};
 
-    [[nodiscard]] std::uintptr_t GetInjectionLocationFor(std::string instruction) const;
+    [[nodiscard]] static std::uintptr_t GetInjectionLocationFor(std::string instruction);
 
     [[nodiscard]] std::intptr_t GetRelativeOffsetFor(std::string instruction) const;
 
-    [[nodiscard]] std::uintptr_t GetFunctionPointerFor(std::string instruction);
+    [[nodiscard]] std::uintptr_t GetFunctionPointerFor(std::string instruction) const;
 
     template <class... TArgs>
     void StoreMemoryPointers(TArgs... args);

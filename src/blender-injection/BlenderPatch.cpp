@@ -6,7 +6,7 @@
 #include "strings.h"
 
 
-std::uintptr_t BlenderPatch::GetInjectionLocationFor(std::string instruction) const
+std::uintptr_t BlenderPatch::GetInjectionLocationFor(std::string instruction)
 {
     const auto instance = &BytePattern::temp_instance();
     instance->find_pattern(instruction);
@@ -73,12 +73,10 @@ std::intptr_t BlenderPatch::GetRelativeOffsetFor(std::string instruction) const
  * CALL ...              : 0xE8, ...
  * JMP  ...              : 0xE9, ...
  */
-std::uintptr_t BlenderPatch::GetFunctionPointerFor(std::string instruction)
+std::uintptr_t BlenderPatch::GetFunctionPointerFor(std::string instruction) const
 {
     const auto cur = GetInjectionLocationFor(instruction);
     const auto off = GetRelativeOffsetFor(instruction);
-
-    _offsets[instruction] = off;
 
     return cur + off;
 }
@@ -136,13 +134,6 @@ void* BlenderPatch::ED_view3d_give_object_under_cursor(Context* c, int mvals[2])
 {
     if (this->GetPatchVersion() != PatchVersion::PatchToDropEvent)
         return (nullptr);
-
-    /*
-    void* pointer = Injector::memory_pointer_tr(this->_dict.at(this->_view3d_select_ED_view3d_give_object_under_cursor)).get();
-    auto func = reinterpret_cast<void*(*)(Context*, int [2])>(pointer);
-
-    int vals[] = {mvals[0], mvals[1]};
-    return func(c, vals);
-    */
+    
     return this->InvokeFunction<void*, Context*, int[2]>(this->_view3d_select_ED_view3d_give_object_under_cursor, c, mvals);
 }

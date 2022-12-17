@@ -11,7 +11,6 @@ HANDLE hThread;
 
 DWORD WINAPI BackgroundMonitor(LPVOID pData)
 {
-    LaunchDebugger();
     BlenderPatcher::GetInstance()->Patch();
 
     return 0;

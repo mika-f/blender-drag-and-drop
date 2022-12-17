@@ -138,13 +138,6 @@ void BlenderPatcher::ReplaceInstructionWithCall(const Injector::memory_pointer_t
 
 void BlenderPatcher::ReplaceFunctionWithCall(const Injector::memory_pointer_tr& at, void* dest, unsigned int paddings) const
 {
-    unsigned char assembly_before[] = {
-        /* MOV  QWORD PTR [RSP+08h], RBX */ 0x48, 0x89, 0x5C, 0x24, 0x08,
-        /* SUB  RSP, 20h                 */ 0x48, 0x83, 0xEC, 0x20,
-    };
-
-    // WriteMemoryRaw(at, assembly_before, sizeof(assembly_before), true);
-
     unsigned char assembly[] = {
         /* MOV  RAX, 0000000000000000h */ 0x48, 0xB8, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00, 0x00,
         /* JMP  RAX                    */ 0xFF, 0xE0,
@@ -154,15 +147,7 @@ void BlenderPatcher::ReplaceFunctionWithCall(const Injector::memory_pointer_tr& 
 
     WriteMemoryRaw(at, assembly, sizeof(assembly), true);
 
-
-    unsigned char assembly_after[] = {
-        /* ADD  RSP, 20h                */ 0x48, 0x83, 0xC4, 0x20,
-        /* RET                          */ 0xC3,
-    };
-
-    // WriteMemoryRaw(at + sizeof(assembly_before) + 12, assembly_after, sizeof(assembly_after), true);
-
-    constexpr auto len = /* sizeof(assembly_before) + */ 12 /* + sizeof(assembly_after) */;
+    constexpr auto len = sizeof(assembly);
     if (len >= paddings)
     {
         return;
@@ -215,38 +200,4 @@ void* BlenderPatcher::EDView3dGiveObjectUnderCursor(Context* c, int mvals[2]) co
 void BlenderPatcher::RunStringEval(void* c, const char* imports[], const char* expression) const
 {
     this->GetPatch().BPY_run_string_eval(c, imports, expression);
-}
-
-bool LaunchDebugger()
-{
-    // Get System directory, typically c:\windows\system32
-    std::wstring systemDir(MAX_PATH + 1, '\0');
-    UINT nChars = GetSystemDirectoryW(&systemDir[0], systemDir.length());
-    if (nChars == 0) return false; // failed to get system directory
-    systemDir.resize(nChars);
-
-    // Get process ID and create the command line
-    DWORD pid = GetCurrentProcessId();
-    std::wostringstream s;
-    s << systemDir << L"\\vsjitdebugger.exe -p " << pid;
-    std::wstring cmdLine = s.str();
-
-    // Start debugger process
-    STARTUPINFOW si;
-    ZeroMemory(&si, sizeof(si));
-    si.cb = sizeof(si);
-
-    PROCESS_INFORMATION pi;
-    ZeroMemory(&pi, sizeof(pi));
-
-    if (!CreateProcessW(nullptr, &cmdLine[0], nullptr, nullptr, FALSE, 0, nullptr, nullptr, &si, &pi)) return false;
-
-    // Close debugger process handles to eliminate resource leak
-    CloseHandle(pi.hThread);
-    CloseHandle(pi.hProcess);
-
-    // Wait for the debugger to attach
-    while (!IsDebuggerPresent()) Sleep(100);
-
-    return true;
 }

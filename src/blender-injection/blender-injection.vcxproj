@@ -566,7 +566,7 @@
       <ConformanceMode>true</ConformanceMode>
       <PrecompiledHeader>Use</PrecompiledHeader>
       <PrecompiledHeaderFile>pch.h</PrecompiledHeaderFile>
-      <LanguageStandard>stdcpp17</LanguageStandard>
+      <LanguageStandard>stdcpp20</LanguageStandard>
       <Optimization>Disabled</Optimization>
     </ClCompile>
     <Link>
@@ -721,12 +721,18 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="assembly.hpp" />
+    <ClInclude Include="BlenderObj.h" />
+    <ClInclude Include="BlenderPatch.h" />
+    <ClInclude Include="BlenderPatcher.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="byte_pattern.h" />
     <ClInclude Include="injector.hpp" />
     <ClInclude Include="pch.h" />
+    <ClInclude Include="strings.h" />
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="BlenderPatch.cpp" />
+    <ClCompile Include="BlenderPatcher.cpp" />
     <ClCompile Include="dllmain.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>

@@ -4,9 +4,6 @@
 # ------------------------------------------------------------------------------------------
 
 from __future__ import annotations
-from cmath import log
-from enum import auto
-from glob import glob
 from typing import Callable, Dict
 
 import bpy
@@ -99,32 +96,20 @@ class DropEventListener(Operator):
 
 class DropEventListener2(Operator):
     bl_idname = "object.drop_event_listener2"
-    bl_label = "Drop Event Listener 2"
+    bl_label = "Open File via Drag and Drop"
 
     filename: StringProperty()
 
-    def invoke(self, context, _event):
-        context.window_manager.popup_menu(
-            self.draw_menu, title=bpy.path.basename(self.filepath), icon='QUESTION')
-        return {'FINISHED'}
-
-    def draw_menu(self, menu, _context):
-        layout = menu.layout
-
-        col = layout.column()
-        col.operator_context = 'EXEC_DEFAULT'
-        col.operator("object.drop_event_listener2",
-                     text="Open...", icon='LINK_BLEND')
-
-    def execute(self, context):
+    def invoke(self, context: 'Context', event: 'Event') -> typing.Union[typing.Set[int], typing.Set[str]]:
         try:
-            _, ext = os.path.splitext(self.filename)
+            path = self.filename
+            _, ext = os.path.splitext(path)
 
             importer = import_dic.get(ext, lambda w: print("unknown file"))
 
             props: DragAndDropSupportProperties = context.scene.DragAndDropSupportProperties
 
-            importer(w=self.filename, props=props)
+            importer(w=path, props=props)
         except TypeError as e:
             print(e)
 

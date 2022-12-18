@@ -49,7 +49,7 @@ extern "C" bool View3DImaEmptyDropPollHookCallback(Context* c, wmDrag* drag, wmE
         onFired[ptr] = true;
 
         const char* imports[] = {"bpy", nullptr};
-        const auto expression = "bpy.ops.object.drop_event_listener2(\"INVOKE_DEFAULT\", filename=R\"" + std::string(drag->path) + "\")";
+        const auto expression = R"(bpy.ops.object.drop_event_listener2("INVOKE_DEFAULT", filename=R")" + std::string(drag->path) + "\")";
 
         BlenderPatcher::GetInstance()->RunStringEval(c, imports, expression.c_str());
     }

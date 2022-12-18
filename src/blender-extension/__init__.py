@@ -9,7 +9,7 @@ bl_info = {
     "author": "Natsuneko",
     "description": "Blender add-on for import some files from drag-and-drop",
     "blender": (3, 1, 0),
-    "version": (0, 0, 1),
+    "version": (2, 0, 0),
     "location": "Drag and Drop Support",
     "warning": "",
     "category": "Import-Export"
@@ -27,11 +27,9 @@ else:
 
     import bpy
     from bpy.props import PointerProperty
-    from bpy.app.handlers import persistent
 
 
 classes = [
-    operator.DropEventListener,
     operator.DropEventListener2,
     properties.DragAndDropSupportProperties,
     ui.DropEventListenerUI,
@@ -48,12 +46,6 @@ classes = [
 ]
 
 
-@persistent
-def post_handler(_):
-    cls = operator.DropEventListener
-    cls.reset()
-
-
 def register():
     for c in classes:
         bpy.utils.register_class(c)
@@ -61,7 +53,15 @@ def register():
     bpy.types.Scene.DragAndDropSupportProperties = PointerProperty(
         type=properties.DragAndDropSupportProperties)
 
-    bpy.app.handlers.load_post.append(post_handler)
+    # inject blender-injection.dll
+    import os
+    import subprocess
+
+    pid = os.getpid()
+    dirname = os.path.dirname(__file__)
+    hook = os.path.join(dirname, "blender-hook.exe")
+
+    subprocess.run([hook, str(pid)], cwd=dirname)
 
 
 def unregister():
@@ -69,8 +69,6 @@ def unregister():
         bpy.utils.unregister_class(c)
 
     del bpy.types.Scene.DragAndDropSupportProperties
-
-    bpy.app.handlers.load_post.remove(post_handler)
 
 
 if __name__ == "__main__":

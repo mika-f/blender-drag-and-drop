@@ -9,7 +9,7 @@ from typing import Callable, Dict
 import bpy
 import os
 
-from bpy.types import Operator
+from bpy.types import Context, Event, Operator
 from bpy.props import StringProperty
 
 from .properties import DragAndDropSupportProperties
@@ -33,74 +33,13 @@ import_dic: Dict[str, Callable[[str, DragAndDropSupportProperties], None]] = {
 }
 
 
-class DropEventListener(Operator):
-    bl_idname = "object.drop_event_listener"
-    bl_label = "Drop Event Listener"
-
-    __listening = False
-
-    @classmethod
-    def is_listening(cls):
-        return cls.__listening
-
-    @classmethod
-    def reset(cls):
-        cls.__listening = False
-
-    def modal(self, context, event):
-        if context.area:
-            context.area.tag_redraw()
-
-        if not self.is_listening():
-            return {'FINISHED'}
-
-        if bpy.types.Scene.ImportReq == 0:
-            return {'PASS_THROUGH'}
-        if bpy.types.Scene.ImportReq is None:
-            return {'PASS_THROUGH'}
-
-        try:
-            path = bpy.types.Scene.ImportReq
-            _, ext = os.path.splitext(path)
-
-            importer = import_dic.get(ext, lambda w: print("unknown file"))
-
-            props: DragAndDropSupportProperties = context.scene.DragAndDropSupportProperties
-
-            importer(w=path, props=props)
-        except TypeError as e:
-            print(e)
-
-        bpy.types.Scene.ImportReq = None
-
-        return {'PASS_THROUGH'}
-
-    def invoke(self, context, event):
-        cls = DropEventListener
-
-        if context.area.type == "VIEW_3D":
-            bpy.types.Scene.ImportReq = None
-
-            if not self.is_listening():
-                cls.__listening = True
-                context.window_manager.modal_handler_add(self)
-                return {'RUNNING_MODAL'}
-
-            else:
-                cls.__listening = False
-
-                return {'FINISHED'}
-        else:
-            return {'CANCELED'}
-
-
 class DropEventListener2(Operator):
     bl_idname = "object.drop_event_listener2"
     bl_label = "Open File via Drag and Drop"
 
     filename: StringProperty()
 
-    def invoke(self, context: 'Context', event: 'Event') -> typing.Union[typing.Set[int], typing.Set[str]]:
+    def invoke(self, context: Context, event: Event):
         try:
             path = self.filename
             _, ext = os.path.splitext(path)

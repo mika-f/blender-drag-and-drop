@@ -5,7 +5,6 @@
 
 from bpy.types import Panel
 
-from .operator import DropEventListener
 from .properties import DragAndDropSupportProperties
 
 
@@ -17,13 +16,7 @@ class DropEventListenerUI(Panel):
     bl_category = "Drag and Drop Support"
 
     def draw(self, context):
-        cls = DropEventListener
-        layout = self.layout
-
-        if not cls.is_listening():
-            layout.operator(cls.bl_idname, text="Start Listening", icon="PLAY")
-        else:
-            layout.operator(cls.bl_idname, text="Stop Listening", icon="PAUSE")
+        return
 
 
 class DropAlembicPropertiesUI(Panel):

@@ -91,13 +91,25 @@ BlenderPatch BlenderPatcher::GetPatch() const
     return Patchers.at(this->_version);
 }
 
-void BlenderPatcher::ApplyInjector() const
+void BlenderPatcher::ApplyInjector() 
 {
     const auto patch = GetPatch();
     if (patch.GetPatchVersion() == PatchVersion::PatchToDropEvent)
     {
         const auto address = patch.Get_view3d_ima_empty_drop_poll();
-        this->ReplaceFunctionWithCall(address, reinterpret_cast<void*>(&View3DImaEmptyDropPollHook), 96);
+        constexpr auto bytes = 96;
+        unsigned char assembly[bytes];
+
+        this->GetAssemblyCodeFrom(address, &assembly, bytes);
+
+        std::vector<unsigned char> vector;
+
+        for (int i = 0; i < bytes; i++)
+            vector.push_back(assembly[i]);
+
+        this->_originals[address] = vector;
+
+        this->ReplaceFunctionWithCall(address, reinterpret_cast<void*>(&View3DImaEmptyDropPollHook), bytes);
 
         return;
     }
@@ -118,6 +130,26 @@ void BlenderPatcher::ApplyInjector() const
 
     std::cout << "[ERROR] failed to patch to Blender because injector does not support " << this->_version << " currently" << std::endl;
 }
+
+void BlenderPatcher::RestoreInjector()
+{
+    const auto patch = GetPatch();
+    if (patch.GetPatchVersion() == PatchVersion::PatchToDropEvent)
+    {
+        const auto address = patch.Get_view3d_ima_empty_drop_poll();
+        auto assembly = this->_originals[address];
+        unsigned char* arr = &assembly[0];
+
+        Injector::WriteMemoryRaw(address, arr, assembly.size(), true);
+    }
+}
+
+
+void BlenderPatcher::GetAssemblyCodeFrom(const Injector::memory_pointer_tr& at, void* ret, unsigned int bytes) const
+{
+    ReadMemoryRaw(at, ret, bytes, true);
+}
+
 
 void BlenderPatcher::ReplaceInstructionWithCall(const Injector::memory_pointer_tr& at, void* dest, bool ret) const
 {
@@ -186,6 +218,21 @@ void BlenderPatcher::Patch()
         std::cout << "[ERROR] detected version : " << this->_version << std::endl;
     }
 }
+
+void BlenderPatcher::UnPatch()
+{
+    try
+    {
+        this->RestoreInjector();
+    }
+    catch (std::out_of_range&)
+    {
+        std::cout << "[ERROR] exception: out of range" << std::endl;
+        std::cout << "[ERROR] injector detected the unsupported version of Blender. Please upgrade Drag-and-Drop Support or downgrade Blender" << std::endl;
+        std::cout << "[ERROR] detected version : " << this->_version << std::endl;
+    }
+}
+
 
 bool BlenderPatcher::View3DImaDropPoll(Context* c, wmDrag* drag, wmEvent* event) const
 {

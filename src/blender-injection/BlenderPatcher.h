@@ -15,6 +15,7 @@ class BlenderPatcher
 private:
     std::string _version;
     std::string _pattern;
+    std::unordered_map<std::uintptr_t, std::vector<unsigned char>> _originals;
 
     inline static BlenderPatcher* _instance = nullptr;
 
@@ -25,7 +26,9 @@ private:
 
     void FetchVersion();
     [[nodiscard]] BlenderPatch GetPatch() const;
-    void ApplyInjector() const;
+    void ApplyInjector();
+    void RestoreInjector();
+    void GetAssemblyCodeFrom(const Injector::memory_pointer_tr& at, void* ret, unsigned int bytes) const;
     void ReplaceInstructionWithCall(const Injector::memory_pointer_tr& at, void* dest, bool ret = false) const;
     void ReplaceFunctionWithCall(const Injector::memory_pointer_tr& at, void* dest, unsigned int paddings = 0) const;
 
@@ -33,6 +36,7 @@ public:
     static BlenderPatcher* GetInstance();
 
     void Patch();
+    void UnPatch();
 
     bool View3DImaDropPoll(Context* c, wmDrag* drag, wmEvent* event) const;
     void* EDView3dGiveObjectUnderCursor(Context* c, int mvals[2]) const;

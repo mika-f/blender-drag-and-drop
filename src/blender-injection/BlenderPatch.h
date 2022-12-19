@@ -112,59 +112,20 @@ public:
 // XXX: LEA RDX, QWORD PTR [00007FF7F85F02A8H]     // RDX      = ptr:OBJECT_OT_drop_named_image
 // XXX: MOV RCX, RBX                               // RBX      = ListBase
 // XXX: CALL 00007FF7F2102380H
+//
+//
+// FUNCTION LOCATION - view3d_ima_drop_poll (visit: "view3d_ima_empty_drop_poll" and first CALL)
+//
+// FUNCTION LOCATION - ED_view3d_give_object_under_cursor (visit: "view3d_ima_empty_drop_poll" and second CALL)
 static std::unordered_map<std::string, BlenderPatch> Patchers{
-    // MEM ADDRESS  : '02BC8CC5 - '02BC8CCF
-    // MEM PATTERN  : E8 5C 7B C5 FF
-    // MEM ASSEMBLY : CALL 00007FF602820830H
-    // ref: https://github.com/blender/blender/blob/v3.1.0/source/blender/windowmanager/intern/wm_window.c#L1393
     {"3.1.0", {"E8 5C 7B C5 FF"}},
-
-    // MEM ADDRESS  : 'C6CD8FA5 - 'C6CD8FAF
-    // MEM PATTERN  : E8 7C 78 C5 FF
-    // MEM ASSEMBLY : CALL 00007FF7C6930830H
-    // ref: https://github.com/blender/blender/blob/v3.1.1/source/blender/windowmanager/intern/wm_window.c#L1393
     {"3.1.1", {"E8 7C 78 C5 FF"}},
-
-    // MEM ADDRESS  : '7BD18FA5 - '7BD18FAF
-    // MEM PATTERN  : E8 7C 78 C5 FF
-    // MEM ASSEMBLY : CALL 00007FF67B970830
-    // ref: https://github.com/blender/blender/blob/v3.1.2/source/blender/windowmanager/intern/wm_window.c#L1390
     {"3.1.2", {"E8 7C 78 C5 FF"}},
-
-    // MEM ADDRESS  : 'D3AB57AD - 'D3AB57B7
-    // MEM PATTERN  : E8 84 BE 0D FF
-    // MEM ASSEMBLY : CALL 00007FF6D2B91640H
-    // ref: https://github.com/blender/blender/blob/v3.2.0/source/blender/windowmanager/intern/wm_window.c#L1381
     {"3.2.0", {"E8 84 BE 0D FF"}},
-
-    // MEM ADDRESS  : '32FA5890 - '32FA589A
-    // MEM PATTERN  : E8 A1 BD 0D FF
-    // MEM ASSEMBLY : CALL 00007FF732081640H
-    // ref: https://github.com/blender/blender/blob/v3.2.1/source/blender/windowmanager/intern/wm_window.c#L1383
     {"3.2.1", {"E8 A1 BD 0D FF"}},
-
-    // MEM ADDRESS  : 'A88E58F0 - 'A88E58FA
-    // MEM PATTERN  : E8 41 BD 0D FF
-    // MEM ASSEMBLY : CALL 00007FF6A79C1640H
-    // ref: https://github.com/blender/blender/blob/v3.2.2/source/blender/windowmanager/intern/wm_window.c#L1383
     {"3.2.2", {"E8 41 BD 0D FF"}},
-
-    // MEM ADDRESS  : '8FF9532E - '8FF95338
-    // MEM PATTERN  : E8 D3 C3 0E FF
-    // MEM ASSEMBLY : CALL 00007FF78F081710H
-    // ref: https://github.com/blender/blender/blob/v3.3.0/source/blender/windowmanager/intern/wm_window.c#L1396
     {"3.3.0", {"E8 D3 C3 0E FF"}},
-
-    // MEM ADDRESS  : '6F2F543E - '6F2F5448
-    // MEM PATTERN  : E8 C3 C2 0E FF
-    // MEM ASSEMBLY : CALL 00007FF66E3E1710H
-    // ref: https://github.com/blender/blender/blob/v3.3.1/source/blender/windowmanager/intern/wm_window.c#L1396
     {"3.3.1", {"E8 C3 C2 0E FF"}},
-
-    // MEM ADDRESS  : '1FC0649E - '1FC064A8
-    // MEM PATTERN  : E8 23 C3 0E FF
-    // MEM ASSEMBLY : CALL 00007FF61ECF27D0H
-    // ref: https://github.com/blender/blender/blob/v3.3.2/source/blender/windowmanager/intern/wm_window.c#L1396
     {
         "3.3.2",
         {
@@ -172,6 +133,15 @@ static std::unordered_map<std::string, BlenderPatch> Patchers{
             "4C 8D 05 77 06 00 00",
             "E8 7B FF FF FF 84 C0",
             "E8 CB 2C 00 00 48 85 C0"
-        }
+        },
     },
+    {
+        "3.4.0",
+        {
+            "E8 2E 7A 3C 00",
+            "4C 8D 05 B7 06 00 00",
+            "E8 7B FF FF FF 84 C0",
+            "E8 FB B6 00 00 48 85 C0"
+        }
+    }
 };

@@ -4,6 +4,8 @@
 # ------------------------------------------------------------------------------------------
 
 
+import ctypes
+
 bl_info = {
     "name": "Drag and Drop Support",
     "author": "Natsuneko",
@@ -14,6 +16,7 @@ bl_info = {
     "warning": "",
     "category": "Import-Export"
 }
+
 
 if "bpy" in locals():
     import importlib
@@ -28,6 +31,7 @@ else:
     import bpy
     from bpy.props import PointerProperty
 
+dll: ctypes.CDLL
 
 classes = [
     operator.DropEventListener2,
@@ -47,28 +51,34 @@ classes = [
 
 
 def register():
+    global classes
+    global dll
+
     for c in classes:
         bpy.utils.register_class(c)
 
     bpy.types.Scene.DragAndDropSupportProperties = PointerProperty(
         type=properties.DragAndDropSupportProperties)
 
-    # inject blender-injection.dll
     import os
-    import subprocess
 
-    pid = os.getpid()
     dirname = os.path.dirname(__file__)
-    hook = os.path.join(dirname, "blender-hook.exe")
+    injector = os.path.join(dirname, "blender-injection.dll")
 
-    subprocess.run([hook, str(pid)], cwd=dirname)
+    dll = ctypes.cdll.LoadLibrary(injector)
 
 
 def unregister():
+    global classes
+    global dll
+
     for c in classes:
         bpy.utils.unregister_class(c)
 
     del bpy.types.Scene.DragAndDropSupportProperties
+
+    import _ctypes
+    _ctypes.FreeLibrary(dll._handle)
 
 
 if __name__ == "__main__":

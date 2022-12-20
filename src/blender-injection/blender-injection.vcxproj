@@ -724,6 +724,7 @@
     <ClInclude Include="BlenderObj.h" />
     <ClInclude Include="BlenderPatch.h" />
     <ClInclude Include="BlenderPatcher.h" />
+    <ClInclude Include="extern.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="byte_pattern.h" />
     <ClInclude Include="injector.hpp" />
@@ -734,6 +735,7 @@
     <ClCompile Include="BlenderPatch.cpp" />
     <ClCompile Include="BlenderPatcher.cpp" />
     <ClCompile Include="dllmain.cpp" />
+    <ClCompile Include="extern.cpp" />
     <ClCompile Include="pch.cpp">
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Create</PrecompiledHeader>
       <PrecompiledHeader Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">Create</PrecompiledHeader>

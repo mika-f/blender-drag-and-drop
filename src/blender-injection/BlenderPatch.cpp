@@ -1,8 +1,6 @@
 #include "pch.h"
 
 #include "BlenderPatch.h"
-
-#include "BlenderObj.h"
 #include "strings.h"
 
 
@@ -122,18 +120,18 @@ void BlenderPatch::BPY_run_string_eval(void* c, const char* imports[], const cha
     this->InvokeFunction<void, void*, const char*[], const char*>(this->_bpy_interface_BPY_run_string_eval, c, imports, expression);
 }
 
-bool BlenderPatch::view3d_ima_drop_poll(Context* c, wmDrag* drag, wmEvent* event) const
+bool BlenderPatch::view3d_ima_drop_poll(void* c, void* drag, void* event) const
 {
     if (this->GetPatchVersion() != PatchVersion::PatchToDropEvent)
         return reinterpret_cast<std::uintptr_t>(nullptr);
 
-    return this->InvokeFunction<bool, Context*, wmDrag*, wmEvent*>(this->_space_view3d_view3d_ima_drop_poll, c, drag, event);
+    return this->InvokeFunction<bool, void*, void*, void*>(this->_space_view3d_view3d_ima_drop_poll, c, drag, event);
 }
 
-void* BlenderPatch::ED_view3d_give_object_under_cursor(Context* c, int mvals[2]) const
+void* BlenderPatch::ED_view3d_give_object_under_cursor(void* c, int mvals[2]) const
 {
     if (this->GetPatchVersion() != PatchVersion::PatchToDropEvent)
         return (nullptr);
-    
-    return this->InvokeFunction<void*, Context*, int[2]>(this->_view3d_select_ED_view3d_give_object_under_cursor, c, mvals);
+
+    return this->InvokeFunction<void*, void*, int[2]>(this->_view3d_select_ED_view3d_give_object_under_cursor, c, mvals);
 }

@@ -3,8 +3,6 @@
 #include <utility>
 #include <Windows.h>
 
-#include "BlenderObj.h"
-
 enum class PatchVersion
 {
     PatchToPrintF,
@@ -79,9 +77,9 @@ public:
 
     void BPY_run_string_eval(void* c, const char* imports[], const char* expression) const;
 
-    bool view3d_ima_drop_poll(Context* c, wmDrag* drag, wmEvent* event) const;
+    bool view3d_ima_drop_poll(void* c, void* drag, void* event) const;
 
-    void* ED_view3d_give_object_under_cursor(Context*, int [2]) const;
+    void* ED_view3d_give_object_under_cursor(void*, int [2]) const;
 };
 
 

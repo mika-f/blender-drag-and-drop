@@ -1,14 +1,8 @@
 #pragma once
 
-#include "BlenderObj.h"
 #include "BlenderPatch.h"
 
 #pragma comment(lib, "version.lib")
-
-extern "C" void DropEventHook(const char*, char*);
-
-extern "C" bool View3DImaEmptyDropPollHook(void* c, void* drag, void* event);
-
 
 class BlenderPatcher
 {
@@ -38,8 +32,8 @@ public:
     void Patch();
     void UnPatch();
 
-    bool View3DImaDropPoll(Context* c, wmDrag* drag, wmEvent* event) const;
-    void* EDView3dGiveObjectUnderCursor(Context* c, int mvals[2]) const;
+    bool View3DImaDropPoll(void* c, void* drag, void* event) const;
+    void* EDView3dGiveObjectUnderCursor(void* c, int mvals[2]) const;
     void RunStringEval(void* c, const char* imports[], const char* expression) const;
 };
 

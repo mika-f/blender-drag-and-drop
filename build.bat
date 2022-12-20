@@ -60,31 +60,10 @@ exit 0
 echo MSBuild Found  : %MSBUILD%
 
 echo ******************************************************************************************************
-echo Build blender-hook for %2 (%ARCH%)
-echo ******************************************************************************************************
-
-"%MSBUILD%" /p:Configuration=%2 /p:Platform=%1 /t:Rebuild src/blender-hook/blender-hook.vcxproj
-
-
-echo ******************************************************************************************************
 echo Build blender-injection for %2 (%ARCH%)
 echo ******************************************************************************************************
 
 "%MSBUILD%" /p:Configuration=%2 /p:Platform=%1 /t:Rebuild src/blender-injection/blender-injection.vcxproj
-
-
-echo ******************************************************************************************************
-echo Build blender-launcher for %2 (%ARCH%)
-echo ******************************************************************************************************
-
-"%MSBUILD%" /p:Configuration=Release /p:Platform=%ARCH% /t:Rebuild src/blender-launcher/blender-launcher.csproj
-
-
-echo ******************************************************************************************************
-echo Build blender-launcher-ui for %2 (%ARCH%)
-echo ******************************************************************************************************
-
-"%MSBUILD%" /p:Configuration=Release /p:Platform=%ARCH% /t:Rebuild src/blender-launcher-ui/blender-launcher-ui.csproj
 
 
 echo ******************************************************************************************************
@@ -93,7 +72,7 @@ echo ***************************************************************************
 
 mkdir bin
 del bin\drag-and-drop-support.zip
-powershell compress-archive src/blender-extension bin/drag-and-drop-support
+echo D | xcopy /e src/blender-extension bin/drag-and-drop-support/
 
 
 echo ******************************************************************************************************
@@ -109,13 +88,12 @@ set DEST="bin\%1\DragAndDropSupport-v%VERSION%"
 echo Y | rmdir /s "%DEST%"
 mkdir "%DEST%"
 
-echo D | xcopy /s src\blender-server "%DEST%\blender-server\"
-echo F | xcopy /s "src\blender-hook\%1\"%2"\*.exe" "%DEST%\"
-echo F | xcopy /s "src\blender-injection\%1\"%2"\*.dll" "%DEST%\"
-echo F | xcopy /s "src\blender-launcher\bin\%1\Release\net6.0\*" "%DEST%\" /exclude:excludes.txt
-echo F | xcopy /s "src\blender-launcher-ui\bin\%1\Release\net6.0-windows\*" "%DEST%\" /exclude:excludes.txt
-echo F | xcopy "bin\drag-and-drop-support.zip" "%DEST%\"
+echo F | xcopy /s "src\blender-injection\%1\"%2"\*.dll" "%DEST%\drag-and-drop-support\"
+echo F | xcopy /s "src\blender-extension\*" "%DEST%\drag-and-drop-support\"
 echo F | xcopy "src\LICENSE.txt" "%DEST%\"
+
+powershell compress-archive "%DEST%\drag-and-drop-support" "%DEST%\drag-and-drop-support.zip"
+echo Y | rmdir /s "%DEST%\drag-and-drop-support"
 
 echo ******************************************************************************************************
 echo Packaging Artifact
@@ -126,3 +104,5 @@ if exist "%DEST%.zip" (
 )
 
 powershell compress-archive %DEST% %DEST%.zip
+
+echo "packaged -> %DEST%.zip"

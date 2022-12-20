@@ -4,16 +4,19 @@
 # ------------------------------------------------------------------------------------------
 
 
+import ctypes
+
 bl_info = {
     "name": "Drag and Drop Support",
     "author": "Natsuneko",
     "description": "Blender add-on for import some files from drag-and-drop",
     "blender": (3, 1, 0),
-    "version": (0, 0, 1),
+    "version": (2, 0, 0),
     "location": "Drag and Drop Support",
     "warning": "",
     "category": "Import-Export"
 }
+
 
 if "bpy" in locals():
     import importlib
@@ -27,11 +30,11 @@ else:
 
     import bpy
     from bpy.props import PointerProperty
-    from bpy.app.handlers import persistent
 
+dll: ctypes.CDLL
 
 classes = [
-    operator.DropEventListener,
+    operator.DropEventListener2,
     properties.DragAndDropSupportProperties,
     ui.DropEventListenerUI,
     ui.DropAlembicPropertiesUI,
@@ -47,29 +50,35 @@ classes = [
 ]
 
 
-@persistent
-def post_handler(_):
-    cls = operator.DropEventListener
-    cls.reset()
-
-
 def register():
+    global classes
+    global dll
+
     for c in classes:
         bpy.utils.register_class(c)
 
     bpy.types.Scene.DragAndDropSupportProperties = PointerProperty(
         type=properties.DragAndDropSupportProperties)
 
-    bpy.app.handlers.load_post.append(post_handler)
+    import os
+
+    dirname = os.path.dirname(__file__)
+    injector = os.path.join(dirname, "blender-injection.dll")
+
+    dll = ctypes.cdll.LoadLibrary(injector)
 
 
 def unregister():
+    global classes
+    global dll
+
     for c in classes:
         bpy.utils.unregister_class(c)
 
     del bpy.types.Scene.DragAndDropSupportProperties
 
-    bpy.app.handlers.load_post.remove(post_handler)
+    import _ctypes
+    _ctypes.FreeLibrary(dll._handle)
 
 
 if __name__ == "__main__":

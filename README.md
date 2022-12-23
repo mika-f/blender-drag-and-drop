@@ -8,6 +8,7 @@ v2.0.0 supports the following versions of Blender:
 
 - Blender 3.3.2 (x64 - Windows)
 - Blender 3.4.0 (x64 - Windows)
+- Blender 3.4.1 (x64 - Windows)
 
 if you want to use the older than Blender 3.3.2, please use v0.x:
 

@@ -83,13 +83,6 @@ public:
 };
 
 
-// PATCH LOCATION (search: "drop file" as ANSI string)
-//
-// XXX: LEA RCX, QWORD PTR [00007FF6754721A0H]     // RCX      = ptr:drop file %s\n
-// XXX: MOV RDX, QWORD PTR [RDX]                   // RDX      = ptr:RDX
-// XXX: CALL 00007FF66E3E1710H <- here             // printf(RCX, RDX);
-//
-//
 // FUNCTION LOCATION - BPY_run_string_eval (search: "addon_utils.disable_all()" as ANSI string)
 //
 // XXX: LEA RAX, QWORD PTR [00007FF625E46700H]     // RAX      = ptr:addon_utils
@@ -116,14 +109,6 @@ public:
 //
 // FUNCTION LOCATION - ED_view3d_give_object_under_cursor (visit: "view3d_ima_empty_drop_poll" and second CALL)
 static std::unordered_map<std::string, BlenderPatch> Patchers{
-    {"3.1.0", {"E8 5C 7B C5 FF"}},
-    {"3.1.1", {"E8 7C 78 C5 FF"}},
-    {"3.1.2", {"E8 7C 78 C5 FF"}},
-    {"3.2.0", {"E8 84 BE 0D FF"}},
-    {"3.2.1", {"E8 A1 BD 0D FF"}},
-    {"3.2.2", {"E8 41 BD 0D FF"}},
-    {"3.3.0", {"E8 D3 C3 0E FF"}},
-    {"3.3.1", {"E8 C3 C2 0E FF"}},
     {
         "3.3.2",
         {
@@ -137,6 +122,15 @@ static std::unordered_map<std::string, BlenderPatch> Patchers{
         "3.4.0",
         {
             "E8 2E 7A 3C 00",
+            "4C 8D 05 B7 06 00 00",
+            "E8 7B FF FF FF 84 C0",
+            "E8 FB B6 00 00 48 85 C0"
+        }
+    },
+    {
+        "3.4.1",
+        {
+            "E8 48 C0 3C 00",
             "4C 8D 05 B7 06 00 00",
             "E8 7B FF FF FF 84 C0",
             "E8 FB B6 00 00 48 85 C0"

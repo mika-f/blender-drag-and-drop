@@ -99,39 +99,23 @@ TReturn BlenderPatch::InvokeFunction(std::string instruction, TArgs... args) con
 
 // public
 
-PatchVersion BlenderPatch::GetPatchVersion() const
-{
-    return this->_version;
-}
-
 std::uintptr_t BlenderPatch::Get_view3d_ima_empty_drop_poll() const
 {
-    if (this->GetPatchVersion() != PatchVersion::PatchToDropEvent)
-        return reinterpret_cast<uintptr_t>(nullptr);
     return _dict.at(this->_space_view3d_view3d_ima_empty_drop_poll);
 }
 
 
 void BlenderPatch::BPY_run_string_eval(void* c, const char* imports[], const char* expression) const
 {
-    if (this->GetPatchVersion() != PatchVersion::PatchToDropEvent)
-        return;
-
     this->InvokeFunction<void, void*, const char*[], const char*>(this->_bpy_interface_BPY_run_string_eval, c, imports, expression);
 }
 
 bool BlenderPatch::view3d_ima_drop_poll(void* c, void* drag, void* event) const
 {
-    if (this->GetPatchVersion() != PatchVersion::PatchToDropEvent)
-        return reinterpret_cast<std::uintptr_t>(nullptr);
-
     return this->InvokeFunction<bool, void*, void*, void*>(this->_space_view3d_view3d_ima_drop_poll, c, drag, event);
 }
 
 void* BlenderPatch::ED_view3d_give_object_under_cursor(void* c, int mvals[2]) const
 {
-    if (this->GetPatchVersion() != PatchVersion::PatchToDropEvent)
-        return (nullptr);
-
     return this->InvokeFunction<void*, void*, int[2]>(this->_view3d_select_ED_view3d_give_object_under_cursor, c, mvals);
 }

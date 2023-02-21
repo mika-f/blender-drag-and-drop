@@ -32,54 +32,30 @@ BlenderPatch BlenderPatcher::GetPatch() const
 void BlenderPatcher::ApplyInjector() 
 {
     const auto patch = GetPatch();
-    if (patch.GetPatchVersion() == PatchVersion::PatchToDropEvent)
-    {
-        const auto address = patch.Get_view3d_ima_empty_drop_poll();
-        constexpr auto bytes = 96;
-        unsigned char assembly[bytes];
+    const auto address = patch.Get_view3d_ima_empty_drop_poll();
+    constexpr auto bytes = 96;
+    unsigned char assembly[bytes];
 
-        this->GetAssemblyCodeFrom(address, &assembly, bytes);
+    this->GetAssemblyCodeFrom(address, &assembly, bytes);
 
-        std::vector<unsigned char> vector;
+    std::vector<unsigned char> vector;
 
-        for (int i = 0; i < bytes; i++)
-            vector.push_back(assembly[i]);
+    for (int i = 0; i < bytes; i++)
+        vector.push_back(assembly[i]);
 
-        this->_originals[address] = vector;
+    this->_originals[address] = vector;
 
-        this->ReplaceFunctionWithCall(address, reinterpret_cast<void*>(&View3DImaEmptyDropPollHook), bytes);
-
-        return;
-    }
-
-    if (patch.GetPatchVersion() == PatchVersion::PatchToPrintF)
-    {
-        const auto instance = &BytePattern::temp_instance();
-        instance->find_pattern(this->_pattern);
-
-        if (instance->count() > 0)
-        {
-            const auto address = instance->get_first().address();
-            this->ReplaceInstructionWithCall(address, reinterpret_cast<void*>(&DropEventHook));
-
-            return;
-        }
-    }
-
-    std::cout << "[ERROR] failed to patch to Blender because injector does not support " << this->_version << " currently" << std::endl;
+    this->ReplaceFunctionWithCall(address, reinterpret_cast<void*>(&View3DImaEmptyDropPollHook), bytes);
 }
 
 void BlenderPatcher::RestoreInjector()
 {
     const auto patch = GetPatch();
-    if (patch.GetPatchVersion() == PatchVersion::PatchToDropEvent)
-    {
-        const auto address = patch.Get_view3d_ima_empty_drop_poll();
-        auto assembly = this->_originals[address];
-        unsigned char* arr = &assembly[0];
+    const auto address = patch.Get_view3d_ima_empty_drop_poll();
+    auto assembly = this->_originals[address];
+    unsigned char* arr = &assembly[0];
 
-        Injector::WriteMemoryRaw(address, arr, assembly.size(), true);
-    }
+    Injector::WriteMemoryRaw(address, arr, assembly.size(), true);
 }
 
 

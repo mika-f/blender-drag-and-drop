@@ -3,19 +3,9 @@
 #include <utility>
 #include <Windows.h>
 
-enum class PatchVersion
-{
-    PatchToPrintF,
-
-    PatchToDropEvent,
-};
-
-
 struct BlenderPatch
 {
 private:
-    PatchVersion _version;
-
     // reference of wm_window.c#ghost_event_proc -> sloc:printf("drop file %s\n");
     std::string _wm_window_ghost_event_proc_printf;
 
@@ -49,14 +39,6 @@ private:
 
 public:
     BlenderPatch(
-        std::string wm_window_ghost_event_proc_printf
-    ) : _wm_window_ghost_event_proc_printf(std::move(wm_window_ghost_event_proc_printf))
-    {
-        _version = PatchVersion::PatchToPrintF;
-        StoreMemoryPointers(_wm_window_ghost_event_proc_printf);
-    }
-
-    BlenderPatch(
         std::string bpy_interface_BPY_run_string_eval,
         std::string space_view3d_view3d_ima_empty_drop_poll,
         std::string space_view3d_view3d_ima_drop_poll,
@@ -67,11 +49,9 @@ public:
           _space_view3d_view3d_ima_drop_poll(std::move(space_view3d_view3d_ima_drop_poll)),
           _view3d_select_ED_view3d_give_object_under_cursor(std::move(view3d_select_ED_view3d_give_object_under_cursor))
     {
-        _version = PatchVersion::PatchToDropEvent;
-        StoreMemoryPointers(_bpy_interface_BPY_run_string_eval, _space_view3d_view3d_ima_empty_drop_poll, _space_view3d_view3d_ima_drop_poll, _view3d_select_ED_view3d_give_object_under_cursor);
+        StoreMemoryPointers(_bpy_interface_BPY_run_string_eval, _space_view3d_view3d_ima_empty_drop_poll, _space_view3d_view3d_ima_drop_poll,
+                            _view3d_select_ED_view3d_give_object_under_cursor);
     }
-
-    [[nodiscard]] PatchVersion GetPatchVersion() const;
 
     [[nodiscard]] std::uintptr_t Get_view3d_ima_empty_drop_poll() const;
 

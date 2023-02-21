@@ -6,9 +6,6 @@
 struct BlenderPatch
 {
 private:
-    // reference of wm_window.c#ghost_event_proc -> sloc:printf("drop file %s\n");
-    std::string _wm_window_ghost_event_proc_printf;
-
     // reference of func:bpy_interface.c#BPY_run_string_eval
     std::string _bpy_interface_BPY_run_string_eval;
 
@@ -20,6 +17,7 @@ private:
 
     // reference of func:view3d_select.c#ED_view3d_give_object_under_cursor
     std::string _view3d_select_ED_view3d_give_object_under_cursor;
+
 
     // dictionary of byte-pattern and memory pointer
     std::unordered_map<std::string, std::uintptr_t> _dict = {};
@@ -49,8 +47,12 @@ public:
           _space_view3d_view3d_ima_drop_poll(std::move(space_view3d_view3d_ima_drop_poll)),
           _view3d_select_ED_view3d_give_object_under_cursor(std::move(view3d_select_ED_view3d_give_object_under_cursor))
     {
-        StoreMemoryPointers(_bpy_interface_BPY_run_string_eval, _space_view3d_view3d_ima_empty_drop_poll, _space_view3d_view3d_ima_drop_poll,
-                            _view3d_select_ED_view3d_give_object_under_cursor);
+        StoreMemoryPointers(
+            _bpy_interface_BPY_run_string_eval,
+            _space_view3d_view3d_ima_empty_drop_poll,
+            _space_view3d_view3d_ima_drop_poll,
+            _view3d_select_ED_view3d_give_object_under_cursor
+        );
     }
 
     [[nodiscard]] std::uintptr_t Get_view3d_ima_empty_drop_poll() const;
@@ -61,7 +63,6 @@ public:
 
     void* ED_view3d_give_object_under_cursor(void*, int [2]) const;
 };
-
 
 // FUNCTION LOCATION - BPY_run_string_eval (search: "addon_utils.disable_all()" as ANSI string)
 //

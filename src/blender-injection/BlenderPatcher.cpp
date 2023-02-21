@@ -24,15 +24,11 @@ void BlenderPatcher::FetchVersion()
     }
 }
 
-BlenderPatch BlenderPatcher::GetPatch() const
+void BlenderPatcher::ApplyInjector()
 {
-    return Patchers.at(this->_version);
-}
+    this->_patch = &Patchers.at(this->_version);
 
-void BlenderPatcher::ApplyInjector() 
-{
-    const auto patch = GetPatch();
-    const auto address = patch.Get_view3d_ima_empty_drop_poll();
+    const auto address = this->_patch->Get_view3d_ima_empty_drop_poll();
     constexpr auto bytes = 96;
     unsigned char assembly[bytes];
 
@@ -50,8 +46,7 @@ void BlenderPatcher::ApplyInjector()
 
 void BlenderPatcher::RestoreInjector()
 {
-    const auto patch = GetPatch();
-    const auto address = patch.Get_view3d_ima_empty_drop_poll();
+    const auto address = this->_patch->Get_view3d_ima_empty_drop_poll();
     auto assembly = this->_originals[address];
     unsigned char* arr = &assembly[0];
 
@@ -150,15 +145,15 @@ void BlenderPatcher::UnPatch()
 
 bool BlenderPatcher::View3DImaDropPoll(void* c, void* drag, void* event) const
 {
-    return this->GetPatch().view3d_ima_drop_poll(c, drag, event);
+    return this->_patch->view3d_ima_drop_poll(c, drag, event);
 }
 
 void* BlenderPatcher::EDView3dGiveObjectUnderCursor(void* c, int mvals[2]) const
 {
-    return this->GetPatch().ED_view3d_give_object_under_cursor(c, mvals);
+    return this->_patch->ED_view3d_give_object_under_cursor(c, mvals);
 }
 
 void BlenderPatcher::RunStringEval(void* c, const char* imports[], const char* expression) const
 {
-    this->GetPatch().BPY_run_string_eval(c, imports, expression);
+    this->_patch->BPY_run_string_eval(c, imports, expression);
 }

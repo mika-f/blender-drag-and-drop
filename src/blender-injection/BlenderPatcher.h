@@ -8,8 +8,10 @@ class BlenderPatcher
 {
 private:
     std::string _version;
-    std::string _pattern;
+
     std::unordered_map<std::uintptr_t, std::vector<unsigned char>> _originals;
+
+    BlenderPatch* _patch = nullptr;
 
     inline static BlenderPatcher* _instance = nullptr;
 
@@ -19,7 +21,6 @@ private:
     }
 
     void FetchVersion();
-    [[nodiscard]] BlenderPatch GetPatch() const;
     void ApplyInjector();
     void RestoreInjector();
     void GetAssemblyCodeFrom(const Injector::memory_pointer_tr& at, void* ret, unsigned int bytes) const;

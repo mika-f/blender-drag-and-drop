@@ -2,6 +2,7 @@
 
 #include "BlenderPatcher.h"
 #include "BlenderPatch.h"
+#include "BlenderPatchPatterns.h"
 #include "extern.h"
 #include "strings.h"
 
@@ -26,7 +27,8 @@ void BlenderPatcher::FetchVersion()
 
 void BlenderPatcher::ApplyInjector()
 {
-    this->_patch = &Patchers.at(this->_version);
+    const auto patterns = &Patchers.at(this->_version);
+    this->_patch = new BlenderPatch(patterns);
 
     const auto address = this->_patch->Get_view3d_ima_empty_drop_poll();
     constexpr auto bytes = 96;

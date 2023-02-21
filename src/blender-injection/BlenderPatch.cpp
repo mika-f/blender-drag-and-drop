@@ -88,6 +88,10 @@ void BlenderPatch::StoreMemoryPointers(TArgs... args)
     }
 }
 
+// template-hints
+template
+void BlenderPatch::StoreMemoryPointers(std::string, std::string, std::string, std::string);
+
 template <class TReturn, class... TArgs>
 TReturn BlenderPatch::InvokeFunction(std::string instruction, TArgs... args) const
 {
@@ -101,21 +105,21 @@ TReturn BlenderPatch::InvokeFunction(std::string instruction, TArgs... args) con
 
 std::uintptr_t BlenderPatch::Get_view3d_ima_empty_drop_poll() const
 {
-    return _dict.at(this->_space_view3d_view3d_ima_empty_drop_poll);
+    return _dict.at(this->_patterns->get_space_view3d_view3d_ima_empty_drop_poll());
 }
 
 
 void BlenderPatch::BPY_run_string_eval(void* c, const char* imports[], const char* expression) const
 {
-    this->InvokeFunction<void, void*, const char*[], const char*>(this->_bpy_interface_BPY_run_string_eval, c, imports, expression);
+    this->InvokeFunction<void, void*, const char*[], const char*>(this->_patterns->get_bpy_interface_BPY_run_string_eval(), c, imports, expression);
 }
 
 bool BlenderPatch::view3d_ima_drop_poll(void* c, void* drag, void* event) const
 {
-    return this->InvokeFunction<bool, void*, void*, void*>(this->_space_view3d_view3d_ima_drop_poll, c, drag, event);
+    return this->InvokeFunction<bool, void*, void*, void*>(this->_patterns->get_space_view3d_view3d_ima_drop_poll(), c, drag, event);
 }
 
 void* BlenderPatch::ED_view3d_give_object_under_cursor(void* c, int mvals[2]) const
 {
-    return this->InvokeFunction<void*, void*, int[2]>(this->_view3d_select_ED_view3d_give_object_under_cursor, c, mvals);
+    return this->InvokeFunction<void*, void*, int[2]>(this->_patterns->get_view3d_select_ED_view3d_give_object_under_cursor(), c, mvals);
 }

@@ -724,6 +724,7 @@
     <ClInclude Include="BlenderObj.h" />
     <ClInclude Include="BlenderPatch.h" />
     <ClInclude Include="BlenderPatcher.h" />
+    <ClInclude Include="BlenderPatchPatterns.h" />
     <ClInclude Include="extern.h" />
     <ClInclude Include="framework.h" />
     <ClInclude Include="byte_pattern.h" />

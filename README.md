@@ -7,6 +7,8 @@ Blender add-on for importing some files from drag-and-drop.
 v2.0.0 supports the following versions of Blender:
 
 - Blender 3.3.2 (x64 - Windows)
+- Blender 3.3.3 (x64 - Windows)
+- Blender 3.3.4 (x64 - Windows)
 - Blender 3.4.0 (x64 - Windows)
 - Blender 3.4.1 (x64 - Windows)
 

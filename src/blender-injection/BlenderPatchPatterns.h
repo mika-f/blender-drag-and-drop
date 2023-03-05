@@ -87,6 +87,25 @@ static std::unordered_map<std::string, BlenderPatchPattern> Patchers{
         },
     },
     {
+        "3.3.3",
+        {
+            "E8 3E C0 39 00",
+            "4C 8D 05 77 06 00 00",
+            "E8 7B FF FF FF 84 C0",
+            "E8 CB 2C 00 00 48 85 C0"
+        }
+    },
+    {
+        "3.3.4",
+        {
+
+            "E8 5E C0 39 00",
+            "4C 8D 05 77 06 00 00",
+            "E8 7B FF FF FF 84 C0",
+            "E8 CB 2C 00 00 48 85 C0"
+        }
+    },
+    {
         "3.4.0",
         {
             "E8 2E 7A 3C 00",

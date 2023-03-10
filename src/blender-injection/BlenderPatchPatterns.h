@@ -53,30 +53,104 @@ public:
 
 // FUNCTION LOCATION - BPY_run_string_eval (search: "addon_utils.disable_all()" as ANSI string)
 //
-// XXX: LEA RAX, QWORD PTR [00007FF625E46700H]     // RAX      = ptr:addon_utils
-// XXX: MOV QWORD PTR [RSP+38H], 0000000000000000H // [RSP+38] = NULL
-// XXX: LEA R8, QWORD PTR [00007FF625E46740H]      // R8       = ptr:addon_utils.disable_all()
-// XXX: MOV QWORD PTR [RSP+30H], RAX               // [RSP+30] = ptr:RAX
-// XXX: LEA RDX, QWORD PTR [RSP+30H]               // RDX      = ptr:[addon_utils, NULL]
-// XXX: MOV RCX, RSI                               // RCX      = ptr:C
-// XXX: CALL 00007FF61FF9E3A0H <- here             // BPY_run_string_eval(RCX, RDX, R8)
+// XXX: LEA RAX, QWORD PTR [00007FF625E46700H]         // RAX      = ptr:addon_utils
+// XXX: MOV QWORD PTR [RSP+38H], 0000000000000000H     // [RSP+38] = NULL
+// XXX: LEA R8, QWORD PTR [00007FF625E46740H]          // R8       = ptr:addon_utils.disable_all()
+// XXX: MOV QWORD PTR [RSP+30H], RAX                   // [RSP+30] = ptr:RAX
+// XXX: LEA RDX, QWORD PTR [RSP+30H]                   // RDX      = ptr:[addon_utils, NULL]
+// XXX: MOV RCX, RSI                                   // RCX      = ptr:C
+// XXX: CALL 00007FF61FF9E3A0H <- here                 // BPY_run_string_eval(RCX, RDX, R8)
 //
 //
 // FUNCTION LOCATION - view3d_ima_empty_drop_poll / view3d_id_path_drop_copy (search: "OBJECT_OT_drop_named_image" as ANSI string)
 //
-// XXX: LEA R9, QWORD PTR [00007FF7F2CAA530H]      // R9       = ptr:view3d_id_path_drop_copy
-// XXX: MOV QWORD PTR [RSP+28H], R14               // [RSP+28] = /* unknown */
-// XXX: LEA R8, QWORD PTR [00007FF7F2CAA7C0H]      // R8       = ptr:view3d_ima_empty_drop_poll
-// XXX: MOV QWORD PTR [RSP+20H], R15               // [RSP+20] = /* unknown */
-// XXX: LEA RDX, QWORD PTR [00007FF7F85F02A8H]     // RDX      = ptr:OBJECT_OT_drop_named_image
-// XXX: MOV RCX, RBX                               // RBX      = ListBase
+// XXX: LEA R9, QWORD PTR [00007FF7F2CAA530H]          // R9       = ptr:view3d_id_path_drop_copy
+// XXX: MOV QWORD PTR [RSP+28H], R14                   // [RSP+28] = /* unknown */
+// XXX: LEA R8, QWORD PTR [00007FF7F2CAA7C0H] <- here  // R8       = ptr:view3d_ima_empty_drop_poll
+// XXX: MOV QWORD PTR [RSP+20H], R15                   // [RSP+20] = /* unknown */
+// XXX: LEA RDX, QWORD PTR [00007FF7F85F02A8H]         // RDX      = ptr:OBJECT_OT_drop_named_image
+// XXX: MOV RCX, RBX                                   // RBX      = ListBase
 // XXX: CALL 00007FF7F2102380H
 //
 //
 // FUNCTION LOCATION - view3d_ima_drop_poll (visit: "view3d_ima_empty_drop_poll" and first CALL)
 //
 // FUNCTION LOCATION - ED_view3d_give_object_under_cursor (visit: "view3d_ima_empty_drop_poll" and second CALL)
+
 static std::unordered_map<std::string, BlenderPatchPattern> Patchers{
+    {
+
+        "3.1.0",
+        {
+            "E8 28 BC 3F 00",
+            "4C 8D 05 65 06 00 00",
+            "E8 7B FF FF FF 84 C0",
+            "E8 1B 2D 00 00 48 85 C0",
+        },
+    },
+    {
+        "3.1.1",
+        {
+            "E8 28 C0 3F 00",
+            "4C 8D 05 65 06 00 00",
+            "E8 7B FF FF FF 84 C0",
+            "E8 5B 2C 00 00 48 85 C0",
+        },
+    },
+    {
+        "3.1.2",
+        {
+            "E8 28 C0 3F 00",
+            "4C 8D 05 65 06 00 00",
+            "E8 7B FF FF FF 84 C0",
+            "E8 5B 2C 00 00 48 85 C0",
+        }
+    },
+    {
+        "3.2.0",
+        {
+            "E8 D8 88 3C 00",
+            "4C 8D 05 77 06 00 00",
+            "E8 7B FF FF FF 84 C0",
+            "E8 BB 2C 00 00 48 85 C0",
+        }
+    },
+    {
+        "3.2.1",
+        {
+            "E8 58 91 3C 00",
+            "4C 8D 05 77 06 00 00",
+            "E8 7B FF FF FF 84 C0",
+            "E8 BB 2C 00 00 48 85 C0",
+        }
+    },
+    {
+        "3.2.2",
+        {
+            "E8 78 91 3C 00",
+            "4C 8D 05 77 06 00 00",
+            "E8 7B FF FF FF 84 C0",
+            "E8 BB 2C 00 00 48 85 C0",
+        }
+    },
+    {
+        "3.3.0",
+        {
+            "E8 E8 08 3A 00",
+            "4C 8D 05 77 06 00 00",
+            "E8 7B FF FF FF 84 C0",
+            "E8 CB 2C 00 00 48 85 C0",
+        }
+    },
+    {
+        "3.3.1",
+        {
+            "E8 88 01 3A 00",
+            "4C 8D 05 77 06 00 00",
+            "E8 7B FF FF FF 84 C0",
+            "E8 CB 2C 00 00 48 85 C0",
+        }
+    },
     {
         "3.3.2",
         {

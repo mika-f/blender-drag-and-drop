@@ -6,14 +6,6 @@ Blender add-on for importing some files from drag-and-drop.
 
 v2.0.0 supports the following versions of Blender:
 
-- Blender 3.3.2 (x64 - Windows)
-- Blender 3.3.3 (x64 - Windows)
-- Blender 3.3.4 (x64 - Windows)
-- Blender 3.4.0 (x64 - Windows)
-- Blender 3.4.1 (x64 - Windows)
-
-if you want to use the older than Blender 3.3.2, please use v0.x:
-
 - Blender 3.1.0 (x64 - Windows)
 - Blender 3.1.1 (x64 - Windows)
 - Blender 3.1.2 (x64 - Windows)
@@ -22,13 +14,19 @@ if you want to use the older than Blender 3.3.2, please use v0.x:
 - Blender 3.2.2 (x64 - Windows)
 - Blender 3.3.0 (x64 - Windows)
 - Blender 3.3.1 (x64 - Windows)
+- Blender 3.3.2 (x64 - Windows)
+- Blender 3.3.3 (x64 - Windows)
+- Blender 3.3.4 (x64 - Windows)
+- Blender 3.4.0 (x64 - Windows)
+- Blender 3.4.1 (x64 - Windows)
 
 ## Installation
 
-1. Download Installation Archive from [Natsuneko Laboratory](https://docs.natsuneko.moe/en-US/drag-and-drop-support/)
-2. Open the Preferences window and select `Add-ons` tab
-3. Press `Install` button, select downloaded zip-archive and select `Install Add-on`
-4. Select `Community` tab and enable `Import: Drag and Drop Support`
+1. Download Installation Archive from [GitHub Releases](https://github.com/mika-f/blender-drag-and-drop/releases/latest)
+2. Extract downloaded zip archive
+3. Open the Preferences window and select `Add-ons` tab
+4. Press `Install` button, select `drag-and-drop-support.zip` and select `Install Add-on`
+5. Select `Community` tab and enable `Import: Drag and Drop Support`
 
 ## How to use
 

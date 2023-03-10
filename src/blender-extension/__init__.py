@@ -11,7 +11,7 @@ bl_info = {
     "author": "Natsuneko",
     "description": "Blender add-on for import some files from drag-and-drop",
     "blender": (3, 1, 0),
-    "version": (2, 3, 0),
+    "version": (2, 4, 0),
     "location": "Drag and Drop Support",
     "warning": "",
     "category": "Import-Export"

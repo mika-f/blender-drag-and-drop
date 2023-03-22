@@ -43,6 +43,10 @@ v2.0.0 supports the following versions of Blender:
   - If you enable this addon, load DLL and replace it function.
   - And you disable this addon, unload DLL and restore it function.
 
+## Release
+
+Create a new pull request from GitHub to bump versions with pr template.
+
 ## License
 
 MIT by [@6jz](https://twitter.com/6jz)

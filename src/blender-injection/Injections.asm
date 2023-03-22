@@ -4,8 +4,6 @@
 
     EXTERN DropEventHookCallback : PROC
     EXTERN View3DImaEmptyDropPollHookCallback : PROC
-    EXTERN view3d_ima_drop_poll : PROC
-    EXTERN ED_view3d_give_object_under_cursor : PROC
 
     PUBLIC DropEventHook
     PUBLIC View3DImaEmptyDropPollHook
@@ -47,37 +45,56 @@ DropEventHook ENDP
 ;
 ; Args    : (RCX, RDX, R8)
 ; Restore : if dropped file is supported, returns true, otherwise; returns false.
+
+; Original Assembly
+;
+; STATEMENT:
+;     MOV  QWORD PTR [RSP+08h], RBX
+;     PUSH RDI
+;     SUB  RSP, 20h
+;     MOV  RBX, R8
+;     MOV  RDI, RCX
+;
+;     CALL view3d_ima_drop_poll
+;     TEST AL, AL
+;     JZ   RET_FALSE
+;
+;     LEA  RDX, QWORD PTR [RBX+1Ch]
+;     MOV  RCX, RDI
+;
+;     CALL ED_view3d_give_object_under_cursor
+;     TEST RAX, RAX
+;     JZ   RET_TRUE
+;
+;     CMP  WORD PTR [RAX+000000E0h], 0000h
+;     JNZ  RET_FALSE
+;
+;     CMP  WORD PTR [RAX+000003FFh], 00000008h
+;     JNZ  RET_FALSE
+;
+; RET_TRUE:
+;     MOV  AL, 01h
+;     MOV  RBX, QWIRD PTR [RSP+30h]
+;     ADD  RSP, 20h
+;     POP  RDI
+;     RET
+;
+; RET_FALSE:
+;     MOV  RBX, QWORD PTR [RSP+30h]
+;     XOR  AL, AL
+;     ADD  RSP, 20h
+;     POP  RDI
+;     RET
 View3DImaEmptyDropPollHook PROC
     MOV  QWORD PTR [RSP+08h], RBX
     PUSH RDI
     SUB  RSP, 20h
     MOV  RBX, R8
     MOV  RDI, RCX
-    MOV  R12, RDX
 
     CALL View3DImaEmptyDropPollHookCallback
     TEST AL, AL
-    JNZ  RET_FALSE
-
-    MOV  RCX, RDI
-    MOV  RDX, R12
-    MOV  R8, RBX
-
-    CALL view3d_ima_drop_poll
-    TEST AL, AL
     JZ   RET_FALSE
-
-    LEA  RDX, QWORD PTR [RBX+1Ch]
-    MOV  RCX, RDI
-    CALL ED_view3d_give_object_under_cursor
-    TEST RAX, RAX
-    JZ   RET_TRUE
-
-    CMP  WORD PTR [RAX+000000E0h], 0000h
-    JNZ  RET_FALSE
-
-    CMP  BYTE PTR [RAX+000003FFh], 00000008h
-    JNZ  RET_FALSE
 
     ; Return When True
 RET_TRUE:

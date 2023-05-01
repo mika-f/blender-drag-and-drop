@@ -1,5 +1,5 @@
 ARCH = x64
-REVISION = 2.5.0
+REVISION = 2.6.0
 
 ALL_TASKS = Release
 

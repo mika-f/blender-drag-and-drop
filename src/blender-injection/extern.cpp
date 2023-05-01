@@ -31,10 +31,6 @@ extern "C" void DropEventHookCallback(void* c, void* win, char* path)
 extern "C" bool View3DImaEmptyDropPollHookCallback(bContext* c, wmDrag* drag, wmEvent* event)
 {
     const auto ptr = reinterpret_cast<intptr_t>(drag);
-    if (const auto itr = std::ranges::find(isAlreadyTriggered, ptr); itr != std::end(isAlreadyTriggered))
-        return false; // already triggered
-
-    isAlreadyTriggered.push_back(ptr);
 
     if (drag->type == /* WM_DRAG_PATH */ 4)
     {
@@ -43,6 +39,11 @@ extern "C" bool View3DImaEmptyDropPollHookCallback(bContext* c, wmDrag* drag, wm
 
         if (const auto ref = std::ranges::find(SUPPORTED_FORMATS, extension); ref != std::end(SUPPORTED_FORMATS))
         {
+            if (const auto itr = std::ranges::find(isAlreadyTriggered, ptr); itr != std::end(isAlreadyTriggered))
+                return false; // already triggered
+
+            isAlreadyTriggered.push_back(ptr);
+
             const char* imports[] = {"bpy", nullptr};
             const auto expression = R"(bpy.ops.object.drop_event_listener2("INVOKE_DEFAULT", filename=R")" + std::string(drag->path) + "\")";
 

@@ -1,0 +1,43 @@
+name: Feature Request
+description: File a feature request
+title: "[Feature Request]: "
+labels: ["enhancement"]
+assignees:
+  - mika-f
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thanks for taking the time to fill out this feature request!
+  - type: textarea
+    id: what-do-you-want
+    attributes:
+      label: What do you want?
+      description: Also tell us, what features you would like.
+      placeholder: Tell us what you see!
+      value: "A new great feature!"
+    validations:
+      required: true
+  - type: dropdown
+    id: blender-version
+    attributes:
+      label: Blender versions
+      description: What version of Blender are you running?
+      multiple: true
+      options:
+        - 3.1.0
+        - 3.1.1
+        - 3.1.2
+        - 3.2.0
+        - 3.2.1
+        - 3.2.2
+        - 3.3.0
+        - 3.3.1
+        - 3.3.2
+        - 3.3.3
+        - 3.3.4
+        - 3.4.0
+        - 3.4.1
+        - 3.5.0
+        - 3.5.1
+        - edge

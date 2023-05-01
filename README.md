@@ -19,6 +19,8 @@ v2.0.0 supports the following versions of Blender:
 - Blender 3.3.4 (x64 - Windows)
 - Blender 3.4.0 (x64 - Windows)
 - Blender 3.4.1 (x64 - Windows)
+- Blender 3.5.0 (x64 - Windows)
+- Blender 3.5.1 (x64 - Windows)
 
 ## Installation
 
@@ -42,6 +44,10 @@ v2.0.0 supports the following versions of Blender:
 - This addon loading DLL written in C++ into Blender via Python, and replace `view3d_ima_empty_drop_poll` function in memory.
   - If you enable this addon, load DLL and replace it function.
   - And you disable this addon, unload DLL and restore it function.
+
+## Release
+
+Create a new pull request from GitHub to bump versions with pr template.
 
 ## License
 

@@ -2,7 +2,7 @@
 
 // define memory layouts of Blender
 
-struct Context
+struct bContext
 {
     int thread;
 
@@ -22,8 +22,8 @@ struct Context
 
         struct PollMsgDyn_Params
         {
-            char* (*get_fn)(Context*, void*);
-            char* (*free_fn)(Context*, void*);
+            char* (*get_fn)(bContext*, void*);
+            char* (*free_fn)(bContext*, void*);
             void* user_data;
         } operator_poll_msg_dyn_params;
     } wm;
@@ -52,26 +52,10 @@ using ListBase = struct ListBase
 
 using wmDragActiveDropState = struct wmDragActiveDropState
 {
-    /** Informs which dropbox is activated with the drag item.
-     * When this value changes, the #draw_activate and #draw_deactivate dropbox callbacks are
-     * triggered.
-     */
     struct wmDropBox* active_dropbox;
-
-    /** If `active_dropbox` is set, the area it successfully polled in. To restore the context of it
-     * as needed. */
     struct ScrArea* area_from;
-    /** If `active_dropbox` is set, the region it successfully polled in. To restore the context of
-     * it as needed. */
     struct ARegion* region_from;
-
-    /** If `active_dropbox` is set, additional context provided by the active (i.e. hovered) button.
-     * Activated before context sensitive operations (polling, drawing, dropping). */
     struct bContextStore* ui_context;
-
-    /** Text to show when a dropbox poll succeeds (so the dropbox itself is available) but the
-     * operator poll fails. Typically the message the operator set with
-     * CTX_wm_operator_poll_msg_set(). */
     const char* disabled_info;
     bool free_disabled_info;
 };
@@ -79,24 +63,57 @@ using wmDragActiveDropState = struct wmDragActiveDropState
 using wmDrag = struct wmDrag
 {
     struct wmDrag *next, *prev;
-
     int icon;
-    /** See 'WM_DRAG_' defines above. */
     int type;
     void* poin;
-    char path[1024]; /* FILE_MAX */
+    char path[1024];
     double value;
-
-    /** If no icon but imbuf should be drawn around cursor. */
     struct ImBuf* imb;
     float imbuf_scale;
-
     wmDragActiveDropState drop_state;
-
     eWM_DragFlags flags;
-
-    /** List of wmDragIDs, all are guaranteed to have the same ID type. */
     ListBase ids;
-    /** List of `wmDragAssetListItem`s. */
     ListBase asset_items;
+};
+
+using wmTabletData = struct wmTabletData
+{
+    int active;
+    float pressure;
+    float x_tilt;
+    float y_tilt;
+    char is_motion_absolute;
+};
+
+using eWM_EventFlag = enum eWM_EventFlag
+{
+    WM_EVENT_SCROLL_INVERT = (1 << 0),
+    WM_EVENT_IS_REPEAT = (1 << 1),
+    WM_EVENT_FORCE_DRAG_THRESHOLD = (1 << 2),
+};
+
+using wmEvent = struct wmEvent
+{
+    struct wmEvent *next, *prev;
+    short type;
+    short val;
+    int xy[2];
+    int mval[2];
+    char utf8_buf[6];
+    uint8_t modifier;
+    int8_t direction;
+    short keymodifier;
+    wmTabletData tablet;
+    eWM_EventFlag flag;
+    short custom;
+    short customdata_free;
+    void* customdata;
+    short prev_type;
+    short prev_val;
+    int prev_xy[2];
+    short prev_press_type;
+    int prev_press_xy[2];
+    uint8_t prev_press_modifier;
+    short prev_press_keymodifier;
+    double prev_press_time;
 };

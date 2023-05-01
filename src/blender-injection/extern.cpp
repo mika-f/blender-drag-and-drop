@@ -21,44 +21,47 @@ const std::vector<std::string> SUPPORTED_FORMATS = {
     ".wrl"
 };
 
-std::unordered_map<std::uintptr_t, bool> onFired = {};
+std::vector<std::intptr_t> isAlreadyTriggered = {};
 
 extern "C" void DropEventHookCallback(void* c, void* win, char* path)
 {
     std::cout << "f:" << path << std::endl;
 }
 
-extern "C" bool View3DImaEmptyDropPollHookCallback(void* c, wmDrag* drag, void* event)
+extern "C" bool View3DImaEmptyDropPollHookCallback(bContext* c, wmDrag* drag, wmEvent* event)
 {
-    const std::filesystem::path path(drag->path);
-    const auto extension = path.extension();
+    const auto ptr = reinterpret_cast<intptr_t>(drag);
 
-    const auto ref = std::ranges::find(SUPPORTED_FORMATS, extension);
-    if (ref != std::end(SUPPORTED_FORMATS))
+    if (drag->type == /* WM_DRAG_PATH */ 4)
     {
-        const auto ptr = reinterpret_cast<std::intptr_t>(drag);
-        if (onFired.contains(ptr))
+        const std::filesystem::path path(drag->path);
+        const auto extension = path.extension();
+
+        if (const auto ref = std::ranges::find(SUPPORTED_FORMATS, extension); ref != std::end(SUPPORTED_FORMATS))
         {
-            return false;
+            if (const auto itr = std::ranges::find(isAlreadyTriggered, ptr); itr != std::end(isAlreadyTriggered))
+                return false; // already triggered
+
+            isAlreadyTriggered.push_back(ptr);
+
+            const char* imports[] = {"bpy", nullptr};
+            const auto expression = R"(bpy.ops.object.drop_event_listener2("INVOKE_DEFAULT", filename=R")" + std::string(drag->path) + "\")";
+
+            BlenderPatcher::GetInstance()->RunStringEval(c, imports, expression.c_str());
+            return false; // already triggered
         }
-
-        onFired[ptr] = true;
-
-        const char* imports[] = {"bpy", nullptr};
-        const auto expression = R"(bpy.ops.object.drop_event_listener2("INVOKE_DEFAULT", filename=R")" + std::string(drag->path) + "\")";
-
-        BlenderPatcher::GetInstance()->RunStringEval(c, imports, expression.c_str());
     }
 
+    if (!BlenderPatcher::GetInstance()->View3DImaDropPoll(c, drag, event))
+        return false;
+
+    auto ob = static_cast<int*>(BlenderPatcher::GetInstance()->EDView3dGiveObjectUnderCursor(c, event->mval));
+    if (ob == nullptr)
+        return true;
+
+    // NOTE: the pointed fields (value) have been determined, this cast is no problem.
+    if (reinterpret_cast<int>(ob + 0x000000E0) == /* OB_EMPTY */ 0 && reinterpret_cast<int>(ob + 0x000003FF) == /* OB_EMPTY_IMAGE */ 8) // NOLINT(clang-diagnostic-pointer-to-int-cast)
+        return true;
+
     return false;
-}
-
-extern "C" bool view3d_ima_drop_poll(void* c, void* drag, void* event)
-{
-    return BlenderPatcher::GetInstance()->View3DImaDropPoll(c, drag, event);
-}
-
-extern "C" void* ED_view3d_give_object_under_cursor(void* c, int mvals[2])
-{
-    return BlenderPatcher::GetInstance()->EDView3dGiveObjectUnderCursor(c, mvals);
 }

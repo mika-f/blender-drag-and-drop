@@ -2,7 +2,32 @@
 
 Blender add-on for importing some files from drag-and-drop.
 
-## Supports
+## Supported Formats
+
+- `*.abc`
+- `*.bvh`
+- `*.dae`
+- `*.fbx`
+- `*.glb`
+- `*.gltf`
+- `*.obj`
+- `*.ply`
+- `*.stl`
+- `*.svg`
+- `*.usd`
+- `*.usda`
+- `*.usdc`
+- `*.vrm` (Required [VRM Add-on for Blender](https://github.com/saturday06/VRM-Addon-for-Blender))
+- `*.x3d`
+- `*.wrl`
+
+## Planned
+
+- `*.mqo` (Required [Metasequoia File Importer/Exporter](https://github.com/nutti/blender-mqo))
+- Add file format and add-on pair you want to supported!
+- or PR for additional features is also welcome!
+
+## Supported Blenders
 
 v2.0.0 supports the following versions of Blender:
 
@@ -22,6 +47,8 @@ v2.0.0 supports the following versions of Blender:
 - Blender 3.5.0 (x64 - Windows)
 - Blender 3.5.1 (x64 - Windows)
 
+## ScreenShot
+
 ## Installation
 
 1. Download Installation Archive from [GitHub Releases](https://github.com/mika-f/blender-drag-and-drop/releases/latest)
@@ -33,7 +60,6 @@ v2.0.0 supports the following versions of Blender:
 ## How to use
 
 1. Drag and Drop some file to 3D view, load it
-   1. if you want to configure import, please use `Drag and Drop Support` tab in 3D view.
 
 ## Known Issues
 

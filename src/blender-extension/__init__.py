@@ -4,8 +4,6 @@
 # ------------------------------------------------------------------------------------------
 
 
-import ctypes
-
 bl_info = {
     "name": "Drag and Drop Support",
     "author": "Natsuneko",
@@ -14,52 +12,73 @@ bl_info = {
     "version": (2, 6, 0),
     "location": "Drag and Drop Support",
     "warning": "",
-    "category": "Import-Export"
+    "category": "Import-Export",
 }
 
 
 if "bpy" in locals():
     import importlib
-    importlib.reload(operator)
-    importlib.reload(properties)
-    importlib.reload(ui)
+
+    importlib.reload(menus)  # type: ignore
+    importlib.reload(operator)  # type: ignore
+    importlib.reload(properties)  # type: ignore
+    importlib.reload(ui)  # type: ignore
 else:
+    from . import menus
     from . import operator
     from . import properties
     from . import ui
 
-    import bpy
-    from bpy.props import PointerProperty
+import bpy  # nopep8
+import ctypes  # nopep8
 
 dll: ctypes.CDLL
 
-classes = [
-    operator.DropEventListener2,
-    properties.DragAndDropSupportProperties,
-    ui.DropEventListenerUI,
-    ui.DropAlembicPropertiesUI,
-    ui.DropBvhPropertiesUI,
-    ui.DropFbxPropertiesUI,
-    ui.DropColladaPropertiesUI,
-    ui.DropGltfPropertiesUI,
-    ui.DropObjPropertiesUI,
-    ui.DropPlyPropertiesUI,
-    ui.DropStlPropertiesUI,
-    ui.DropUsdPropertiesUI,
-    ui.DropX3dPropertiesUI,
-]
+classes = (
+    # menus
+    menus.VIEW3D_MT_Space_Import_ABC,  # type: ignore
+    menus.VIEW3D_MT_Space_Import_BVH,  # type: ignore
+    menus.VIEW3D_MT_Space_Import_DAE,  # type: ignore
+    menus.VIEW3D_MT_Space_Import_FBX,  # type: ignore
+    menus.VIEW3D_MT_Space_Import_GLB,  # type: ignore
+    menus.VIEW3D_MT_Space_Import_GLTF,  # type: ignore
+    menus.VIEW3D_MT_Space_Import_OBJ,  # type: ignore
+    menus.VIEW3D_MT_Space_Import_PLY,  # type: ignore
+    menus.VIEW3D_MT_Space_Import_STL,  # type: ignore
+    menus.VIEW3D_MT_Space_Import_SVG,  # type: ignore
+    menus.VIEW3D_MT_Space_Import_USD,  # type: ignore
+    menus.VIEW3D_MT_Space_Import_USDA,  # type: ignore
+    menus.VIEW3D_MT_Space_Import_USDC,  # type: ignore
+    menus.VIEW3D_MT_Space_Import_VRM,  # type: ignore
+    menus.VIEW3D_MT_Space_Import_X3D,  # type: ignore
+    menus.VIEW3D_MT_Space_Import_WRL,  # type: ignore
+    # operators
+    operator.DropEventListener,  # type: ignore
+    # operators (default importers)
+    operator.ImportABCWithDefaults,  # type: ignore
+    operator.ImportBVHWithDefaults,  # type: ignore
+    operator.ImportDAEWithDefaults,  # type: ignore
+    operator.ImportFBXWithDefaults,  # type: ignore
+    operator.ImportGLBWithDefaults,  # type: ignore
+    operator.ImportOBJWithDefaults,  # type: ignore
+    operator.ImportPLYWithDefaults,  # type: ignore
+    operator.ImportSTLWithDefaults,  # type: ignore
+    operator.ImportSVGWithDefaults,  # type: ignore
+    operator.ImportUSDWithDefaults,  # type: ignore
+    operator.ImportVRMWithDefaults,  # type: ignore
+    operator.ImportX3DWithDefaults,  # type: ignore
+)
 
 
 def register():
     global classes
     global dll
 
+    # register classes
     for c in classes:
         bpy.utils.register_class(c)
 
-    bpy.types.Scene.DragAndDropSupportProperties = PointerProperty(
-        type=properties.DragAndDropSupportProperties)
-
+    # load injector dll
     import os
 
     dirname = os.path.dirname(__file__)
@@ -72,13 +91,14 @@ def unregister():
     global classes
     global dll
 
+    # unregister classes
     for c in classes:
-        bpy.utils.unregister_class(c)
+        bpy.utils.unregister_class(c)  # type: ignore
 
-    del bpy.types.Scene.DragAndDropSupportProperties
-
+    # unload injector dll
     import _ctypes
-    _ctypes.FreeLibrary(dll._handle)
+
+    _ctypes.FreeLibrary(dll._handle)  # type: ignore
 
 
 if __name__ == "__main__":

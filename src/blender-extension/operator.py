@@ -4,6 +4,7 @@
 # ------------------------------------------------------------------------------------------
 
 # pyright: reportGeneralTypeIssues=false
+# pyright: reportUnknownMemberType=false
 
 from __future__ import annotations
 
@@ -52,10 +53,10 @@ class DropEventListener(Operator):
 
 
 class ImportWithDefaultsBase(Operator):
-    filename: StringProperty()  # type: ignore
+    filename: StringProperty()
 
     def filepath(self) -> str:
-        return typing.cast(str, self.filename)  # type: ignore
+        return typing.cast(str, self.filename)
 
 
 class ImportsWithCustomSettingsBase(ImportWithDefaultsBase):
@@ -77,6 +78,11 @@ class ImportsWithCustomSettingsBase(ImportWithDefaultsBase):
         column.use_property_split = True
 
         return (column, self.get_expand_state(name))
+
+    def invoke(self, context: Context, event: Event):
+        wm = context.window_manager
+
+        return wm.invoke_props_dialog(self)
 
 
 class ImportABCWithDefaults(ImportWithDefaultsBase):
@@ -171,14 +177,10 @@ class ImportFBXWithCustomSettings(ImportsWithCustomSettingsBase):
     armature_section: BoolProperty(default=True, name="Armature")
 
     def draw(self, context: Context):
-        # I don't know how to get and set the preset list......
-        layout = self.layout
-
         # Include Section
         column, state = self.get_expand_column("include_section")
 
         if state:
-            column.label(text="Include")
             column.prop(self, "use_custom_normals")
             column.prop(self, "use_subsurf")
             column.prop(self, "use_custom_props")
@@ -189,45 +191,70 @@ class ImportFBXWithCustomSettings(ImportsWithCustomSettingsBase):
                 column.prop(self, "colors_type")
 
         # Transform Section
-        column = layout.column()
-        column.label(text="Transform")
-        column.prop(self, "global_scale")
-        column.prop(self, "decal_offset")
+        column, state = self.get_expand_column("transform_section")
 
-        row = column.row()
-        row.prop(self, "bake_space_transform")
-        row.label(text="", icon="ERROR")
+        if state:
+            column.prop(self, "global_scale")
+            column.prop(self, "decal_offset")
 
-        column.prop(self, "use_prepost_rot")
-        column.prop(self, "use_manual_orientation")
+            row = column.row()
+            row.prop(self, "bake_space_transform")
+            row.label(text="", icon="ERROR")
 
-        orientation = layout.column()
-        orientation.enabled = self.use_manual_orientation  # type: ignore
-        orientation.prop(self, "axis_forward")
-        orientation.prop(self, "axis_up")
+            column.prop(self, "use_prepost_rot")
+            column.prop(self, "use_manual_orientation")
+
+            orientation = column.column()
+            orientation.enabled = self.use_manual_orientation
+            orientation.prop(self, "axis_forward")
+            orientation.prop(self, "axis_up")
 
         # Animation Section
-        column = layout.column()
-        column.label(text="Animation")
-        column.prop(self, "use_anim")
+        column, state = self.get_expand_column("animation_section")
 
-        animation = layout.column()
-        animation.enabled = self.use_anim  # type: ignore
-        animation.prop(self, "anim_offset")
+        if state:
+            column.prop(self, "use_anim")
+
+            animation = column.column()
+            animation.enabled = self.use_anim
+            animation.prop(self, "anim_offset")
 
         # Armature Section
-        column = layout.column()
-        column.label(text="Armature")
-        column.prop(self, "ignore_leaf_bones")
-        column.prop(self, "force_connect_children")
-        column.prop(self, "automatic_bone_orientation")
-        column.prop(self, "primary_bone_axis")
-        column.prop(self, "secondary_bone_axis")
+        column, state = self.get_expand_column("armature_section")
 
-        column.operator("object.import_fbx_with_custom_settings", text="Import", icon="ADD")
+        if state:
+            column.prop(self, "ignore_leaf_bones")
+            column.prop(self, "force_connect_children")
+            column.prop(self, "automatic_bone_orientation")
+            column.prop(self, "primary_bone_axis")
+            column.prop(self, "secondary_bone_axis")
 
     def execute(self, context: Context):
-        print("Hello?")
+        bpy.ops.import_scene.fbx(
+            filepath=self.filepath(),
+            use_manual_orientation=self.use_manual_orientation,
+            global_scale=self.global_scale,
+            bake_space_transform=self.bake_space_transform,
+            use_custom_normals=self.use_custom_normals,
+            colors_type=self.colors_type,
+            use_image_search=self.use_image_search,
+            use_alpha_decals=self.use_alpha_decals,
+            decal_offset=self.decal_offset,
+            use_anim=self.use_anim,
+            anim_offset=self.anim_offset,
+            use_subsurf=self.use_subsurf,
+            use_custom_props=self.use_custom_props,
+            use_custom_props_enum_as_string=self.use_custom_props_enum_as_string,
+            ignore_leaf_bones=self.ignore_leaf_bones,
+            force_connect_children=self.force_connect_children,
+            automatic_bone_orientation=self.automatic_bone_orientation,
+            primary_bone_axis=self.primary_bone_axis,
+            secondary_bone_axis=self.secondary_bone_axis,
+            use_prepost_rot=self.use_prepost_rot,
+            axis_forward=self.axis_forward,
+            axis_up=self.axis_up,
+        )
+
         return {"FINISHED"}
 
 

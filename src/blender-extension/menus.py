@@ -15,11 +15,14 @@ class VIEW3D_MT_Space_Import_BASE(bpy.types.Menu):
     def draw(self, context: Context | None):
         layout = self.layout
 
-        layout.operator(
+        col = layout.column()
+        col.operator(
             f"object.import_{self.format()}_with_defaults", text="Import with Defaults"
         ).filename = VIEW3D_MT_Space_Import_BASE.filename  # type: ignore
 
-        layout.operator(
+        col = layout.column()
+        col.operator_context = "INVOKE_DEFAULT"
+        col.operator(
             f"object.import_{self.format()}_with_custom_settings",
             text="Import with Custom Settings",
         ).filename = VIEW3D_MT_Space_Import_BASE.filename  # type: ignore

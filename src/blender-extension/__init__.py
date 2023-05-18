@@ -21,13 +21,9 @@ if "bpy" in locals():
 
     importlib.reload(menus)  # type: ignore
     importlib.reload(operator)  # type: ignore
-    importlib.reload(properties)  # type: ignore
-    importlib.reload(ui)  # type: ignore
 else:
     from . import menus
     from . import operator
-    from . import properties
-    from . import ui
 
 import bpy  # nopep8
 import ctypes  # nopep8

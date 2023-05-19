@@ -57,6 +57,7 @@ classes = (
     operator.ImportFBXWithDefaults,  # type: ignore
     operator.ImportGLBWithDefaults,  # type: ignore
     operator.ImportOBJWithDefaults,  # type: ignore
+    operator.ImportOBJLegacyWithDefaults,  # type: ignore
     operator.ImportPLYWithDefaults,  # type: ignore
     operator.ImportSTLWithDefaults,  # type: ignore
     operator.ImportSVGWithDefaults,  # type: ignore
@@ -66,6 +67,7 @@ classes = (
     # operators (custom importers)
     operator.ImportFBXWithCustomSettings,  # type: ignore
     operator.ImportOBJWithCustomSettings,  # type: ignore
+    operator.ImportOBJLegacyWithCustomSettings,  # type: ignore
     operator.ImportVRMWithCustomSettings,  # type: ignore
 )
 

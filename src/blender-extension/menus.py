@@ -98,8 +98,11 @@ class VIEW3D_MT_Space_Import_GLB(VIEW3D_MT_Space_Import_BASE):
         return "glb"
 
 
-class VIEW3D_MT_Space_Import_GLTF(VIEW3D_MT_Space_Import_GLB):
-    pass
+class VIEW3D_MT_Space_Import_GLTF(VIEW3D_MT_Space_Import_BASE):
+    bl_label = "Import glTF File"
+
+    def format(self):
+        return "glb"
 
 
 class VIEW3D_MT_Space_Import_OBJ(VIEW3D_MT_Space_Import_BASE):

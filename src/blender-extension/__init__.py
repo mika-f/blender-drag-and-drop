@@ -66,6 +66,7 @@ classes = (
     operator.ImportX3DWithDefaults,  # type: ignore
     # operators (custom importers)
     operator.ImportFBXWithCustomSettings,  # type: ignore
+    operator.ImportGLBWithCustomSettings,  # type: ignore
     operator.ImportOBJWithCustomSettings,  # type: ignore
     operator.ImportOBJLegacyWithCustomSettings,  # type: ignore
     operator.ImportVRMWithCustomSettings,  # type: ignore

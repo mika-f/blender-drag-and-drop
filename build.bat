@@ -105,4 +105,15 @@ if exist "%DEST%.zip" (
 
 powershell compress-archive %DEST% %DEST%.zip
 
+
+set HASH=
+for /F "usebackq skip=1 delims==" %%i in (`certutil -hashfile %DEST%.zip SHA256`) do (
+    if not defined HASH (
+        set HASH=%%i
+    )
+)
+
+echo %HASH% > "%DEST%.zip.sha256"
+
 echo "packaged -> %DEST%.zip"
+echo "hash -> %HASH%"

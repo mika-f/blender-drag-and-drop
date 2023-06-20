@@ -10,16 +10,19 @@ set VERSION=%3
 
 if "%ARCH%" == "" (
     echo usage: build.bat $arch $target $version
+    echo example: build.bat x64 Release 1.0.0
     goto :error_exit
 )
 
 if "%TARGET%" == "" (
     echo usage: build.bat $arch $target $version
+    echo example: build.bat x64 Release 1.0.0
     goto :error_exit
 )
 
 if "%VERSION%" == "" (
     echo usage: build.bat $arch $target $version
+    echo example: build.bat x64 Release 1.0.0
     goto :error_exit
 )
 

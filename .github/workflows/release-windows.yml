@@ -14,7 +14,7 @@ jobs:
     steps:
       - id: vars
         run: |
-          VERSION=$(echo ${{ github.ref }} | sed -e 's/refs\/tags\///' | sed -e '/s/refs\/heads\///')
+          VERSION=$(echo ${{ github.ref }} | sed -e 's/refs\/tags\///' | sed -e 's/refs\/heads\///' | sed -e 's/\//-/')
           echo "version=$VERSION" >> $GITHUB_OUTPUT
 
   build:

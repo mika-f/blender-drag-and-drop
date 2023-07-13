@@ -35,17 +35,17 @@ jobs:
         shell: powershell
         run: |
           mkdir bin
-          echo "D" | xcopy /e src/blender-extension bin/drag-and-drop-support/
+          echo "D" | xcopy /e .\src\blender-extension\ .\bin\drag-and-drop-support\
 
       - name: Collect Artifacts
         shell: powershell
         run: |
-          $Dest = "bin/x64/DragAndDropSupport-v${{ needs.setup.outputs.version }}"
+          $Dest = ".\bin\x64\DragAndDropSupport-v${{ needs.setup.outputs.version }}"
 
           mkdir $Dest
-          echo "F" | xcopy /s src/blender-injection/x64/Release/*.dll "$Dest/drag-and-drop-support/"
-          echo "F" | xcopy /s src/blender-extension/* "$Dest/drag-and-drop-support/"
-          echo "F" | xcopy src/LICENSE.txt "$Dest/"
+          echo "F" | xcopy /s .\src\blender-injection\x64\Release\*.dll "$Dest\drag-and-drop-support\"
+          echo "F" | xcopy /s .\src\blender-extension\* "$Dest\drag-and-drop-support\"
+          echo "F" | xcopy .\src\LICENSE.txt "$Dest\"
 
           Compress-Archive "$Dest/drag-and-drop-support" "$Dest/drag-and-drop-support.zip"
           echo "Y" | rmdir /s "$Dest/drag-and-drop-support"

@@ -48,7 +48,7 @@ jobs:
           echo "F" | xcopy .\src\LICENSE.txt "$Dest\"
 
           Compress-Archive "$Dest/drag-and-drop-support" "$Dest/drag-and-drop-support.zip"
-          echo "Y" | rmdir /s "$Dest/drag-and-drop-support"
+          echo "Y" | rmdir /s "$Dest\drag-and-drop-support"
 
       - name: Packaging Artifacts
         shell: powershell

@@ -15,7 +15,7 @@ jobs:
       - id: vars
         run: |
           VERSION=$(echo ${{ github.ref }} | sed -e 's/refs\/tags\///' | sed -e '/s/refs\/heads\///')
-          echo "::set-output name=version::$VERSION"
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
 
   build:
     runs-on: windows-2022

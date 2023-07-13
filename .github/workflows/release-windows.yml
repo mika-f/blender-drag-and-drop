@@ -1,0 +1,66 @@
+name: Release for Windows
+
+on:
+  push:
+    tags:
+      - "v**"
+  workflow_dispatch:
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.vars.outputs.version }}
+    steps:
+      - id: vars
+        run: |
+          VERSION=$(echo ${{ github.ref }} | sed -e 's/refs\/tags\///' | sed -e '/s/refs\/heads\///')
+          echo "::set-output name=version::$VERSION"
+
+  build:
+    runs-on: windows-2022
+    needs: [setup]
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Add MSBuild to PATH
+        uses: microsoft/setup-msbuild@v1.1
+
+      - name: Build Injector for Release
+        run: |
+          msbuild -p:Configuration=Release -p:Platform=x64 -t:Rebuild src/blender-injection/blender-injection.vcxproj
+
+      - name: Build Extension for Release
+        shell: powershell
+        run: |
+          mkdir bin
+          echo "D" | xcopy /e src/blender-extension bin/drag-and-drop-support/
+
+      - name: Collect Artifacts
+        shell: powershell
+        run: |
+          $Dest = "bin/x64/DragAndDropSupport-v${{ needs.setup.outputs.version }}"
+
+          mkdir $Dest
+          echo "F" | xcopy /s src/blender-injection/x64/Release/*.dll "$Dest/drag-and-drop-support/"
+          echo "F" | xcopy /s src/blender-extension/* "$Dest/drag-and-drop-support/"
+          echo "F" | xcopy src/LICENSE.txt "$Dest/"
+
+          Compress-Archive "$Dest/drag-and-drop-support" "$Dest/drag-and-drop-support.zip"
+          echo "Y" | rmdir /s "$Dest/drag-and-drop-support"
+
+      - name: Packaging Artifacts
+        shell: powershell
+        run: |
+          $Dest = "bin/x64/DragAndDropSupport-v${{ needs.setup.outputs.version }}"
+
+          Compress-Archive "$Dest" "$Dest.zip"
+          Get-FileHash -Algorithm SHA256 "$Dest.zip" | Select-Object -ExpandProperty Hash > "$Dest.zip.sha256"
+          Get-FileHash -Algorithm MD5    "$Dest.zip" | Select-Object -ExpandProperty Hash > "$Dest.zip.md5"
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: Windows-x64-Artifacts
+          path: bin/x64/

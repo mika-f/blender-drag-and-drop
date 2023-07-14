@@ -34,21 +34,22 @@ jobs:
       - name: Build Extension for Release
         shell: powershell
         run: |
-          mkdir bin
-          echo "D" | xcopy /e .\src\blender-extension\ .\bin\drag-and-drop-support\
+          New-Item .\bin -Type Directory
+          Copy-Item -Recurse .\src\blender-extension\ .\bin\drag-and-drop-support\
 
       - name: Collect Artifacts
         shell: powershell
         run: |
-          $Dest = ".\bin\x64\DragAndDropSupport-v${{ needs.setup.outputs.version }}"
+          $Archive = ".\bin\x64\DragAndDropSupport-v${{ needs.setup.outputs.version }}"
+          $Dest    = "$Archive\drag-and-drop-support"
 
-          mkdir $Dest
-          echo "F" | xcopy /s .\src\blender-injection\x64\Release\*.dll "$Dest\drag-and-drop-support\"
-          echo "F" | xcopy /s .\src\blender-extension\* "$Dest\drag-and-drop-support\"
-          echo "F" | xcopy .\src\LICENSE.txt "$Dest\"
+          New-Item $Dest -Type Directory
+          Copy-Item .\src\blender-injection\x64\Release\*.dll $Dest\
+          Copy-Item .\src\blender-extension\* $Dest\
+          Copy-Item .\src\LICENSE.txt $Archive\
 
-          Compress-Archive "$Dest/drag-and-drop-support" "$Dest/drag-and-drop-support.zip"
-          echo "Y" | rmdir /s "$Dest\drag-and-drop-support"
+          Compress-Archive "$Dest" "$Dest.zip"
+          Remove-Item -Recurse $Dest
 
       - name: Packaging Artifacts
         shell: powershell

@@ -19,6 +19,9 @@
     <Filter Include="Header Files\vendors">
       <UniqueIdentifier>{ad1122c9-83f1-4044-8877-658ef202112d}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\stubs">
+      <UniqueIdentifier>{029e6076-4989-4c33-afd3-5b41785e0c80}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="framework.h">
@@ -53,6 +56,36 @@
     </ClInclude>
     <ClInclude Include="BlenderPatchPatterns.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="stubs\wmDrag.h">
+      <Filter>Header Files\stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="stubs\bContext.h">
+      <Filter>Header Files\stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="stubs\eWM_EventFlag.h">
+      <Filter>Header Files\stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="stubs\eWM_DragFlags.h">
+      <Filter>Header Files\stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="stubs\wmDragPath.h">
+      <Filter>Header Files\stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="stubs\ListBase.h">
+      <Filter>Header Files\stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="stubs\wmTabletData.h">
+      <Filter>Header Files\stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="stubs\wmEvent.h">
+      <Filter>Header Files\stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="stubs\wmDragActiveDropState.h">
+      <Filter>Header Files\stubs</Filter>
+    </ClInclude>
+    <ClInclude Include="stubs\eWM_DragDataType.h">
+      <Filter>Header Files\stubs</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

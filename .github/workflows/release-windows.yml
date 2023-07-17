@@ -57,7 +57,7 @@ jobs:
           $Dest = "bin/x64/DragAndDropSupport-${{ needs.setup.outputs.version }}"
 
           Compress-Archive "$Dest" "$Dest.zip"
-          Remove-Item -Recure $Dest
+          Remove-Item -Recurse $Dest
 
           Get-FileHash -Algorithm SHA256 "$Dest.zip" | Select-Object -ExpandProperty Hash | Tee-Object -FilePath "$Dest.zip.sha256"
           Get-FileHash -Algorithm MD5    "$Dest.zip" | Select-Object -ExpandProperty Hash | Tee-Object -FilePath "$Dest.zip.md5"

@@ -95,7 +95,7 @@ echo F | xcopy /s "src\blender-injection\%1\"%2"\*.dll" "%DEST%\drag-and-drop-su
 echo F | xcopy /s "src\blender-extension\*" "%DEST%\drag-and-drop-support\"
 echo F | xcopy "src\LICENSE.txt" "%DEST%\"
 
-powershell compress-archive "%DEST%\drag-and-drop-support" "%DEST%\drag-and-drop-support.zip"
+pwsh -Command  compress-archive "%DEST%\drag-and-drop-support" "%DEST%\drag-and-drop-support.zip"
 echo Y | rmdir /s "%DEST%\drag-and-drop-support"
 
 echo ******************************************************************************************************
@@ -106,7 +106,7 @@ if exist "%DEST%.zip" (
     del "%DEST%.zip"
 )
 
-powershell compress-archive %DEST% %DEST%.zip
+pwsh -Command compress-archive %DEST% %DEST%.zip
 
 
 set HASH=

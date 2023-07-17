@@ -40,7 +40,7 @@ jobs:
       - name: Collect Artifacts
         shell: powershell
         run: |
-          $Archive = ".\bin\x64\DragAndDropSupport-v${{ needs.setup.outputs.version }}"
+          $Archive = ".\bin\x64\DragAndDropSupport-${{ needs.setup.outputs.version }}"
           $Dest    = "$Archive\drag-and-drop-support"
 
           New-Item $Dest -Type Directory
@@ -54,7 +54,7 @@ jobs:
       - name: Packaging Artifacts
         shell: powershell
         run: |
-          $Dest = "bin/x64/DragAndDropSupport-v${{ needs.setup.outputs.version }}"
+          $Dest = "bin/x64/DragAndDropSupport-${{ needs.setup.outputs.version }}"
 
           Compress-Archive "$Dest" "$Dest.zip"
           Remove-Item -Recure $Dest

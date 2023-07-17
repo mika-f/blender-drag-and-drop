@@ -10,16 +10,19 @@ set VERSION=%3
 
 if "%ARCH%" == "" (
     echo usage: build.bat $arch $target $version
+    echo example: build.bat x64 Release 1.0.0
     goto :error_exit
 )
 
 if "%TARGET%" == "" (
     echo usage: build.bat $arch $target $version
+    echo example: build.bat x64 Release 1.0.0
     goto :error_exit
 )
 
 if "%VERSION%" == "" (
     echo usage: build.bat $arch $target $version
+    echo example: build.bat x64 Release 1.0.0
     goto :error_exit
 )
 
@@ -92,7 +95,7 @@ echo F | xcopy /s "src\blender-injection\%1\"%2"\*.dll" "%DEST%\drag-and-drop-su
 echo F | xcopy /s "src\blender-extension\*" "%DEST%\drag-and-drop-support\"
 echo F | xcopy "src\LICENSE.txt" "%DEST%\"
 
-powershell compress-archive "%DEST%\drag-and-drop-support" "%DEST%\drag-and-drop-support.zip"
+pwsh -Command  compress-archive "%DEST%\drag-and-drop-support" "%DEST%\drag-and-drop-support.zip"
 echo Y | rmdir /s "%DEST%\drag-and-drop-support"
 
 echo ******************************************************************************************************
@@ -103,6 +106,17 @@ if exist "%DEST%.zip" (
     del "%DEST%.zip"
 )
 
-powershell compress-archive %DEST% %DEST%.zip
+pwsh -Command compress-archive %DEST% %DEST%.zip
+
+
+set HASH=
+for /F "usebackq skip=1 delims==" %%i in (`certutil -hashfile %DEST%.zip SHA256`) do (
+    if not defined HASH (
+        set HASH=%%i
+    )
+)
+
+echo %HASH% > "%DEST%.zip.sha256"
 
 echo "packaged -> %DEST%.zip"
+echo "hash -> %HASH%"

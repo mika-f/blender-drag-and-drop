@@ -1,0 +1,69 @@
+name: Release for Windows
+
+on:
+  push:
+    tags:
+      - "v**"
+  workflow_dispatch:
+
+jobs:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      version: ${{ steps.vars.outputs.version }}
+    steps:
+      - id: vars
+        run: |
+          VERSION=$(echo ${{ github.ref }} | sed -e 's/refs\/tags\///' | sed -e 's/refs\/heads\///' | sed -e 's/\//-/')
+          echo "version=$VERSION" >> $GITHUB_OUTPUT
+
+  build:
+    runs-on: windows-2022
+    needs: [setup]
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Add MSBuild to PATH
+        uses: microsoft/setup-msbuild@v1.1
+
+      - name: Build Injector for Release
+        run: |
+          msbuild -p:Configuration=Release -p:Platform=x64 -t:Rebuild src/blender-injection/blender-injection.vcxproj
+
+      - name: Build Extension for Release
+        shell: powershell
+        run: |
+          New-Item .\bin -Type Directory
+          Copy-Item -Recurse .\src\blender-extension\ .\bin\drag-and-drop-support\
+
+      - name: Collect Artifacts
+        shell: powershell
+        run: |
+          $Archive = ".\bin\x64\DragAndDropSupport-${{ needs.setup.outputs.version }}"
+          $Dest    = "$Archive\drag-and-drop-support"
+
+          New-Item $Dest -Type Directory
+          Copy-Item .\src\blender-injection\x64\Release\*.dll $Dest\
+          Copy-Item .\src\blender-extension\* $Dest\
+          Copy-Item .\src\LICENSE.txt $Archive\
+
+          Compress-Archive "$Dest" "$Dest.zip"
+          Remove-Item -Recurse $Dest
+
+      - name: Packaging Artifacts
+        shell: powershell
+        run: |
+          $Dest = "bin/x64/DragAndDropSupport-${{ needs.setup.outputs.version }}"
+
+          Compress-Archive "$Dest" "$Dest.zip"
+          Remove-Item -Recure $Dest
+
+          Get-FileHash -Algorithm SHA256 "$Dest.zip" | Select-Object -ExpandProperty Hash | Tee-Object -FilePath "$Dest.zip.sha256"
+          Get-FileHash -Algorithm MD5    "$Dest.zip" | Select-Object -ExpandProperty Hash | Tee-Object -FilePath "$Dest.zip.md5"
+
+      - name: Upload Artifacts
+        uses: actions/upload-artifact@v3
+        with:
+          name: Windows-x64-Artifacts
+          path: bin/x64/

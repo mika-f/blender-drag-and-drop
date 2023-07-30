@@ -11,15 +11,16 @@ bl_info = {
     "author": "Natsuneko",
     "description": "Blender add-on for import some files from drag-and-drop",
     "blender": (3, 1, 0),
-    "version": (2, 7, 0),
+    "version": (2, 8, 0),
     "location": "Drag and Drop Support",
     "warning": "",
-    "category": "Import-Export"
+    "category": "Import-Export",
 }
 
 
 if "bpy" in locals():
     import importlib
+
     importlib.reload(operator)
     importlib.reload(properties)
     importlib.reload(ui)
@@ -58,7 +59,8 @@ def register():
         bpy.utils.register_class(c)
 
     bpy.types.Scene.DragAndDropSupportProperties = PointerProperty(
-        type=properties.DragAndDropSupportProperties)
+        type=properties.DragAndDropSupportProperties
+    )
 
     import os
 
@@ -78,6 +80,7 @@ def unregister():
     del bpy.types.Scene.DragAndDropSupportProperties
 
     import _ctypes
+
     _ctypes.FreeLibrary(dll._handle)
 
 

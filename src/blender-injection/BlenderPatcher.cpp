@@ -21,13 +21,14 @@ void BlenderPatcher::FetchVersion()
 
         VerQueryValue(version, "\\", reinterpret_cast<void**>(&pFileInfo), &len);
 
-        this->_version = format("%d.%d.%d", HIWORD(pFileInfo->dwFileVersionMS), LOWORD(pFileInfo->dwFileVersionMS), HIWORD(pFileInfo->dwFileVersionLS));
+        this->_versionString = format("%d.%d.%d", HIWORD(pFileInfo->dwFileVersionMS), LOWORD(pFileInfo->dwFileVersionMS), HIWORD(pFileInfo->dwFileVersionLS));
+        this->_version = std::make_tuple(HIWORD(pFileInfo->dwFileVersionMS), LOWORD(pFileInfo->dwFileVersionMS), HIWORD(pFileInfo->dwFileVersionLS));
     }
 }
 
 void BlenderPatcher::ApplyInjector()
 {
-    const auto patterns = &Patchers.at(this->_version);
+    const auto patterns = &Patchers.at(this->_versionString);
     this->_patch = new BlenderPatch(patterns);
 
     const auto address = this->_patch->Get_view3d_ima_empty_drop_poll();
@@ -126,7 +127,7 @@ void BlenderPatcher::Patch()
     {
         std::cout << "[ERROR] exception: out of range" << std::endl;
         std::cout << "[ERROR] injector detected the unsupported version of Blender. Please upgrade Drag-and-Drop Support or downgrade Blender" << std::endl;
-        std::cout << "[ERROR] detected version : " << this->_version << std::endl;
+        std::cout << "[ERROR] detected version : " << this->_versionString << std::endl;
     }
 }
 
@@ -140,8 +141,13 @@ void BlenderPatcher::UnPatch()
     {
         std::cout << "[ERROR] exception: out of range" << std::endl;
         std::cout << "[ERROR] injector detected the unsupported version of Blender. Please upgrade Drag-and-Drop Support or downgrade Blender" << std::endl;
-        std::cout << "[ERROR] detected version : " << this->_version << std::endl;
+        std::cout << "[ERROR] detected version : " << this->_versionString << std::endl;
     }
+}
+
+std::tuple<int, int, int> BlenderPatcher::GetVersion() const
+{
+    return this->_version;
 }
 
 

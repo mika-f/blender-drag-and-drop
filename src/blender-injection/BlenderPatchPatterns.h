@@ -60,6 +60,7 @@ public:
 // XXX: LEA RDX, QWORD PTR [RSP+30H]                   // RDX      = ptr:[addon_utils, NULL]
 // XXX: MOV RCX, RSI                                   // RCX      = ptr:C
 // XXX: CALL 00007FF61FF9E3A0H <- here                 // BPY_run_string_eval(RCX, RDX, R8)
+// XXX: CALL 00007FF61FF9E3C0H                         //
 //
 //
 // FUNCTION LOCATION - view3d_ima_empty_drop_poll / view3d_id_path_drop_copy (search: "OBJECT_OT_drop_named_image" as ANSI string)
@@ -212,6 +213,32 @@ static std::unordered_map<std::string, BlenderPatchPattern> Patchers{
             "4C 8D 05 09 08 00 00",
             "E8 7B FF FF FF 84 C0",
             "E8 0B BC 00 00 48 85 C0"
+        }
+    },
+    {
+        "3.6.0", {
+            "E8 FC 8F 41 00 E8 C7 AD 22 04",
+            "4C 8D 05 F9 07 00 00",
+            "E8 7B FF FF FF 84 C0",
+            "E8 EB BD 00 00 48 85 C0"
+        }
+    },
+    {
+
+        "3.6.1", {
+            "E8 AC 90 41 00 E8 B7 AA 22 04",
+            "4C 8D 05 F9 07 00 00",
+            "E8 7B FF FF FF 84 C0",
+            "E8 EB BD 00 00 48 85 C0"
+        }
+    },
+    {
+
+        "3.6.2", {
+            "E8 7C 9C 41 00 E8 47 BC 22 04",
+            "4C 8D 05 F9 07 00 00",
+            "E8 7B FF FF FF 84 C0",
+            "E8 EB BD 00 00 48 85 C0",
         }
     }
 };

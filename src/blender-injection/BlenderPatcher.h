@@ -7,7 +7,8 @@
 class BlenderPatcher
 {
 private:
-    std::string _version;
+    std::string _versionString;
+    std::tuple<int, int, int> _version;
 
     std::unordered_map<std::uintptr_t, std::vector<unsigned char>> _originals;
 
@@ -17,7 +18,8 @@ private:
 
     BlenderPatcher()
     {
-        this->_version = "0.0.0";
+        this->_versionString = "0.0.0";
+        this->_version = std::make_tuple(0, 0, 0);
     }
 
     void FetchVersion();
@@ -32,7 +34,9 @@ public:
 
     void Patch();
     void UnPatch();
+    std::tuple<int, int, int> GetVersion() const;
 
+    // reflections
     bool View3DImaDropPoll(void* c, void* drag, void* event) const;
     void* EDView3dGiveObjectUnderCursor(void* c, int mvals[2]) const;
     void RunStringEval(void* c, const char* imports[], const char* expression) const;

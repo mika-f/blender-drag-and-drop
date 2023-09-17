@@ -731,6 +731,16 @@
     <ClInclude Include="injector.hpp" />
     <ClInclude Include="pch.h" />
     <ClInclude Include="strings.h" />
+    <ClInclude Include="stubs\bContext.h" />
+    <ClInclude Include="stubs\eWM_DragDataType.h" />
+    <ClInclude Include="stubs\wmDragActiveDropState.h" />
+    <ClInclude Include="stubs\eWM_EventFlag.h" />
+    <ClInclude Include="stubs\eWM_DragFlags.h" />
+    <ClInclude Include="stubs\wmDragPath.h" />
+    <ClInclude Include="stubs\ListBase.h" />
+    <ClInclude Include="stubs\wmTabletData.h" />
+    <ClInclude Include="stubs\wmDrag.h" />
+    <ClInclude Include="stubs\wmEvent.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="BlenderPatch.cpp" />

@@ -83,7 +83,6 @@ class VIEW3D_MT_Space_Import_DAE(VIEW3D_MT_Space_Import_BASE):
     def format(self):
         return "dae"
 
-
 class VIEW3D_MT_Space_Import_FBX(VIEW3D_MT_Space_Import_BASE):
     bl_label = "Import FBX File"
 

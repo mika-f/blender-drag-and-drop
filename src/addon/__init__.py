@@ -24,6 +24,7 @@ if "bpy" in locals():
 else:
     from . import menus
     from . import operator
+    from . import operators
 
 import bpy  # nopep8
 import ctypes  # nopep8
@@ -54,22 +55,22 @@ classes = (
     operator.ImportABCWithDefaults,  # type: ignore
     operator.ImportBVHWithDefaults,  # type: ignore
     operator.ImportDAEWithDefaults,  # type: ignore
-    operator.ImportFBXWithDefaults,  # type: ignore
-    operator.ImportGLBWithDefaults,  # type: ignore
-    operator.ImportOBJWithDefaults,  # type: ignore
-    operator.ImportOBJLegacyWithDefaults,  # type: ignore
     operator.ImportPLYWithDefaults,  # type: ignore
     operator.ImportSTLWithDefaults,  # type: ignore
     operator.ImportSVGWithDefaults,  # type: ignore
     operator.ImportUSDWithDefaults,  # type: ignore
-    operator.ImportVRMWithDefaults,  # type: ignore
     operator.ImportX3DWithDefaults,  # type: ignore
-    # operators (custom importers)
-    operator.ImportFBXWithCustomSettings,  # type: ignore
-    operator.ImportGLBWithCustomSettings,  # type: ignore
-    operator.ImportOBJWithCustomSettings,  # type: ignore
-    operator.ImportOBJLegacyWithCustomSettings,  # type: ignore
-    operator.ImportVRMWithCustomSettings,  # type: ignore
+    # operators
+    operators.fbx.ImportFBXWithDefaults,  # type: ignore
+    operators.fbx.ImportFBXWithCustomSettings,  # type: ignore
+    operators.glb.ImportGLBWithDefaults,  # type: ignore
+    operators.glb.ImportGLBWithCustomSettings,  # type: ignore
+    operators.obj.ImportOBJWithDefaults,  # type: ignore
+    operators.obj.ImportOBJWithCustomSettings,  # type: ignore
+    operators.obj_legacy.ImportOBJLegacyWithDefaults,  # type: ignore
+    operators.obj_legacy.ImportOBJLegacyWithCustomSettings,  # type: ignore
+    operators.vrm.ImportVRMWithDefaults,  # type: ignore
+    operators.vrm.ImportVRMWithCustomSettings,  # type: ignore
 )
 
 

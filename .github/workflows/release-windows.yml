@@ -29,13 +29,13 @@ jobs:
 
       - name: Build Injector for Release
         run: |
-          msbuild -p:Configuration=Release -p:Platform=x64 -t:Rebuild src/blender-injection/blender-injection.vcxproj
+          msbuild -p:Configuration=Release -p:Platform=x64 -t:Rebuild src/dll/blender-injection.vcxproj
 
       - name: Build Extension for Release
         shell: powershell
         run: |
           New-Item .\bin -Type Directory
-          Copy-Item -Recurse .\src\blender-extension\ .\bin\drag-and-drop-support\
+          Copy-Item -Recurse .\src\addon\ .\bin\drag-and-drop-support\
 
       - name: Collect Artifacts
         shell: powershell
@@ -44,8 +44,8 @@ jobs:
           $Dest    = "$Archive\drag-and-drop-support"
 
           New-Item $Dest -Type Directory
-          Copy-Item .\src\blender-injection\x64\Release\*.dll $Dest\
-          Copy-Item .\src\blender-extension\* $Dest\
+          Copy-Item .\src\dll\x64\Release\*.dll $Dest\
+          Copy-Item .\src\addon\* $Dest\
           Copy-Item .\src\LICENSE.txt $Archive\
 
           Compress-Archive "$Dest" "$Dest.zip"

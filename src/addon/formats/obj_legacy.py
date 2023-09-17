@@ -43,7 +43,9 @@ class ImportOBJLegacyWithCustomSettings(ImportsWithCustomSettingsBase):
             ("OFF", "Keep Vert Order", ""),
         ],
     )
-    global_clamp_size: FloatProperty(default=0.0, name="Clamp Size", min=0.0, max=1000.0)
+    global_clamp_size: FloatProperty(
+        default=0.0, name="Clamp Size", min=0.0, max=1000.0
+    )
     axis_forward: EnumProperty(
         default="-Z",
         name="Forward",
@@ -120,3 +122,9 @@ class ImportOBJLegacyWithCustomSettings(ImportsWithCustomSettingsBase):
         )
 
         return {"FINISHED"}
+
+
+OPERATORS = [
+    ImportOBJLegacyWithDefaults,
+    ImportOBJLegacyWithCustomSettings,
+]

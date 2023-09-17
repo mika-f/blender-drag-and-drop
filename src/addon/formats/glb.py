@@ -11,7 +11,11 @@ import bpy
 from bpy.props import BoolProperty, EnumProperty  # type: ignore
 from bpy.types import Context
 
-from .super import ImportWithDefaultsBase, ImportsWithCustomSettingsBase
+from .super import (
+    ImportWithDefaultsBase,
+    ImportsWithCustomSettingsBase,
+    VIEW3D_MT_Space_Import_BASE,
+)
 
 
 class ImportGLBWithDefaults(ImportWithDefaultsBase):
@@ -30,7 +34,11 @@ class ImportGLBWithCustomSettings(ImportsWithCustomSettingsBase):
     convert_lighting_mode: EnumProperty(
         default="SPEC",
         name="Lighting Mode",
-        items=[("SPEC", "Standard", ""), ("COMPAT", "Unitless", ""), ("RAW", "Raw (Deprecated)", "")],
+        items=[
+            ("SPEC", "Standard", ""),
+            ("COMPAT", "Unitless", ""),
+            ("RAW", "Raw (Deprecated)", ""),
+        ],
     )
     import_pack_images: BoolProperty(default=True, name="Pack Images")
     merge_vertices: BoolProperty(default=False, name="Merge Vertices")
@@ -52,7 +60,9 @@ class ImportGLBWithCustomSettings(ImportsWithCustomSettingsBase):
             ("FORTUNE", "Fortune (may look better, less accurate)", ""),
         ],
     )
-    guess_original_bind_pose: BoolProperty(default=True, name="Guess Original Bind Pose")
+    guess_original_bind_pose: BoolProperty(
+        default=True, name="Guess Original Bind Pose"
+    )
 
     def draw(self, context: Context):
         box = self.layout.box()
@@ -81,3 +91,25 @@ class ImportGLBWithCustomSettings(ImportsWithCustomSettingsBase):
         )
 
         return {"FINISHED"}
+
+
+class VIEW3D_MT_Space_Import_GLB(VIEW3D_MT_Space_Import_BASE):
+    bl_label = "Import glTF File"
+
+    def format(self):
+        return "glb"
+
+
+class VIEW3D_MT_Space_Import_GLTF(VIEW3D_MT_Space_Import_BASE):
+    bl_label = "Import glTF File"
+
+    def format(self):
+        return "glb"
+
+
+OPERATORS = [
+    ImportGLBWithDefaults,
+    ImportGLBWithCustomSettings,
+    VIEW3D_MT_Space_Import_GLB,
+    VIEW3D_MT_Space_Import_GLTF,
+]

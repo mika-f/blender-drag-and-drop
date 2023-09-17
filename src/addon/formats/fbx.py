@@ -11,7 +11,11 @@ import bpy
 from bpy.props import BoolProperty, EnumProperty, FloatProperty  # type: ignore
 from bpy.types import Context
 
-from .super import ImportWithDefaultsBase, ImportsWithCustomSettingsBase
+from .super import (
+    ImportWithDefaultsBase,
+    ImportsWithCustomSettingsBase,
+    VIEW3D_MT_Space_Import_BASE,
+)
 
 
 class ImportFBXWithDefaults(ImportWithDefaultsBase):
@@ -39,30 +43,62 @@ class ImportFBXWithCustomSettings(ImportsWithCustomSettingsBase):
     anim_offset: FloatProperty(default=1.0, name="Animation Offset")
     use_subsurf: BoolProperty(default=False, name="Subdivision Data")
     use_custom_props: BoolProperty(default=True, name="Custom Properties")
-    use_custom_props_enum_as_string: BoolProperty(default=True, name="Import Enums As Strings")
+    use_custom_props_enum_as_string: BoolProperty(
+        default=True, name="Import Enums As Strings"
+    )
     ignore_leaf_bones: BoolProperty(default=False, name="Ignore Leaf Bones")
     force_connect_children: BoolProperty(default=False, name="Force Connect Children")
-    automatic_bone_orientation: BoolProperty(default=False, name="Automatic Bone Orientation")
+    automatic_bone_orientation: BoolProperty(
+        default=False, name="Automatic Bone Orientation"
+    )
     primary_bone_axis: EnumProperty(
         default="Y",
         name="Primary Bone Axis",
-        items=[("X", "X", ""), ("Y", "Y", ""), ("Z", "Z", ""), ("-X", "-X", ""), ("-Y", "-Y", ""), ("-Z", "-Z", "")],
+        items=[
+            ("X", "X", ""),
+            ("Y", "Y", ""),
+            ("Z", "Z", ""),
+            ("-X", "-X", ""),
+            ("-Y", "-Y", ""),
+            ("-Z", "-Z", ""),
+        ],
     )
     secondary_bone_axis: EnumProperty(
         default="X",
         name="Secondary Bone Axis",
-        items=[("X", "X", ""), ("Y", "Y", ""), ("Z", "Z", ""), ("-X", "-X", ""), ("-Y", "-Y", ""), ("-Z", "-Z", "")],
+        items=[
+            ("X", "X", ""),
+            ("Y", "Y", ""),
+            ("Z", "Z", ""),
+            ("-X", "-X", ""),
+            ("-Y", "-Y", ""),
+            ("-Z", "-Z", ""),
+        ],
     )
     use_prepost_rot: BoolProperty(default=True, name="Use Pre/Post Rotation")
     axis_forward: EnumProperty(
         default="-Z",
         name="Axis Forward",
-        items=[("X", "X", ""), ("Y", "Y", ""), ("Z", "Z", ""), ("-X", "-X", ""), ("-Y", "-Y", ""), ("-Z", "-Z", "")],
+        items=[
+            ("X", "X", ""),
+            ("Y", "Y", ""),
+            ("Z", "Z", ""),
+            ("-X", "-X", ""),
+            ("-Y", "-Y", ""),
+            ("-Z", "-Z", ""),
+        ],
     )
     axis_up: EnumProperty(
         default="Y",
         name="Axis Up",
-        items=[("X", "X", ""), ("Y", "Y", ""), ("Z", "Z", ""), ("-X", "-X", ""), ("-Y", "-Y", ""), ("-Z", "-Z", "")],
+        items=[
+            ("X", "X", ""),
+            ("Y", "Y", ""),
+            ("Z", "Z", ""),
+            ("-X", "-X", ""),
+            ("-Y", "-Y", ""),
+            ("-Z", "-Z", ""),
+        ],
     )
 
     # added by Blender 3.4
@@ -158,3 +194,17 @@ class ImportFBXWithCustomSettings(ImportsWithCustomSettingsBase):
         )
 
         return {"FINISHED"}
+
+
+class VIEW3D_MT_Space_Import_FBX(VIEW3D_MT_Space_Import_BASE):
+    bl_label = "Import FBX File"
+
+    def format(self):
+        return "fbx"
+
+
+OPERATORS = [
+    ImportFBXWithDefaults,
+    ImportFBXWithCustomSettings,
+    VIEW3D_MT_Space_Import_FBX,
+]

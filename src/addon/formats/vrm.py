@@ -11,7 +11,11 @@ import bpy
 from bpy.props import BoolProperty  # type: ignore
 from bpy.types import Context
 
-from .super import ImportWithDefaultsBase, ImportsWithCustomSettingsBase
+from .super import (
+    ImportWithDefaultsBase,
+    ImportsWithCustomSettingsBase,
+    VIEW3D_MT_Space_Import_BASE,
+)
 
 
 class ImportVRMWithDefaults(ImportWithDefaultsBase):
@@ -29,11 +33,21 @@ class ImportVRMWithCustomSettings(ImportsWithCustomSettingsBase):
 
     # properties
     # ref: https://github.com/saturday06/VRM-Addon-for-Blender/blob/d15fc0070835e9b9ec7622817691a89d52fceab7/io_scene_vrm/importer/import_scene.py#L73-L100
-    extract_textures_into_folder: BoolProperty(default=False, name="Extract texture images into the folder")
-    make_new_texture_folder: BoolProperty(default=True, name="Don't overwrite existing texture folder (limit:100,000)")
-    set_shading_type_to_material_on_import: BoolProperty(default=True, name='Set shading type to "Material"')
-    set_view_transform_to_standard_on_import: BoolProperty(default=True, name='Set view transform to "Standard"')
-    set_armature_display_to_wire: BoolProperty(default=True, name='Set an imported armature display to "Wire"')
+    extract_textures_into_folder: BoolProperty(
+        default=False, name="Extract texture images into the folder"
+    )
+    make_new_texture_folder: BoolProperty(
+        default=True, name="Don't overwrite existing texture folder (limit:100,000)"
+    )
+    set_shading_type_to_material_on_import: BoolProperty(
+        default=True, name='Set shading type to "Material"'
+    )
+    set_view_transform_to_standard_on_import: BoolProperty(
+        default=True, name='Set view transform to "Standard"'
+    )
+    set_armature_display_to_wire: BoolProperty(
+        default=True, name='Set an imported armature display to "Wire"'
+    )
     set_armature_display_to_show_in_front: BoolProperty(
         default=True, name='Set an imported armature display to show "In-Front"'
     )
@@ -63,3 +77,17 @@ class ImportVRMWithCustomSettings(ImportsWithCustomSettingsBase):
         )
 
         return {"FINISHED"}
+
+
+class VIEW3D_MT_Space_Import_VRM(VIEW3D_MT_Space_Import_BASE):
+    bl_label = "Import Virtual Reality Model File"
+
+    def format(self):
+        return "vrm"
+
+
+OPERATORS = [
+    ImportVRMWithDefaults,
+    ImportVRMWithCustomSettings,
+    VIEW3D_MT_Space_Import_VRM,
+]

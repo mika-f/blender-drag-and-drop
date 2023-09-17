@@ -3,6 +3,7 @@
 #  Licensed under the MIT License. See LICENSE in the project root for license information.
 # ------------------------------------------------------------------------------------------
 
+# pyright: reportUnboundVariable=false
 
 bl_info = {
     "name": "Drag and Drop Support",
@@ -19,59 +20,41 @@ bl_info = {
 if "bpy" in locals():
     import importlib
 
+    importlib.reload(formats)  # type: ignore
     importlib.reload(menus)  # type: ignore
     importlib.reload(operator)  # type: ignore
 else:
+    from . import formats
     from . import menus
     from . import operator
-    from . import operators
 
 import bpy  # nopep8
 import ctypes  # nopep8
 
 dll: ctypes.CDLL
 
-classes = (
+classes: list[type] = [
     # menus
-    menus.VIEW3D_MT_Space_Import_ABC,  # type: ignore
-    menus.VIEW3D_MT_Space_Import_BVH,  # type: ignore
-    menus.VIEW3D_MT_Space_Import_DAE,  # type: ignore
-    menus.VIEW3D_MT_Space_Import_FBX,  # type: ignore
-    menus.VIEW3D_MT_Space_Import_GLB,  # type: ignore
-    menus.VIEW3D_MT_Space_Import_GLTF,  # type: ignore
-    menus.VIEW3D_MT_Space_Import_OBJ,  # type: ignore
-    menus.VIEW3D_MT_Space_Import_PLY,  # type: ignore
-    menus.VIEW3D_MT_Space_Import_STL,  # type: ignore
-    menus.VIEW3D_MT_Space_Import_SVG,  # type: ignore
-    menus.VIEW3D_MT_Space_Import_USD,  # type: ignore
-    menus.VIEW3D_MT_Space_Import_USDA,  # type: ignore
-    menus.VIEW3D_MT_Space_Import_USDC,  # type: ignore
-    menus.VIEW3D_MT_Space_Import_VRM,  # type: ignore
-    menus.VIEW3D_MT_Space_Import_X3D,  # type: ignore
-    menus.VIEW3D_MT_Space_Import_WRL,  # type: ignore
+    menus.VIEW3D_MT_Space_Import_ABC,
+    menus.VIEW3D_MT_Space_Import_BVH,
+    menus.VIEW3D_MT_Space_Import_DAE,
+    menus.VIEW3D_MT_Space_Import_PLY,
+    menus.VIEW3D_MT_Space_Import_STL,
+    menus.VIEW3D_MT_Space_Import_SVG,
+    menus.VIEW3D_MT_Space_Import_USD,
+    menus.VIEW3D_MT_Space_Import_USDA,
+    menus.VIEW3D_MT_Space_Import_USDC,
+    menus.VIEW3D_MT_Space_Import_X3D,
+    menus.VIEW3D_MT_Space_Import_WRL,
     # operators
     operator.DropEventListener,  # type: ignore
-    # operators (default importers)
-    operator.ImportABCWithDefaults,  # type: ignore
-    operator.ImportBVHWithDefaults,  # type: ignore
-    operator.ImportDAEWithDefaults,  # type: ignore
-    operator.ImportPLYWithDefaults,  # type: ignore
-    operator.ImportSTLWithDefaults,  # type: ignore
-    operator.ImportSVGWithDefaults,  # type: ignore
-    operator.ImportUSDWithDefaults,  # type: ignore
-    operator.ImportX3DWithDefaults,  # type: ignore
-    # operators
-    operators.fbx.ImportFBXWithDefaults,  # type: ignore
-    operators.fbx.ImportFBXWithCustomSettings,  # type: ignore
-    operators.glb.ImportGLBWithDefaults,  # type: ignore
-    operators.glb.ImportGLBWithCustomSettings,  # type: ignore
-    operators.obj.ImportOBJWithDefaults,  # type: ignore
-    operators.obj.ImportOBJWithCustomSettings,  # type: ignore
-    operators.obj_legacy.ImportOBJLegacyWithDefaults,  # type: ignore
-    operators.obj_legacy.ImportOBJLegacyWithCustomSettings,  # type: ignore
-    operators.vrm.ImportVRMWithDefaults,  # type: ignore
-    operators.vrm.ImportVRMWithCustomSettings,  # type: ignore
-)
+]
+
+classes.extend(formats.fbx.OPERATORS)
+classes.extend(formats.glb.OPERATORS)
+classes.extend(formats.obj_legacy.OPERATORS)
+classes.extend(formats.obj.OPERATORS)
+classes.extend(formats.vrm.OPERATORS)
 
 
 def register():

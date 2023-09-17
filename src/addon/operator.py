@@ -13,10 +13,10 @@ import bpy
 import os
 import typing
 
-from bpy.props import BoolProperty, EnumProperty, FloatProperty, StringProperty  # type: ignore
+from bpy.props import StringProperty  # type: ignore
 from bpy.types import Context, Event, Operator
 
-from .menus import VIEW3D_MT_Space_Import_BASE
+from .formats.super import ImportWithDefaultsBase, VIEW3D_MT_Space_Import_BASE
 
 # formats that Blender does not supported by default
 conditionals: typing.Dict[str, typing.Callable[[], bool]] = {

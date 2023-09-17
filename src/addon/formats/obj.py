@@ -11,7 +11,11 @@ import bpy
 from bpy.props import BoolProperty, EnumProperty, FloatProperty  # type: ignore
 from bpy.types import Context
 
-from .super import ImportWithDefaultsBase, ImportsWithCustomSettingsBase
+from .super import (
+    ImportWithDefaultsBase,
+    ImportsWithCustomSettingsBase,
+    VIEW3D_MT_Space_Import_BASE,
+)
 
 
 class ImportOBJWithDefaults(ImportWithDefaultsBase):
@@ -96,3 +100,17 @@ class ImportOBJWithCustomSettings(ImportsWithCustomSettingsBase):
         )
 
         return {"FINISHED"}
+
+
+class VIEW3D_MT_Space_Import_OBJ(VIEW3D_MT_Space_Import_BASE):
+    bl_label = "Import Wavefront OBJ File"
+
+    def format(self):
+        return "obj"
+
+
+OPERATORS = [
+    ImportOBJWithDefaults,
+    ImportOBJWithCustomSettings,
+    VIEW3D_MT_Space_Import_OBJ,
+]

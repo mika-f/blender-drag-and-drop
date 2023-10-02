@@ -60,6 +60,7 @@ body:
         - 3.5.1
         - 3.6.0
         - 3.6.1
+        - 3.6.2
         - edge
   - type: textarea
     id: logs

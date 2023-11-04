@@ -25,6 +25,7 @@ v2.0.0 supports the following versions of Blender:
 - Blender 3.6.1 (x64 - Windows)
 - Blender 3.6.2 (x64 - Windows)
 - Blender 3.6.4 (x64 - Windows)
+- Blender 3.6.5 (x64 - Windows)
 
 ## Installation
 

@@ -50,12 +50,7 @@ classes: list[type] = [
     operator.DropEventListener,  # type: ignore
 ]
 
-classes.extend(formats.abc.OPERATORS)
-classes.extend(formats.fbx.OPERATORS)
-classes.extend(formats.glb.OPERATORS)
-classes.extend(formats.obj_legacy.OPERATORS)
-classes.extend(formats.obj.OPERATORS)
-classes.extend(formats.vrm.OPERATORS)
+classes.extend(formats.CLASSES)
 
 
 def register():

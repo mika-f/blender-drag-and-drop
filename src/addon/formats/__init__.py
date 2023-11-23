@@ -5,6 +5,7 @@
 
 # pyright: reportUnusedImport=false
 
+from . import abc
 from . import fbx
 from . import glb
 from . import obj

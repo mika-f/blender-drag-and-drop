@@ -12,7 +12,7 @@ import bpy
 from bpy.props import BoolProperty, EnumProperty, FloatProperty  # type: ignore
 from bpy.types import Context
 
-from .super import ImportWithDefaultsBase, ImportsWithCustomSettingsBase
+from .super import ImportWithDefaultsBase, ImportsWithCustomSettingsBase, VIEW3D_MT_Space_Import_BASE
 
 
 class ImportOBJLegacyWithDefaults(ImportWithDefaultsBase):
@@ -43,9 +43,7 @@ class ImportOBJLegacyWithCustomSettings(ImportsWithCustomSettingsBase):
             ("OFF", "Keep Vert Order", ""),
         ],
     )
-    global_clamp_size: FloatProperty(
-        default=0.0, name="Clamp Size", min=0.0, max=1000.0
-    )
+    global_clamp_size: FloatProperty(default=0.0, name="Clamp Size", min=0.0, max=1000.0)
     axis_forward: EnumProperty(
         default="-Z",
         name="Forward",
@@ -124,7 +122,11 @@ class ImportOBJLegacyWithCustomSettings(ImportsWithCustomSettingsBase):
         return {"FINISHED"}
 
 
-OPERATORS = [
-    ImportOBJLegacyWithDefaults,
-    ImportOBJLegacyWithCustomSettings,
-]
+class VIEW3D_MT_Space_Import_OBJLegacy(VIEW3D_MT_Space_Import_BASE):
+    bl_label = "Import Wavefront OBJ File"
+
+    def format(self):
+        return "obj"
+
+
+OPERATORS = [ImportOBJLegacyWithDefaults, ImportOBJLegacyWithCustomSettings, VIEW3D_MT_Space_Import_OBJLegacy]

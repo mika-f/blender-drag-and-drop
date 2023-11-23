@@ -4,13 +4,14 @@
 # ------------------------------------------------------------------------------------------
 
 # pyright: reportUnboundVariable=false
+# pyright: reportUnknownArgumentType=false
 
 bl_info = {
     "name": "Drag and Drop Support",
     "author": "Natsuneko",
     "description": "Blender add-on for import some files from drag-and-drop",
     "blender": (3, 1, 0),
-    "version": (2, 8, 0),
+    "version": (3, 0, 0),
     "location": "Drag and Drop Support",
     "warning": "",
     "category": "Import-Export",
@@ -20,9 +21,9 @@ bl_info = {
 if "bpy" in locals():
     import importlib
 
-    importlib.reload(formats)  # type: ignore
-    importlib.reload(menus)  # type: ignore
-    importlib.reload(operator)  # type: ignore
+    importlib.reload(formats)
+    importlib.reload(menus)
+    importlib.reload(operator)
 else:
     from . import formats
     from . import menus
@@ -35,7 +36,6 @@ dll: ctypes.CDLL
 
 classes: list[type] = [
     # menus
-    menus.VIEW3D_MT_Space_Import_ABC,
     menus.VIEW3D_MT_Space_Import_BVH,
     menus.VIEW3D_MT_Space_Import_DAE,
     menus.VIEW3D_MT_Space_Import_PLY,
@@ -50,6 +50,7 @@ classes: list[type] = [
     operator.DropEventListener,  # type: ignore
 ]
 
+classes.extend(formats.abc.OPERATORS)
 classes.extend(formats.fbx.OPERATORS)
 classes.extend(formats.glb.OPERATORS)
 classes.extend(formats.obj_legacy.OPERATORS)
@@ -80,12 +81,12 @@ def unregister():
 
     # unregister classes
     for c in classes:
-        bpy.utils.unregister_class(c)  # type: ignore
+        bpy.utils.unregister_class(c)  # pyright: ignore[reportUnknownMemberType]
 
     # unload injector dll
     import _ctypes
 
-    _ctypes.FreeLibrary(dll._handle)  # type: ignore
+    _ctypes.FreeLibrary(dll._handle)  # pyright: ignore[reportGeneralTypeIssues,reportUnknownMemberType]
 
 
 if __name__ == "__main__":

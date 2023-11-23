@@ -7,13 +7,6 @@
 from .formats.super import VIEW3D_MT_Space_Import_BASE
 
 
-class VIEW3D_MT_Space_Import_ABC(VIEW3D_MT_Space_Import_BASE):
-    bl_label = "Import Alembic File"
-
-    def format(self):
-        return "abc"
-
-
 class VIEW3D_MT_Space_Import_BVH(VIEW3D_MT_Space_Import_BASE):
     bl_label = "Import Biovision Hierarchy File"
 

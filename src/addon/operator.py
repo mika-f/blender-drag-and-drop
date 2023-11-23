@@ -53,15 +53,6 @@ class DropEventListener(Operator):
         return {"FINISHED"}
 
 
-class ImportABCWithDefaults(ImportWithDefaultsBase):
-    bl_idname = "object.import_abc_with_defaults"
-    bl_label = "Import Alembic File"
-
-    def execute(self, context: Context):
-        bpy.ops.wm.alembic_import(filepath=self.filepath())  # type: ignore
-        return {"FINISHED"}
-
-
 class ImportBVHWithDefaults(ImportWithDefaultsBase):
     bl_idname = "object.import_bvh_with_defaults"
     bl_label = "Import Biovision Hierarchy File"

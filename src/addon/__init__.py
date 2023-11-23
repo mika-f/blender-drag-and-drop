@@ -36,7 +36,6 @@ dll: ctypes.CDLL
 
 classes: list[type] = [
     # menus
-    menus.VIEW3D_MT_Space_Import_PLY,
     menus.VIEW3D_MT_Space_Import_STL,
     menus.VIEW3D_MT_Space_Import_SVG,
     menus.VIEW3D_MT_Space_Import_USD,

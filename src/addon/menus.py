@@ -7,13 +7,6 @@
 from .formats.super import VIEW3D_MT_Space_Import_BASE
 
 
-class VIEW3D_MT_Space_Import_PLY(VIEW3D_MT_Space_Import_BASE):
-    bl_label = "Import Polygon File Format File"
-
-    def format(self):
-        return "ply"
-
-
 class VIEW3D_MT_Space_Import_STL(VIEW3D_MT_Space_Import_BASE):
     bl_label = "Import Standard Triangulated Language File"
 

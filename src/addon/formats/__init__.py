@@ -12,6 +12,7 @@ from . import fbx
 from . import glb
 from . import obj
 from . import obj_legacy
+from . import ply
 from . import vrm
 
 CLASSES: list[type] = []
@@ -22,4 +23,5 @@ CLASSES.extend(fbx.OPERATORS)
 CLASSES.extend(glb.OPERATORS)
 CLASSES.extend(obj_legacy.OPERATORS)
 CLASSES.extend(obj.OPERATORS)
+CLASSES.extend(ply.OPERATORS)
 CLASSES.extend(vrm.OPERATORS)

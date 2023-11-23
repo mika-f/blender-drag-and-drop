@@ -7,13 +7,6 @@
 from .formats.super import VIEW3D_MT_Space_Import_BASE
 
 
-class VIEW3D_MT_Space_Import_DAE(VIEW3D_MT_Space_Import_BASE):
-    bl_label = "Import Collada File"
-
-    def format(self):
-        return "dae"
-
-
 class VIEW3D_MT_Space_Import_PLY(VIEW3D_MT_Space_Import_BASE):
     bl_label = "Import Polygon File Format File"
 

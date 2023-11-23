@@ -53,15 +53,6 @@ class DropEventListener(Operator):
         return {"FINISHED"}
 
 
-class ImportSVGWithDefaults(ImportWithDefaultsBase):
-    bl_idname = "object.import_svg_with_defaults"
-    bl_label = "Import SVG File"
-
-    def execute(self, context: Context):
-        bpy.ops.import_curve.svg(filepath=self.filepath())  # type: ignore
-        return {"FINISHED"}
-
-
 class ImportUSDWithDefaults(ImportWithDefaultsBase):
     bl_idname = "object.import_svg_with_defaults"
     bl_label = "Import SVG File"

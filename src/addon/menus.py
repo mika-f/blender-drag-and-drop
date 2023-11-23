@@ -7,13 +7,6 @@
 from .formats.super import VIEW3D_MT_Space_Import_BASE
 
 
-class VIEW3D_MT_Space_Import_SVG(VIEW3D_MT_Space_Import_BASE):
-    bl_label = "Import Scalable Vector Graphics File"
-
-    def format(self):
-        return "svg"
-
-
 class VIEW3D_MT_Space_Import_USD(VIEW3D_MT_Space_Import_BASE):
     bl_label = "Import Universal Scene Description File"
 

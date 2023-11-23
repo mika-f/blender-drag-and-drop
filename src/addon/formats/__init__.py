@@ -6,6 +6,7 @@
 # pyright: reportUnusedImport=false
 
 from . import abc
+from . import bvh
 from . import fbx
 from . import glb
 from . import obj
@@ -14,6 +15,7 @@ from . import vrm
 
 CLASSES: list[type] = []
 CLASSES.extend(abc.OPERATORS)
+CLASSES.extend(fbx.OPERATORS)
 CLASSES.extend(fbx.OPERATORS)
 CLASSES.extend(glb.OPERATORS)
 CLASSES.extend(obj_legacy.OPERATORS)

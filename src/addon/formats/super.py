@@ -14,9 +14,7 @@ from bpy.props import StringProperty  # type: ignore
 from bpy.types import Context, Event, Operator
 
 
-selectable_importers: typing.Dict[
-    str, typing.Callable[[], typing.List[tuple[str, str]]]
-] = {
+selectable_importers: typing.Dict[str, typing.Callable[[], typing.List[tuple[str, str]]]] = {
     "obj": lambda: [("", "obj"), ("(Legacy)", "obj_legacy")] if bpy.app.version >= (3, 4, 0) else [("", "obj_legacy")],  # type: ignore
     "stl": lambda: [("", "stl"), ("(Legacy)", "stl_legacy")] if bpy.app.version >= (3, 4, 0) else [("", "stl_legacy")],  # type: ignore
 }
@@ -48,6 +46,14 @@ class ImportsWithCustomSettingsBase(ImportWithDefaultsBase):
         column.use_property_split = True
 
         return (column, self.get_expand_state(name))
+
+    def get_column(self) -> bpy.types.UILayout:
+        box = self.layout.box()
+        column = box.column()
+
+        column.use_property_split = True
+
+        return column
 
     def invoke(self, context: Context, event: Event):
         wm = context.window_manager

@@ -7,13 +7,6 @@
 from .formats.super import VIEW3D_MT_Space_Import_BASE
 
 
-class VIEW3D_MT_Space_Import_BVH(VIEW3D_MT_Space_Import_BASE):
-    bl_label = "Import Biovision Hierarchy File"
-
-    def format(self):
-        return "bvh"
-
-
 class VIEW3D_MT_Space_Import_DAE(VIEW3D_MT_Space_Import_BASE):
     bl_label = "Import Collada File"
 

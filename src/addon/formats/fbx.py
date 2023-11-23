@@ -4,11 +4,16 @@
 # ------------------------------------------------------------------------------------------
 
 # pyright: reportGeneralTypeIssues=false
+# pyright: reportUnknownArgumentType=false
 # pyright: reportUnknownMemberType=false
 
 import bpy
 
-from bpy.props import BoolProperty, EnumProperty, FloatProperty  # pyright: ignore[reportUnknownVariableType]
+from bpy.props import (
+    BoolProperty,  # pyright: ignore[reportUnknownVariableType]
+    EnumProperty,  # pyright: ignore[reportUnknownVariableType]
+    FloatProperty,  # pyright: ignore[reportUnknownVariableType]
+)
 from bpy.types import Context
 
 from .super import (
@@ -43,10 +48,14 @@ class ImportFBXWithCustomSettings(ImportsWithCustomSettingsBase):
     anim_offset: FloatProperty(default=1.0, name="Animation Offset")
     use_subsurf: BoolProperty(default=False, name="Subdivision Data")
     use_custom_props: BoolProperty(default=True, name="Custom Properties")
-    use_custom_props_enum_as_string: BoolProperty(default=True, name="Import Enums As Strings")
+    use_custom_props_enum_as_string: BoolProperty(
+        default=True, name="Import Enums As Strings"
+    )
     ignore_leaf_bones: BoolProperty(default=False, name="Ignore Leaf Bones")
     force_connect_children: BoolProperty(default=False, name="Force Connect Children")
-    automatic_bone_orientation: BoolProperty(default=False, name="Automatic Bone Orientation")
+    automatic_bone_orientation: BoolProperty(
+        default=False, name="Automatic Bone Orientation"
+    )
     primary_bone_axis: EnumProperty(
         default="Y",
         name="Primary Bone Axis",

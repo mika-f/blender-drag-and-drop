@@ -4,6 +4,7 @@
 # ------------------------------------------------------------------------------------------
 
 # pyright: reportGeneralTypeIssues=false
+# pyright: reportUnknownArgumentType=false
 # pyright: reportUnknownMemberType=false
 
 import bpy

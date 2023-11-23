@@ -16,7 +16,11 @@ from bpy.props import (
 )
 from bpy.types import Context
 
-from .super import ImportWithDefaultsBase, ImportsWithCustomSettingsBase, VIEW3D_MT_Space_Import_BASE
+from .super import (
+    ImportWithDefaultsBase,
+    ImportsWithCustomSettingsBase,
+    VIEW3D_MT_Space_Import_BASE,
+)
 
 
 class ImportDAEWithDefaults(ImportWithDefaultsBase):
@@ -74,6 +78,8 @@ class ImportDAEWithCustomSettings(ImportsWithCustomSettingsBase):
             keep_bind_info=self.keep_bind_info,
         )
 
+        return {"FINISHED"}
+
 
 class VIEW3D_MT_Space_Import_DAE(VIEW3D_MT_Space_Import_BASE):
     bl_label = "Import Collada File"
@@ -82,4 +88,8 @@ class VIEW3D_MT_Space_Import_DAE(VIEW3D_MT_Space_Import_BASE):
         return "dae"
 
 
-OPERATORS = [ImportDAEWithDefaults, ImportDAEWithCustomSettings, VIEW3D_MT_Space_Import_DAE]
+OPERATORS = [
+    ImportDAEWithDefaults,
+    ImportDAEWithCustomSettings,
+    VIEW3D_MT_Space_Import_DAE,
+]

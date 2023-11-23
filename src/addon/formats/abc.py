@@ -10,10 +10,17 @@
 from typing import Set
 import bpy
 
-from bpy.props import BoolProperty, FloatProperty  # pyright: ignore[reportUnknownVariableType]
+from bpy.props import (
+    BoolProperty,  # pyright: ignore[reportUnknownVariableType]
+    FloatProperty,  # pyright: ignore[reportUnknownVariableType]
+)
 from bpy.types import Context
 
-from .super import ImportWithDefaultsBase, ImportsWithCustomSettingsBase, VIEW3D_MT_Space_Import_BASE
+from .super import (
+    ImportWithDefaultsBase,
+    ImportsWithCustomSettingsBase,
+    VIEW3D_MT_Space_Import_BASE,
+)
 
 
 class ImportABCWithDefaults(ImportWithDefaultsBase):
@@ -68,6 +75,8 @@ class ImportABCWithCustomSettings(ImportsWithCustomSettingsBase):
             is_sequence=self.is_sequence,
         )
 
+        return {"FINISHED"}
+
 
 class VIEW3D_MT_Space_Import_ABC(VIEW3D_MT_Space_Import_BASE):
     bl_label = "Import ABC File"
@@ -76,4 +85,8 @@ class VIEW3D_MT_Space_Import_ABC(VIEW3D_MT_Space_Import_BASE):
         return "abc"
 
 
-OPERATORS = [ImportABCWithDefaults, ImportABCWithCustomSettings, VIEW3D_MT_Space_Import_ABC]
+OPERATORS = [
+    ImportABCWithDefaults,
+    ImportABCWithCustomSettings,
+    VIEW3D_MT_Space_Import_ABC,
+]

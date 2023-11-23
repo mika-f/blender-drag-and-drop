@@ -18,7 +18,11 @@ from bpy.props import (
 )
 from bpy.types import Context
 
-from .super import ImportWithDefaultsBase, ImportsWithCustomSettingsBase, VIEW3D_MT_Space_Import_BASE
+from .super import (
+    ImportWithDefaultsBase,
+    ImportsWithCustomSettingsBase,
+    VIEW3D_MT_Space_Import_BASE,
+)
 
 
 class ImportBVHWithDefaults(ImportWithDefaultsBase):
@@ -36,7 +40,9 @@ class ImportBVHWithCustomSettings(ImportsWithCustomSettingsBase):
 
     # Properties based on Blender v4.0.0 (ordered by parameters on documents)
     target: EnumProperty(
-        default="ARMATURE", name="Target", items=[("ARMATURE", "Armature", ""), ("OBJECT", "Object", "")]
+        default="ARMATURE",
+        name="Target",
+        items=[("ARMATURE", "Armature", ""), ("OBJECT", "Object", "")],
     )
     global_scale: FloatProperty(default=1.0, min=0.0001, max=1e06, name="Scale")
     frame_start: IntProperty(default=1, name="Start Frame")
@@ -122,6 +128,8 @@ class ImportBVHWithCustomSettings(ImportsWithCustomSettingsBase):
             axis_up=self.axis_up,
         )
 
+        return {"FINISHED"}
+
 
 class VIEW3D_MT_Space_Import_BVH(VIEW3D_MT_Space_Import_BASE):
     bl_label = "Import Biovision Hierarchy File"
@@ -130,4 +138,8 @@ class VIEW3D_MT_Space_Import_BVH(VIEW3D_MT_Space_Import_BASE):
         return "bvh"
 
 
-OPERATORS = [ImportBVHWithDefaults, ImportBVHWithCustomSettings, VIEW3D_MT_Space_Import_BVH]
+OPERATORS = [
+    ImportBVHWithDefaults,
+    ImportBVHWithCustomSettings,
+    VIEW3D_MT_Space_Import_BVH,
+]

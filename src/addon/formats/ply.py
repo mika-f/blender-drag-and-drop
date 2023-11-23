@@ -91,6 +91,8 @@ class ImportPLYWithCustomSettings(ImportsWithCustomSettingsBase):
             import_colors=self.import_colors,
         )
 
+        return {"FINISHED"}
+
 
 class VIEW3D_MT_Space_Import_PLY(VIEW3D_MT_Space_Import_BASE):
     bl_label = "Import Polygon File Format File"

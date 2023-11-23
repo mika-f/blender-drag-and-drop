@@ -7,21 +7,6 @@
 from .formats.super import VIEW3D_MT_Space_Import_BASE
 
 
-class VIEW3D_MT_Space_Import_USD(VIEW3D_MT_Space_Import_BASE):
-    bl_label = "Import Universal Scene Description File"
-
-    def format(self):
-        return "usd"
-
-
-class VIEW3D_MT_Space_Import_USDA(VIEW3D_MT_Space_Import_USD):
-    pass
-
-
-class VIEW3D_MT_Space_Import_USDC(VIEW3D_MT_Space_Import_USD):
-    pass
-
-
 class VIEW3D_MT_Space_Import_X3D(VIEW3D_MT_Space_Import_BASE):
     bl_label = "Import Extensible 3D File Format File"
 

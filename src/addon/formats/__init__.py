@@ -16,6 +16,7 @@ from . import ply
 from . import stl
 from . import stl_legacy
 from . import svg
+from . import usd
 from . import vrm
 
 CLASSES: list[type] = []
@@ -34,4 +35,5 @@ CLASSES.extend(obj.OPERATORS)
 CLASSES.extend(ply.OPERATORS)
 CLASSES.extend(stl.OPERATORS)
 CLASSES.extend(svg.OPERATORS)
+CLASSES.extend(usd.OPERATORS)
 CLASSES.extend(vrm.OPERATORS)

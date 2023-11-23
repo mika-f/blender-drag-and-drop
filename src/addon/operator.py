@@ -53,15 +53,6 @@ class DropEventListener(Operator):
         return {"FINISHED"}
 
 
-class ImportUSDWithDefaults(ImportWithDefaultsBase):
-    bl_idname = "object.import_svg_with_defaults"
-    bl_label = "Import SVG File"
-
-    def execute(self, context: Context):
-        bpy.ops.wm.usd_import(filepath=self.filepath())  # type: ignore
-        return {"FINISHED"}
-
-
 class ImportX3DWithDefaults(ImportWithDefaultsBase):
     bl_idname = "object.import_x3d_with_defaults"
     bl_label = "Import X3D File"

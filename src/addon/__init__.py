@@ -36,9 +36,6 @@ dll: ctypes.CDLL
 
 classes: list[type] = [
     # menus
-    menus.VIEW3D_MT_Space_Import_USD,
-    menus.VIEW3D_MT_Space_Import_USDA,
-    menus.VIEW3D_MT_Space_Import_USDC,
     menus.VIEW3D_MT_Space_Import_X3D,
     menus.VIEW3D_MT_Space_Import_WRL,
     # operators

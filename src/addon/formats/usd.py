@@ -75,11 +75,11 @@ class ImportUSDWithCustomSettings(ImportsWithCustomSettingsBase):
         ],
     )
     import_textures_mode: EnumProperty(
-        default="IMPORT_PACKED",
+        default="IMPORT_PACK",
         name="Import Textures",
         items=[
             ("IMPORT_NONE", "None", ""),
-            ("IMPORT_PACKED", "Packed", ""),
+            ("IMPORT_PACK", "Packed", ""),
             ("IMPORT_COPY", "Copy", ""),
         ],
     )

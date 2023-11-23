@@ -35,11 +35,7 @@ import ctypes  # nopep8
 dll: ctypes.CDLL
 
 classes: list[type] = [
-    # menus
-    menus.VIEW3D_MT_Space_Import_X3D,
-    menus.VIEW3D_MT_Space_Import_WRL,
-    # operators
-    operator.DropEventListener,  # type: ignore
+    operator.DropEventListener,
 ]
 
 classes.extend(formats.CLASSES)

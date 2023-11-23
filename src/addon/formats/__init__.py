@@ -18,6 +18,7 @@ from . import stl_legacy
 from . import svg
 from . import usd
 from . import vrm
+from . import x3d
 
 CLASSES: list[type] = []
 
@@ -37,3 +38,4 @@ CLASSES.extend(stl.OPERATORS)
 CLASSES.extend(svg.OPERATORS)
 CLASSES.extend(usd.OPERATORS)
 CLASSES.extend(vrm.OPERATORS)
+CLASSES.extend(x3d.OPERATORS)

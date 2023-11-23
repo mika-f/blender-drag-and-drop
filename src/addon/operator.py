@@ -13,10 +13,10 @@ import bpy
 import os
 import typing
 
-from bpy.props import StringProperty  # type: ignore
+from bpy.props import StringProperty  # pyright: ignore[reportUnknownVariableType]
 from bpy.types import Context, Event, Operator
 
-from .formats.super import ImportWithDefaultsBase, VIEW3D_MT_Space_Import_BASE
+from .formats.super import VIEW3D_MT_Space_Import_BASE
 
 # formats that Blender does not supported by default
 conditionals: typing.Dict[str, typing.Callable[[], bool]] = {
@@ -50,13 +50,4 @@ class DropEventListener(Operator):
         except TypeError as e:
             print(e)
 
-        return {"FINISHED"}
-
-
-class ImportX3DWithDefaults(ImportWithDefaultsBase):
-    bl_idname = "object.import_x3d_with_defaults"
-    bl_label = "Import X3D File"
-
-    def execute(self, context: Context):
-        bpy.ops.import_scene.x3d(filepath=self.filepath())  # type: ignore
         return {"FINISHED"}

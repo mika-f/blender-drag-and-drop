@@ -13,7 +13,9 @@ bl_info = {
     "blender": (3, 1, 0),
     "version": (3, 0, 0),
     "location": "Drag and Drop Support",
-    "warning": "",
+    "warning": "This addon uses C++ DLL code. Please check the documentation for more details.",
+    "doc_url": "https://docs.natsuneko.com/en-us/drag-and-drop-support/",
+    "tracker_url": "https://github.com/mika-f/blender-drag-and-drop/issues",
     "category": "Import-Export",
 }
 
@@ -22,11 +24,9 @@ if "bpy" in locals():
     import importlib
 
     importlib.reload(formats)
-    importlib.reload(menus)
     importlib.reload(operator)
 else:
     from . import formats
-    from . import menus
     from . import operator
 
 import bpy  # nopep8

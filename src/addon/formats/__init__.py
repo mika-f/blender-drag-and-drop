@@ -13,6 +13,7 @@ from . import glb
 from . import obj
 from . import obj_legacy
 from . import ply
+from . import stl
 from . import stl_legacy
 from . import vrm
 
@@ -30,4 +31,5 @@ CLASSES.extend(fbx.OPERATORS)
 CLASSES.extend(glb.OPERATORS)
 CLASSES.extend(obj.OPERATORS)
 CLASSES.extend(ply.OPERATORS)
+CLASSES.extend(stl.OPERATORS)
 CLASSES.extend(vrm.OPERATORS)

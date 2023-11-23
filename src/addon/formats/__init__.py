@@ -13,15 +13,21 @@ from . import glb
 from . import obj
 from . import obj_legacy
 from . import ply
+from . import stl_legacy
 from . import vrm
 
 CLASSES: list[type] = []
+
+# legacy importers
+CLASSES.extend(obj_legacy.OPERATORS)
+CLASSES.extend(stl_legacy.OPERATORS)
+
+# modern importers
 CLASSES.extend(abc.OPERATORS)
 CLASSES.extend(bvh.OPERATORS)
 CLASSES.extend(dae.OPERATORS)
 CLASSES.extend(fbx.OPERATORS)
 CLASSES.extend(glb.OPERATORS)
-CLASSES.extend(obj_legacy.OPERATORS)
 CLASSES.extend(obj.OPERATORS)
 CLASSES.extend(ply.OPERATORS)
 CLASSES.extend(vrm.OPERATORS)

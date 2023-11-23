@@ -53,42 +53,6 @@ class DropEventListener(Operator):
         return {"FINISHED"}
 
 
-class ImportBVHWithDefaults(ImportWithDefaultsBase):
-    bl_idname = "object.import_bvh_with_defaults"
-    bl_label = "Import Biovision Hierarchy File"
-
-    def execute(self, context: Context):
-        bpy.ops.import_anim.bvh(filepath=self.filepath())  # type: ignore
-        return {"FINISHED"}
-
-
-class ImportDAEWithDefaults(ImportWithDefaultsBase):
-    bl_idname = "object.import_dae_with_defaults"
-    bl_label = "Import Collada File"
-
-    def execute(self, context: Context):
-        bpy.ops.wm.collada_import(filepath=self.filepath())  # type: ignore
-        return {"FINISHED"}
-
-
-class ImportPLYWithDefaults(ImportWithDefaultsBase):
-    bl_idname = "object.import_ply_with_defaults"
-    bl_label = "Import PLY File"
-
-    def execute(self, context: Context):
-        bpy.ops.import_mesh.ply(filepath=self.filepath())  # type: ignore
-        return {"FINISHED"}
-
-
-class ImportSTLWithDefaults(ImportWithDefaultsBase):
-    bl_idname = "object.import_stl_with_defaults"
-    bl_label = "Import STL File"
-
-    def execute(self, context: Context):
-        bpy.ops.import_mesh.stl(filepath=self.filepath())  # type: ignore
-        return {"FINISHED"}
-
-
 class ImportSVGWithDefaults(ImportWithDefaultsBase):
     bl_idname = "object.import_svg_with_defaults"
     bl_label = "Import SVG File"

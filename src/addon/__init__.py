@@ -36,7 +36,6 @@ dll: ctypes.CDLL
 
 classes: list[type] = [
     # menus
-    menus.VIEW3D_MT_Space_Import_STL,
     menus.VIEW3D_MT_Space_Import_SVG,
     menus.VIEW3D_MT_Space_Import_USD,
     menus.VIEW3D_MT_Space_Import_USDA,
@@ -78,7 +77,9 @@ def unregister():
     # unload injector dll
     import _ctypes
 
-    _ctypes.FreeLibrary(dll._handle)  # pyright: ignore[reportGeneralTypeIssues,reportUnknownMemberType]
+    _ctypes.FreeLibrary(  # pyright: ignore[reportGeneralTypeIssues,reportUnknownMemberType]
+        dll._handle
+    )
 
 
 if __name__ == "__main__":

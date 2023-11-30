@@ -44,7 +44,7 @@ class DropEventListener2(Operator):
             path = self.filename
             _, ext = os.path.splitext(path)
 
-            importer = import_dic.get(ext, lambda w: print("unknown file"))
+            importer = import_dic.get(ext.lower(), lambda w: print("unknown file"))
 
             props: DragAndDropSupportProperties = context.scene.DragAndDropSupportProperties
 

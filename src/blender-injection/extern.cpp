@@ -39,7 +39,9 @@ const char* GetDropFilePath(void* pUnknown)
 bool ShouldTriggerDropEvent(const char* w)
 {
     const std::filesystem::path path(w);
-    const auto extension = path.extension();
+    auto extension = path.extension().string();
+
+    std::ranges::transform(extension, extension.begin(), tolower);
 
     if (const auto ref = std::ranges::find(SUPPORTED_FORMATS, extension); ref != std::end(SUPPORTED_FORMATS))
         return true;

@@ -49,5 +49,7 @@ class DropEventListener(Operator):
             self.inflate(name)
         except TypeError as e:
             print(e)
+        except RuntimeError as e:
+            print(e)
 
         return {"FINISHED"}

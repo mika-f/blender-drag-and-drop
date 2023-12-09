@@ -13,7 +13,6 @@ bl_info = {
     "blender": (3, 1, 0),
     "version": (3, 0, 0),
     "location": "Drag and Drop Support",
-    "warning": "This addon uses C++ DLL code. Please check the documentation for more details.",
     "doc_url": "https://docs.natsuneko.com/en-us/drag-and-drop-support/",
     "tracker_url": "https://github.com/mika-f/blender-drag-and-drop/issues",
     "category": "Import-Export",
@@ -24,52 +23,41 @@ if "bpy" in locals():
     import importlib
 
     importlib.reload(formats)
+    importlib.reload(interop)
     importlib.reload(operator)
+    importlib.reload(preferences)
 else:
     from . import formats
+    from . import interop
     from . import operator
+    from . import preferences
 
 import bpy  # nopep8
-import ctypes  # nopep8
 
-dll: ctypes.CDLL
 
-classes: list[type] = [
-    operator.DropEventListener,
-]
+classes: list[type] = [operator.DropEventListener, preferences.DragAndDropPreferences]
 
 classes.extend(formats.CLASSES)
 
 
 def register():
     global classes
-    global dll
 
     # register classes
     for c in classes:
         bpy.utils.register_class(c)
 
-    # load injector dll
-    import os
-
-    dirname = os.path.dirname(__file__)
-    injector = os.path.join(dirname, "blender-injection.dll")
-
-    dll = ctypes.cdll.LoadLibrary(injector)
+    interop.try_load()
 
 
 def unregister():
     global classes
-    global dll
 
     # unregister classes
     for c in classes:
         bpy.utils.unregister_class(c)  # pyright: ignore[reportUnknownMemberType]
 
-    # unload injector dll
-    import _ctypes
-
-    _ctypes.FreeLibrary(dll._handle)  # pyright: ignore[reportGeneralTypeIssues,reportUnknownMemberType]
+    interop.try_unload()
 
 
 if __name__ == "__main__":

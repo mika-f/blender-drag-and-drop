@@ -40,7 +40,7 @@ class DropEventListener(Operator):
             path = typing.cast(str, self.filename)  # type: ignore
             _, ext = os.path.splitext(path)
 
-            if ext[1:] in conditionals:
+            if ext[1:].lower() in conditionals:
                 if not conditionals[ext[1:].lower()]():
                     return {"FINISHED"}
 

@@ -3,24 +3,6 @@
 #include "BlenderObj.h"
 #include "BlenderPatcher.h"
 
-const std::vector<std::string> SUPPORTED_FORMATS = {
-    ".abc",
-    ".bvh",
-    ".fbx",
-    ".dae",
-    ".glb",
-    ".gltf",
-    ".obj",
-    ".ply",
-    ".stl",
-    ".svg",
-    ".usd",
-    ".usda",
-    ".usdc",
-    ".x3d",
-    ".wrl"
-};
-
 std::vector<std::intptr_t> isAlreadyTriggered = {};
 
 const char* GetDropFilePath(void* pUnknown)
@@ -38,14 +20,7 @@ const char* GetDropFilePath(void* pUnknown)
 
 bool ShouldTriggerDropEvent(const char* w)
 {
-    const std::filesystem::path path(w);
-    auto extension = path.extension().string();
-
-    std::ranges::transform(extension, extension.begin(), tolower);
-
-    if (const auto ref = std::ranges::find(SUPPORTED_FORMATS, extension); ref != std::end(SUPPORTED_FORMATS))
-        return true;
-    return false;
+    return true; // always true
 }
 
 bool IsEventAlreadyTriggered(void* drag)
@@ -61,12 +36,11 @@ bool TriggerDropEvent(bContext* c, const char* path, void* ptr)
     isAlreadyTriggered.push_back(reinterpret_cast<intptr_t>(ptr));
 
     const char* imports[] = {"bpy", nullptr};
-    const auto expression = R"(bpy.ops.object.drop_event_listener2("INVOKE_DEFAULT", filename=R")" + std::string(path) + "\")";
+    const auto expression = R"(bpy.ops.object.drop_event_listener("INVOKE_DEFAULT", filename=R")" + std::string(path) + "\")";
 
     BlenderPatcher::GetInstance()->RunStringEval(c, imports, expression.c_str());
-    return false;
+    return false; // already triggered
 }
-
 
 extern "C" void DropEventHookCallback(void* c, void* win, char* path)
 {
@@ -76,12 +50,22 @@ extern "C" void DropEventHookCallback(void* c, void* win, char* path)
 // static bool view3d_ima_empty_drop_poll(bContext *C, wmDrag *drag, const wmEvent *event)
 extern "C" bool View3DImaEmptyDropPollHookCallback(bContext* c, wmDrag* drag, wmEvent* event)
 {
-    if (drag->type == /* WM_DRAG_PATH */ 4)
+    const auto ptr = reinterpret_cast<intptr_t>(drag);
+
+    if (drag->type == /* WM_DRAG_PATH */4)
     {
         if (const auto path = GetDropFilePath(drag); ShouldTriggerDropEvent(path))
         {
-            if (IsEventAlreadyTriggered(drag))
-                return false;
+            if (BlenderPatcher::GetInstance()->GetVersion() >= std::make_tuple(4, 0, 0))
+            {
+                if (event->val != 0)
+                    return false;
+            }
+            else
+            {
+                if (IsEventAlreadyTriggered(event))
+                    return false;
+            }
 
             return TriggerDropEvent(c, path, drag);
         }

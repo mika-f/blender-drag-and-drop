@@ -66,7 +66,7 @@ echo ***************************************************************************
 echo Build blender-injection for %2 (%ARCH%)
 echo ******************************************************************************************************
 
-"%MSBUILD%" /p:Configuration=%2 /p:Platform=%1 /t:Rebuild src/blender-injection/blender-injection.vcxproj
+"%MSBUILD%" /p:Configuration=%2 /p:Platform=%1 /t:Rebuild src/dll/blender-injection.vcxproj
 
 
 echo ******************************************************************************************************
@@ -91,8 +91,8 @@ set DEST="bin\%1\DragAndDropSupport-v%VERSION%"
 echo Y | rmdir /s "%DEST%"
 mkdir "%DEST%"
 
-echo F | xcopy /s "src\blender-injection\%1\"%2"\*.dll" "%DEST%\drag-and-drop-support\"
-echo F | xcopy /s "src\blender-extension\*" "%DEST%\drag-and-drop-support\"
+echo F | xcopy /s "src\dll\%1\"%2"\*.dll" "%DEST%\drag-and-drop-support\"
+echo F | xcopy /s "src\addon\*" "%DEST%\drag-and-drop-support\"
 echo F | xcopy "src\LICENSE.txt" "%DEST%\"
 
 pwsh -Command  compress-archive "%DEST%\drag-and-drop-support" "%DEST%\drag-and-drop-support.zip"

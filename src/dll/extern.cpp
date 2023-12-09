@@ -56,8 +56,16 @@ extern "C" bool View3DImaEmptyDropPollHookCallback(bContext* c, wmDrag* drag, wm
     {
         if (const auto path = GetDropFilePath(drag); ShouldTriggerDropEvent(path))
         {
-            if (IsEventAlreadyTriggered(drag))
-                return false;
+            if (BlenderPatcher::GetInstance()->GetVersion() >= std::make_tuple(4, 0, 0))
+            {
+                if (event->val != 0)
+                    return false;
+            }
+            else
+            {
+                if (IsEventAlreadyTriggered(event))
+                    return false;
+            }
 
             return TriggerDropEvent(c, path, drag);
         }

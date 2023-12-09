@@ -37,6 +37,8 @@ body:
         - 2.9.0
         - 2.10.0
         - 2.11.0
+        - 2.12.0
+        - 2.12.1
     validations:
       required: true
   - type: dropdown
@@ -66,6 +68,7 @@ body:
         - 3.6.2
         - 3.6.4
         - 3.6.5
+        - 4.0.0
         - edge
   - type: textarea
     id: logs

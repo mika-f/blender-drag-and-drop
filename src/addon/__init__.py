@@ -69,9 +69,7 @@ def unregister():
     # unload injector dll
     import _ctypes
 
-    _ctypes.FreeLibrary(  # pyright: ignore[reportGeneralTypeIssues,reportUnknownMemberType]
-        dll._handle
-    )
+    _ctypes.FreeLibrary(dll._handle)  # pyright: ignore[reportGeneralTypeIssues,reportUnknownMemberType]
 
 
 if __name__ == "__main__":

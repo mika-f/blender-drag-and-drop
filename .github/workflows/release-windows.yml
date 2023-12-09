@@ -45,7 +45,7 @@ jobs:
 
           New-Item $Dest -Type Directory
           Copy-Item .\src\dll\x64\Release\*.dll $Dest\
-          Copy-Item .\src\addon\* $Dest\
+          Copy-Item -Recurse .\src\addon\* $Dest\
           Copy-Item .\src\LICENSE.txt $Archive\
 
           Compress-Archive "$Dest" "$Dest.zip"

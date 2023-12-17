@@ -63,7 +63,7 @@ extern "C" bool View3DImaEmptyDropPollHookCallback(bContext* c, wmDrag* drag, wm
             }
             else
             {
-                if (IsEventAlreadyTriggered(event))
+                if (IsEventAlreadyTriggered(drag))
                     return false;
             }
 

@@ -32,7 +32,7 @@ else:
     from . import operator
     from . import preferences
 
-import bpy  # nopep8
+    import bpy  # nopep8
 
 
 classes: list[type] = [operator.DropEventListener, preferences.DragAndDropPreferences]

@@ -1,0 +1,17 @@
+{
+  "folders": [
+    {
+      "name": "repository",
+      "path": ".."
+    },
+    {
+      "name": "python-addon",
+      "path": "../src/addon"
+    },
+    {
+      "name": "native-addon",
+      "path": "../src/dll"
+    }
+  ],
+  "settings": {}
+}

@@ -17,7 +17,7 @@ from . import interop
 items: list[str] = [
     "This addon uses C++ DLL code. Please check DLL publisher and DO NOT replace it.",
     "The C++ DLL hooks calls to certain functions in Blender.exe in order to receive events on drop.",
-    " This is the desired behavior as Blender itself does not provide any events for drops.",
+    "This is the desired behavior as Blender itself does not provide any events for drops.",
     "If you disable the add-on, these behaviors are restored.",
 ]
 

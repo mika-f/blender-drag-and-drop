@@ -43,6 +43,7 @@ body:
         - 3.0.0-alpha.2
         - 3.0.0-alpha.3
         - 3.0.0-alpha.4
+        - 3.0.0
     validations:
       required: true
   - type: dropdown

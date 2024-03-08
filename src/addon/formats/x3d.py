@@ -81,14 +81,16 @@ class ImportX3DWithCustomSettings(ImportsWithCustomSettingsBase):
 class VIEW3D_MT_Space_Import_X3D(VIEW3D_MT_Space_Import_BASE):
     bl_label = "Import Extensible 3D File Format File"
 
-    def format(self):
+    @staticmethod
+    def format():
         return "x3d"
 
 
 class VIEW3D_MT_Space_Import_WRL(VIEW3D_MT_Space_Import_BASE):
     bl_label = "Import WRL File"
 
-    def format(self):
+    @staticmethod
+    def format():
         return "x3d"
 
 

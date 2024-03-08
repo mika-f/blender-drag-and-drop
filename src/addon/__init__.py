@@ -11,7 +11,7 @@ bl_info = {
     "author": "Natsuneko",
     "description": "Blender add-on for import some files from drag-and-drop",
     "blender": (3, 1, 0),
-    "version": (2, 15, 0),
+    "version": (3, 0, 0),
     "location": "Drag and Drop Support",
     "doc_url": "https://docs.natsuneko.com/en-us/drag-and-drop-support/",
     "tracker_url": "https://github.com/mika-f/blender-drag-and-drop/issues",
@@ -35,8 +35,9 @@ else:
     import bpy  # nopep8
 
 
-classes: list[type] = [operator.DropEventListener, preferences.DragAndDropPreferences]
+classes: list[type] = [preferences.DragAndDropPreferences]
 
+classes.extend(operator.get_operators())
 classes.extend(formats.CLASSES)
 
 

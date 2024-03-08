@@ -106,7 +106,8 @@ class ImportOBJWithCustomSettings(ImportsWithCustomSettingsBase):
 class VIEW3D_MT_Space_Import_OBJ(VIEW3D_MT_Space_Import_BASE):
     bl_label = "Import Wavefront OBJ File"
 
-    def format(self):
+    @staticmethod
+    def format():
         return "obj"
 
 

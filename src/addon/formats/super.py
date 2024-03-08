@@ -80,43 +80,49 @@ class VIEW3D_MT_Space_Import_BASE(bpy.types.Menu):
         layout = self.layout
         format = self.format()
 
-        if format in selectable_importers:
-            importers = selectable_importers[format]()
+        if self.has_custom_importer():
+            if format in selectable_importers:
+                importers = selectable_importers[format]()
 
-            col = layout.column()
+                col = layout.column()
 
-            for importer in importers:
-                text, name = importer
+                for importer in importers:
+                    text, name = importer
 
+                    col.operator(
+                        f"object.import_{name}_with_defaults",
+                        text=f"Import with Defaults {text}".strip(),
+                    ).filename = VIEW3D_MT_Space_Import_BASE.filename  # type: ignore
+
+                col = layout.column()
+                col.operator_context = "INVOKE_DEFAULT"
+
+                for importer in importers:
+                    text, name = importer
+
+                    col.operator(
+                        f"object.import_{name}_with_custom_settings",
+                        text=f"Import with Custom Settings {text}".strip(),
+                    ).filename = VIEW3D_MT_Space_Import_BASE.filename  # type: ignore
+
+            else:
+                col = layout.column()
                 col.operator(
-                    f"object.import_{name}_with_defaults",
-                    text=f"Import with Defaults {text}".strip(),
+                    f"object.import_{self.format()}_with_defaults",
+                    text="Import with Defaults",
                 ).filename = VIEW3D_MT_Space_Import_BASE.filename  # type: ignore
 
-            col = layout.column()
-            col.operator_context = "INVOKE_DEFAULT"
-
-            for importer in importers:
-                text, name = importer
-
+                col = layout.column()
+                col.operator_context = "INVOKE_DEFAULT"
                 col.operator(
-                    f"object.import_{name}_with_custom_settings",
-                    text=f"Import with Custom Settings {text}".strip(),
+                    f"object.import_{self.format()}_with_custom_settings",
+                    text="Import with Custom Settings",
                 ).filename = VIEW3D_MT_Space_Import_BASE.filename  # type: ignore
 
-        else:
-            col = layout.column()
-            col.operator(
-                f"object.import_{self.format()}_with_defaults",
-                text="Import with Defaults",
-            ).filename = VIEW3D_MT_Space_Import_BASE.filename  # type: ignore
-
-            col = layout.column()
-            col.operator_context = "INVOKE_DEFAULT"
-            col.operator(
-                f"object.import_{self.format()}_with_custom_settings",
-                text="Import with Custom Settings",
-            ).filename = VIEW3D_MT_Space_Import_BASE.filename  # type: ignore
-
-    def format(self) -> str:
+    @staticmethod
+    def format() -> str:
         return ""
+
+    @staticmethod
+    def has_custom_importer() -> bool:
+        return True

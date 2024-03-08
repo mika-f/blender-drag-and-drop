@@ -125,9 +125,9 @@ void BlenderPatcher::Patch()
     }
     catch (std::out_of_range&)
     {
-        std::cout << "[ERROR] exception: out of range" << std::endl;
-        std::cout << "[ERROR] injector detected the unsupported version of Blender. Please upgrade Drag-and-Drop Support or downgrade Blender" << std::endl;
-        std::cout << "[ERROR] detected version : " << this->_versionString << std::endl;
+        std::cout << "[DRAG-AND-DROP-SUPPORT] exception: out of range" << std::endl;
+        std::cout << "[DRAG-AND-DROP-SUPPORT] injector detected the unsupported version of Blender. Please upgrade Drag-and-Drop Support or downgrade Blender" << std::endl;
+        std::cout << "[DRAG-AND-DROP-SUPPORT] detected version : " << this->_versionString << std::endl;
     }
 }
 
@@ -139,9 +139,9 @@ void BlenderPatcher::UnPatch()
     }
     catch (std::out_of_range&)
     {
-        std::cout << "[ERROR] exception: out of range" << std::endl;
-        std::cout << "[ERROR] injector detected the unsupported version of Blender. Please upgrade Drag-and-Drop Support or downgrade Blender" << std::endl;
-        std::cout << "[ERROR] detected version : " << this->_versionString << std::endl;
+        std::cout << "[DRAG-AND-DROP-SUPPORT] exception: out of range" << std::endl;
+        std::cout << "[DRAG-AND-DROP-SUPPORT] injector detected the unsupported version of Blender. Please upgrade Drag-and-Drop Support or downgrade Blender" << std::endl;
+        std::cout << "[DRAG-AND-DROP-SUPPORT] detected version : " << this->_versionString << std::endl;
     }
 }
 

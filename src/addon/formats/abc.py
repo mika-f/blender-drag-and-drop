@@ -81,7 +81,8 @@ class ImportABCWithCustomSettings(ImportsWithCustomSettingsBase):
 class VIEW3D_MT_Space_Import_ABC(VIEW3D_MT_Space_Import_BASE):
     bl_label = "Import ABC File"
 
-    def format(self):
+    @staticmethod
+    def format():
         return "abc"
 
 

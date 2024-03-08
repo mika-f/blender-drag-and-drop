@@ -89,7 +89,8 @@ class ImportSTLWithCustomSettings(ImportsWithCustomSettingsBase):
 class VIEW3D_MT_Space_Import_STL(VIEW3D_MT_Space_Import_BASE):
     bl_label = "Import Wavefront STL File (Experimental)"
 
-    def format(self):
+    @staticmethod
+    def format():
         return "stl"
 
 

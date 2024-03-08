@@ -204,7 +204,8 @@ class ImportFBXWithCustomSettings(ImportsWithCustomSettingsBase):
 class VIEW3D_MT_Space_Import_FBX(VIEW3D_MT_Space_Import_BASE):
     bl_label = "Import FBX File"
 
-    def format(self):
+    @staticmethod
+    def format():
         return "fbx"
 
 

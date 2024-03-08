@@ -97,7 +97,8 @@ class ImportPLYWithCustomSettings(ImportsWithCustomSettingsBase):
 class VIEW3D_MT_Space_Import_PLY(VIEW3D_MT_Space_Import_BASE):
     bl_label = "Import Polygon File Format File"
 
-    def format(self):
+    @staticmethod
+    def format():
         return "ply"
 
 

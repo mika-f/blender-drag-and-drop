@@ -35,8 +35,9 @@ else:
     import bpy  # nopep8
 
 
-classes: list[type] = [operator.DropEventListener, preferences.DragAndDropPreferences]
+classes: list[type] = [preferences.DragAndDropPreferences]
 
+classes.extend(operator.get_operators())
 classes.extend(formats.CLASSES)
 
 

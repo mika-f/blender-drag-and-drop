@@ -43,7 +43,8 @@ class ImportSVGWithCustomSettings(ImportsWithCustomSettingsBase):
 class VIEW3D_MT_Space_Import_SVG(VIEW3D_MT_Space_Import_BASE):
     bl_label = "Import SVG File"
 
-    def format(self):
+    @staticmethod
+    def format():
         return "svg"
 
 

@@ -12,6 +12,7 @@ from . import fbx
 from . import glb
 from . import obj
 from . import obj_legacy
+from . import png
 from . import ply
 from . import stl
 from . import stl_legacy
@@ -33,6 +34,7 @@ CLASSES.extend(dae.OPERATORS)
 CLASSES.extend(fbx.OPERATORS)
 CLASSES.extend(glb.OPERATORS)
 CLASSES.extend(obj.OPERATORS)
+CLASSES.extend(png.OPERATORS)
 CLASSES.extend(ply.OPERATORS)
 CLASSES.extend(stl.OPERATORS)
 CLASSES.extend(svg.OPERATORS)

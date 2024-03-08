@@ -80,5 +80,20 @@ class DropEventListener(Operator):
 
 operators.append(DropEventListener)
 
+if hasattr(bpy.types, "FileHandler"):
+
+    class DropEventListener2(bpy.types.FileHandler):
+        bl_idname = "object.drop_event_listener_2"
+        bl_label = "Open File via Drag and Drop"
+        bl_import_operator = "object.drop_event_listener"
+        bl_file_extensions = ".*"
+
+        @classmethod
+        def poll_drop(cls, context: bpy.types.Context):
+            return context.area and context.area.type == "VIEW_3D"
+
+    operators.append(DropEventListener2)
+
+
 def get_operators():
     return operators

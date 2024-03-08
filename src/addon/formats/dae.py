@@ -84,7 +84,8 @@ class ImportDAEWithCustomSettings(ImportsWithCustomSettingsBase):
 class VIEW3D_MT_Space_Import_DAE(VIEW3D_MT_Space_Import_BASE):
     bl_label = "Import Collada File"
 
-    def format(self):
+    @staticmethod
+    def format():
         return "dae"
 
 

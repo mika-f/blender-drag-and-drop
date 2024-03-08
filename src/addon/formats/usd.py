@@ -190,28 +190,32 @@ class ImportUSDWithCustomSettings(ImportsWithCustomSettingsBase):
 class VIEW3D_MT_Space_Import_USD(VIEW3D_MT_Space_Import_BASE):
     bl_label = "Import Universal Scene Description File"
 
-    def format(self):
+    @staticmethod
+    def format():
         return "usd"
 
 
 class VIEW3D_MT_Space_Import_USDA(VIEW3D_MT_Space_Import_BASE):
     bl_label = "Import Universal Scene Description File"
 
-    def format(self):
+    @staticmethod
+    def format():
         return "usd"
 
 
 class VIEW3D_MT_Space_Import_USDC(VIEW3D_MT_Space_Import_BASE):
     bl_label = "Import Universal Scene Description File"
 
-    def format(self):
+    @staticmethod
+    def format():
         return "usd"
 
 
 class VIEW3D_MT_Space_Import_USDZ(VIEW3D_MT_Space_Import_BASE):
     bl_label = "Import Universal Scene Description File"
 
-    def format(self):
+    @staticmethod
+    def format():
         return "usd"
 
 

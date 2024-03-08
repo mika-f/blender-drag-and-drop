@@ -93,7 +93,8 @@ class ImportSTLLegacyWithCustomSettings(ImportsWithCustomSettingsBase):
 class VIEW3D_MT_Space_Import_STLLegacy(VIEW3D_MT_Space_Import_BASE):
     bl_label = "Import Wavefront STL File"
 
-    def format(self):
+    @staticmethod
+    def format():
         return "stl"
 
 

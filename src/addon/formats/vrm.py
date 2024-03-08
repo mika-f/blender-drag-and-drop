@@ -82,7 +82,8 @@ class ImportVRMWithCustomSettings(ImportsWithCustomSettingsBase):
 class VIEW3D_MT_Space_Import_VRM(VIEW3D_MT_Space_Import_BASE):
     bl_label = "Import Virtual Reality Model File"
 
-    def format(self):
+    @staticmethod
+    def format():
         return "vrm"
 
 

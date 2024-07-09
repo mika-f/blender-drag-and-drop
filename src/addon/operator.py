@@ -21,6 +21,7 @@ from .formats.super import VIEW3D_MT_Space_Import_BASE
 
 # formats that Blender does not supported by default
 conditionals: typing.Dict[str, typing.Callable[[], bool]] = {
+    "3mf": lambda: hasattr(bpy.ops.import_mesh, "threemf"),
     "vrm": lambda: hasattr(bpy.ops.import_scene, "vrm"),
 }
 
@@ -79,6 +80,7 @@ class DropEventListener(Operator):
 
 
 operators.append(DropEventListener)
+
 
 def get_operators():
     return operators

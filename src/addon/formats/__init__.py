@@ -5,6 +5,7 @@
 
 # pyright: reportUnusedImport=false
 
+from . import _3mf
 from . import abc
 from . import bvh
 from . import dae
@@ -28,6 +29,7 @@ CLASSES.extend(obj_legacy.OPERATORS)
 CLASSES.extend(stl_legacy.OPERATORS)
 
 # modern importers
+CLASSES.extend(_3mf.OPERATORS)
 CLASSES.extend(abc.OPERATORS)
 CLASSES.extend(bvh.OPERATORS)
 CLASSES.extend(dae.OPERATORS)

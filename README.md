@@ -4,6 +4,7 @@ Blender add-on for importing some files from drag-and-drop.
 
 ## Supported Formats
 
+- `*.3mf` (Required [Blender 3MF Format](https://github.com/Ghostkeeper/Blender3mfFormat))
 - `*.abc`
 - `*.bvh`
 - `*.dae`

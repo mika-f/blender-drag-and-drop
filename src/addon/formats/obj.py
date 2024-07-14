@@ -6,6 +6,7 @@
 # pyright: reportGeneralTypeIssues=false
 # pyright: reportUnknownArgumentType=false
 # pyright: reportUnknownMemberType=false
+# pyright: reportInvalidTypeForm=false
 
 import bpy
 
@@ -17,6 +18,7 @@ from .super import (
     ImportsWithCustomSettingsBase,
     VIEW3D_MT_Space_Import_BASE,
 )
+from ..interop import has_official_api
 
 
 class ImportOBJWithDefaults(ImportWithDefaultsBase):
@@ -111,8 +113,24 @@ class VIEW3D_MT_Space_Import_OBJ(VIEW3D_MT_Space_Import_BASE):
         return "obj"
 
 
-OPERATORS = [
+OPERATORS: list[type] = [
     ImportOBJWithDefaults,
     ImportOBJWithCustomSettings,
     VIEW3D_MT_Space_Import_OBJ,
 ]
+
+if has_official_api():
+
+    class VIEW3D_FH_Import_OBJ(bpy.types.FileHandler):
+        bl_idname = "VIEW3D_FH_Import_OBJ"
+        bl_label = "Import Wavefront OBJ File"
+        bl_import_operator = "object.drop_event_listener"
+        bl_file_extensions = ".obj"
+
+        @classmethod
+        def poll_drop(cls, context: bpy.types.Context | None) -> bool:
+            if context is None:
+                return False
+            return context and context.area and context.area.type == "VIEW_3D"
+
+    OPERATORS.append(VIEW3D_FH_Import_OBJ)

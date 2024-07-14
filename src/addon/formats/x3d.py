@@ -6,6 +6,7 @@
 # pyright: reportGeneralTypeIssues=false
 # pyright: reportUnknownArgumentType=false
 # pyright: reportUnknownMemberType=false
+# pyright: reportInvalidTypeForm=false
 
 from typing import Set
 import bpy
@@ -20,6 +21,7 @@ from .super import (
     ImportsWithCustomSettingsBase,
     VIEW3D_MT_Space_Import_BASE,
 )
+from ..interop import has_official_api
 
 
 class ImportX3DWithDefaults(ImportWithDefaultsBase):
@@ -94,9 +96,37 @@ class VIEW3D_MT_Space_Import_WRL(VIEW3D_MT_Space_Import_BASE):
         return "x3d"
 
 
-OPERATORS = [
+OPERATORS: list[type] = [
     ImportX3DWithDefaults,
     ImportX3DWithCustomSettings,
     VIEW3D_MT_Space_Import_X3D,
     VIEW3D_MT_Space_Import_WRL,
 ]
+
+if has_official_api():
+
+    class VIEW3D_FH_Import_X3D(bpy.types.FileHandler):
+        bl_idname = "VIEW3D_FH_Import_X3D"
+        bl_label = "Import Extensible 3D File Format File"
+        bl_import_operator = "object.drop_event_listener"
+        bl_file_extensions = ".x3d"
+
+        @classmethod
+        def poll_drop(cls, context: bpy.types.Context | None) -> bool:
+            if context is None:
+                return False
+            return context and context.area and context.area.type == "VIEW_3D"
+
+    class VIEW3D_FH_Import_WRL(bpy.types.FileHandler):
+        bl_idname = "VIEW3D_FH_Import_X3D"
+        bl_label = "Import WRL File"
+        bl_import_operator = "object.drop_event_listener"
+        bl_file_extensions = ".wrl"
+
+        @classmethod
+        def poll_drop(cls, context: bpy.types.Context | None) -> bool:
+            if context is None:
+                return False
+            return context and context.area and context.area.type == "VIEW_3D"
+
+    OPERATORS.extend([VIEW3D_FH_Import_X3D, VIEW3D_FH_Import_WRL])

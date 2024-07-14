@@ -6,6 +6,7 @@
 # pyright: reportGeneralTypeIssues=false
 # pyright: reportUnknownArgumentType=false
 # pyright: reportUnknownMemberType=false
+# pyright: reportInvalidTypeForm=false
 
 from typing import Set
 import bpy
@@ -22,6 +23,7 @@ from .super import (
     ImportsWithCustomSettingsBase,
     VIEW3D_MT_Space_Import_BASE,
 )
+from ..interop import has_official_api
 
 
 class ImportPLYWithDefaults(ImportWithDefaultsBase):
@@ -102,8 +104,24 @@ class VIEW3D_MT_Space_Import_PLY(VIEW3D_MT_Space_Import_BASE):
         return "ply"
 
 
-OPERATORS = [
+OPERATORS: list[type] = [
     ImportPLYWithDefaults,
     ImportPLYWithCustomSettings,
     VIEW3D_MT_Space_Import_PLY,
 ]
+
+if has_official_api():
+
+    class VIEW3D_FH_Import_PLY(bpy.types.FileHandler):
+        bl_idname = "VIEW3D_FH_Import_PLY"
+        bl_label = "Import Polygon File Format  File"
+        bl_import_operator = "object.drop_event_listener"
+        bl_file_extensions = ".ply"
+
+        @classmethod
+        def poll_drop(cls, context: bpy.types.Context | None) -> bool:
+            if context is None:
+                return False
+            return context and context.area and context.area.type == "VIEW_3D"
+
+    OPERATORS.append(VIEW3D_FH_Import_PLY)

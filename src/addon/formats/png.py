@@ -6,6 +6,7 @@
 # pyright: reportGeneralTypeIssues=false
 # pyright: reportUnknownArgumentType=false
 # pyright: reportUnknownMemberType=false
+# pyright: reportInvalidTypeForm=false
 
 
 import bpy.ops
@@ -46,7 +47,7 @@ class ImportImageWithDefaults(ImportWithDefaultsBase):
         for (
             item
         ) in bpy.data.images.items():  # pyright: ignore[reportUnknownVariableType]
-            i = cast(bpy.types.Image, item[1])  # pyright: ignore[reportInvalidTypeForm]
+            i = cast(bpy.types.Image, item[1])
 
             if i.filepath == path:
                 return i
@@ -256,7 +257,7 @@ class VIEW3D_MT_Space_Import_WEBP(VIEW3D_MT_Space_Import_BASE):
         return False
 
 
-OPERATORS = [
+OPERATORS: list[type] = [
     ImportImageWithDefaults,
     VIEW3D_MT_Space_Import_BMP,
     VIEW3D_MT_Space_Import_BW,

@@ -11,7 +11,7 @@ bl_info = {
     "author": "Natsuneko",
     "description": "Blender add-on for import some files from drag-and-drop",
     "blender": (3, 1, 0),
-    "version": (3, 1, 0),
+    "version": (4, 0, 0),
     "location": "Drag and Drop Support",
     "doc_url": "https://docs.natsuneko.com/en-us/drag-and-drop-support/",
     "tracker_url": "https://github.com/mika-f/blender-drag-and-drop/issues",
@@ -35,7 +35,10 @@ else:
     import bpy  # nopep8
 
 
-classes: list[type] = [preferences.DragAndDropPreferences]
+classes: list[type] = []
+
+if not interop.has_official_api():
+    classes.append(preferences.DragAndDropPreferences)
 
 classes.extend(operator.get_operators())
 classes.extend(formats.CLASSES)
@@ -56,7 +59,10 @@ def unregister():
 
     # unregister classes
     for c in classes:
-        bpy.utils.unregister_class(c)  # pyright: ignore[reportUnknownMemberType]
+        try:
+            bpy.utils.unregister_class(c)  # pyright: ignore[reportUnknownMemberType]
+        except:
+            pass
 
     interop.try_unload()
 

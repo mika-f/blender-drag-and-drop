@@ -13,6 +13,7 @@ Blender add-on for importing some files from drag-and-drop.
 - `*.gltf`
 - `*.obj`
 - `*.ply`
+- `*.pmx` (Required [MMD Tools](https://github.com/UuuNyaa/blender_mmd_tools))
 - `*.stl`
 - `*.svg`
 - `*.usd`
@@ -55,6 +56,11 @@ v3.0.0 supports the following versions of Blender:
 - Blender 4.0.0 (x64 - Windows)
 - Blender 4.0.1 (x64 - Windows)
 - Blender 4.0.2 (x64 - Windows)
+
+v4.0.0 supports the following versions of Blender:
+
+- Blender 4.1.0
+- Blender 4.1.1
 
 ## ScreenShot
 

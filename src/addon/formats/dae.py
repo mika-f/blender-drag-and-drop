@@ -6,6 +6,7 @@
 # pyright: reportGeneralTypeIssues=false
 # pyright: reportUnknownArgumentType=false
 # pyright: reportUnknownMemberType=false
+# pyright: reportInvalidTypeForm=false
 
 from typing import Set
 import bpy
@@ -21,6 +22,7 @@ from .super import (
     ImportsWithCustomSettingsBase,
     VIEW3D_MT_Space_Import_BASE,
 )
+from ..interop import has_official_api
 
 
 class ImportDAEWithDefaults(ImportWithDefaultsBase):
@@ -89,8 +91,25 @@ class VIEW3D_MT_Space_Import_DAE(VIEW3D_MT_Space_Import_BASE):
         return "dae"
 
 
-OPERATORS = [
+OPERATORS: list[type] = [
     ImportDAEWithDefaults,
     ImportDAEWithCustomSettings,
     VIEW3D_MT_Space_Import_DAE,
 ]
+
+
+if has_official_api():
+
+    class VIEW3D_FH_Import_DAE(bpy.types.FileHandler):
+        bl_idname = "VIEW3D_FH_Import_DAE"
+        bl_label = "Import Collada File"
+        bl_import_operator = "object.drop_event_listener"
+        bl_file_extensions = ".dae"
+
+        @classmethod
+        def poll_drop(cls, context: bpy.types.Context | None) -> bool:
+            if context is None:
+                return False
+            return context and context.area and context.area.type == "VIEW_3D"
+
+    OPERATORS.append(VIEW3D_FH_Import_DAE)

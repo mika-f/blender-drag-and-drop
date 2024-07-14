@@ -6,6 +6,7 @@
 # pyright: reportGeneralTypeIssues=false
 # pyright: reportUnknownArgumentType=false
 # pyright: reportUnknownMemberType=false
+# pyright: reportInvalidTypeForm=false
 
 import bpy
 
@@ -22,6 +23,7 @@ from .super import (
     ImportsWithCustomSettingsBase,
     VIEW3D_MT_Space_Import_BASE,
 )
+from ..interop import has_official_api
 
 
 class ImportUSDWithDefaults(ImportWithDefaultsBase):
@@ -219,7 +221,7 @@ class VIEW3D_MT_Space_Import_USDZ(VIEW3D_MT_Space_Import_BASE):
         return "usd"
 
 
-OPERATORS = [
+OPERATORS: list[type] = [
     ImportUSDWithDefaults,
     ImportUSDWithCustomSettings,
     VIEW3D_MT_Space_Import_USD,
@@ -227,3 +229,62 @@ OPERATORS = [
     VIEW3D_MT_Space_Import_USDC,
     VIEW3D_MT_Space_Import_USDZ,
 ]
+
+if has_official_api():
+
+    class VIEW3D_FH_Import_USD(bpy.types.FileHandler):
+        bl_idname = "VIEW3D_FH_Import_USD"
+        bl_label = "Import Universal Scene Description File"
+        bl_import_operator = "object.drop_event_listener"
+        bl_file_extensions = ".usd"
+
+        @classmethod
+        def poll_drop(cls, context: bpy.types.Context | None) -> bool:
+            if context is None:
+                return False
+            return context and context.area and context.area.type == "VIEW_3D"
+
+    class VIEW3D_FH_Import_USDA(bpy.types.FileHandler):
+        bl_idname = "VIEW3D_FH_Import_USDA"
+        bl_label = "Import Universal Scene Description File"
+        bl_import_operator = "object.drop_event_listener"
+        bl_file_extensions = ".usda"
+
+        @classmethod
+        def poll_drop(cls, context: bpy.types.Context | None) -> bool:
+            if context is None:
+                return False
+            return context and context.area and context.area.type == "VIEW_3D"
+
+    class VIEW3D_FH_Import_USDC(bpy.types.FileHandler):
+        bl_idname = "VIEW3D_FH_Import_USDC"
+        bl_label = "Import Universal Scene Description File"
+        bl_import_operator = "object.drop_event_listener"
+        bl_file_extensions = ".usdc"
+
+        @classmethod
+        def poll_drop(cls, context: bpy.types.Context | None) -> bool:
+            if context is None:
+                return False
+            return context and context.area and context.area.type == "VIEW_3D"
+
+    class VIEW3D_FH_Import_USDZ(bpy.types.FileHandler):
+        bl_idname = "VIEW3D_FH_Import_USDZ"
+        bl_label = "Import Universal Scene Description File"
+        bl_import_operator = "object.drop_event_listener"
+        bl_file_extensions = ".usdz"
+
+        @classmethod
+        def poll_drop(cls, context: bpy.types.Context | None) -> bool:
+            if context is None:
+                return False
+            return context and context.area and context.area.type == "VIEW_3D"
+
+    OPERATORS.extend(
+        [
+            VIEW3D_FH_Import_USD,
+            VIEW3D_FH_Import_USDA,
+            VIEW3D_FH_Import_USDC,
+            VIEW3D_FH_Import_USDZ,
+        ]
+    )

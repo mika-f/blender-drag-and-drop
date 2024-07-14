@@ -11,7 +11,7 @@ bl_info = {
     "author": "Natsuneko",
     "description": "Blender add-on for import some files from drag-and-drop",
     "blender": (3, 1, 0),
-    "version": (2, 15, 0),
+    "version": (3, 1, 0),
     "location": "Drag and Drop Support",
     "doc_url": "https://docs.natsuneko.com/en-us/drag-and-drop-support/",
     "tracker_url": "https://github.com/mika-f/blender-drag-and-drop/issues",

@@ -4,6 +4,7 @@ Blender add-on for importing some files from drag-and-drop.
 
 ## Supported Formats
 
+- `*.3mf` (Required [Blender 3MF Format](https://github.com/Ghostkeeper/Blender3mfFormat))
 - `*.abc`
 - `*.bvh`
 - `*.dae`
@@ -12,6 +13,7 @@ Blender add-on for importing some files from drag-and-drop.
 - `*.gltf`
 - `*.obj`
 - `*.ply`
+- `*.pmx` (Required [MMD Tools](https://github.com/UuuNyaa/blender_mmd_tools))
 - `*.stl`
 - `*.svg`
 - `*.usd`
@@ -29,7 +31,7 @@ Blender add-on for importing some files from drag-and-drop.
 
 ## Supported Blenders
 
-v2.0.0 supports the following versions of Blender:
+v3.0.0 supports the following versions of Blender:
 
 - Blender 3.1.0 (x64 - Windows)
 - Blender 3.1.1 (x64 - Windows)
@@ -67,13 +69,15 @@ v2.0.0 supports the following versions of Blender:
 
 ## How to use
 
-1. Drag and Drop some file to 3D view, load it
+1. If you use Blender 4.0 or lower
+   1. Please agree to security policy in preferences add-ons view.
+2. Drag and Drop some file to 3D view, load it
 
-## Known Issues
+## Known Issues (Blender 4.0 or lower)
 
 - if the dropped file(s) includes the non-ASCII characters, does not work import correctly.
 
-## Remarks
+## Remarks (Blender 4.0 or lower)
 
 - This addon loading DLL written in C++ into Blender via Python, and replace `view3d_ima_empty_drop_poll` function in memory.
   - If you enable this addon, load DLL and replace it function.

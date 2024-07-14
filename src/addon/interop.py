@@ -16,6 +16,10 @@ is_load_native_library: bool = False
 native_handler: ctypes.CDLL
 
 
+def has_official_api() -> bool:
+    return hasattr(bpy.types, "FileHandler")
+
+
 def log(message: str):
     print(f"[DRAG-AND-DROP-SUPPORT] {message}")
 
@@ -28,6 +32,9 @@ def is_agree() -> bool:
 def try_load():
     global is_load_native_library
     global native_handler
+
+    if has_official_api():
+        return
 
     if is_agree():
         if is_load_native_library:

@@ -24,6 +24,7 @@ from .super import (
     ImportsWithCustomSettingsBase,
     VIEW3D_MT_Space_Import_BASE,
 )
+from ..interop import has_official_api
 
 
 def include_types(cls, _):  # type: ignore
@@ -182,9 +183,37 @@ class VIEW3D_MT_Space_Import_PMX(VIEW3D_MT_Space_Import_BASE):
         return "pmx"
 
 
-OPERATORS = [
+OPERATORS: list[type] = [
     ImportPMXWithDefaults,
     ImportPMXWithCustomSettings,
     VIEW3D_MT_Space_Import_PMD,
     VIEW3D_MT_Space_Import_PMX,
 ]
+
+if has_official_api():
+
+    class VIEW3D_FH_Import_PMD(bpy.types.FileHandler):
+        bl_idname = "VIEW3D_FH_Import_PMD"
+        bl_label = "Import MikuMikuDance Model File"
+        bl_import_operator = "object.drop_event_listener"
+        bl_file_extensions = ".pmd"
+
+        @classmethod
+        def poll_drop(cls, context: bpy.types.Context | None) -> bool:
+            if context is None:
+                return False
+            return context and context.area and context.area.type == "VIEW_3D"
+
+    class VIEW3D_FH_Import_PMX(bpy.types.FileHandler):
+        bl_idname = "VIEW3D_FH_Import_PMX"
+        bl_label = "Import MikuMikuDance Model File"
+        bl_import_operator = "object.drop_event_listener"
+        bl_file_extensions = ".pmx"
+
+        @classmethod
+        def poll_drop(cls, context: bpy.types.Context | None) -> bool:
+            if context is None:
+                return False
+            return context and context.area and context.area.type == "VIEW_3D"
+
+    OPERATORS.extend([VIEW3D_FH_Import_PMD, VIEW3D_FH_Import_PMX])

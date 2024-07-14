@@ -5,6 +5,7 @@
 
 # pyright: reportGeneralTypeIssues=false
 # pyright: reportUnknownMemberType=false
+# pyright: reportInvalidTypeForm=false
 
 import bpy
 
@@ -16,6 +17,7 @@ from .super import (
     ImportsWithCustomSettingsBase,
     VIEW3D_MT_Space_Import_BASE,
 )
+from ..interop import has_official_api
 
 
 class ImportGLBWithDefaults(ImportWithDefaultsBase):
@@ -82,7 +84,7 @@ class ImportGLBWithCustomSettings(ImportsWithCustomSettingsBase):
     def execute(self, context: Context):
         bpy.ops.import_scene.gltf(
             filepath=self.filepath(),
-            convert_lighting_mode=self.convert_lighting_mode,
+            convert_lighting_mode=self.convert_lighting_mode,  # type: ignore
             import_pack_images=self.import_pack_images,
             merge_vertices=self.merge_vertices,
             import_shading=self.import_shading,
@@ -109,9 +111,39 @@ class VIEW3D_MT_Space_Import_GLTF(VIEW3D_MT_Space_Import_BASE):
         return "glb"
 
 
-OPERATORS = [
+OPERATORS: list[type] = [
     ImportGLBWithDefaults,
     ImportGLBWithCustomSettings,
     VIEW3D_MT_Space_Import_GLB,
     VIEW3D_MT_Space_Import_GLTF,
 ]
+
+if has_official_api():
+
+    class VIEW3D_FH_Import_GLB(bpy.types.FileHandler):
+        bl_idname = "VIEW3D_FH_Import_GLB"
+        bl_label = "Import glTF File"
+        bl_import_operator = "object.drop_event_listener"
+        bl_file_extensions = ".glb"
+
+        @classmethod
+        def poll_drop(cls, context: bpy.types.Context | None) -> bool:
+            if context is None:
+                return False
+
+            return True
+
+    class VIEW3D_FH_Import_GLTF(bpy.types.FileHandler):
+        bl_idname = "VIEW3D_FH_Import_GLTF"
+        bl_label = "Import glTF File"
+        bl_import_operator = "object.drop_event_listener"
+        bl_file_extensions = ".gltf"
+
+        @classmethod
+        def poll_drop(cls, context: bpy.types.Context | None) -> bool:
+            if context is None:
+                return False
+
+            return True
+
+    OPERATORS.extend([VIEW3D_FH_Import_GLB, VIEW3D_FH_Import_GLTF])

@@ -6,6 +6,7 @@
 # pyright: reportGeneralTypeIssues=false
 # pyright: reportUnknownArgumentType=false
 # pyright: reportUnknownMemberType=false
+# pyright: reportInvalidTypeForm=false
 
 from __future__ import annotations
 
@@ -16,6 +17,7 @@ import typing
 from bpy.props import StringProperty  # pyright: ignore[reportUnknownVariableType]
 from bpy.types import Context, Event, Operator
 
+from .interop import has_official_api
 from .formats import CLASSES
 from .formats.super import VIEW3D_MT_Space_Import_BASE
 
@@ -36,7 +38,8 @@ class DropEventListener(Operator):
     bl_idname = "object.drop_event_listener"
     bl_label = "Open File via Drag and Drop"
 
-    filename: StringProperty()  # type: ignore
+    filename: StringProperty()
+    filepath: StringProperty(subtype="FILE_PATH", options={"SKIP_SAVE"})
 
     def find_class(self, ext: str) -> VIEW3D_MT_Space_Import_BASE | None:
         for c in CLASSES:
@@ -44,7 +47,10 @@ class DropEventListener(Operator):
                 return typing.cast(VIEW3D_MT_Space_Import_BASE, c)
 
     def inflate(self, name: str, ext: str):
-        VIEW3D_MT_Space_Import_BASE.filename = self.filename  # type: ignore
+        if has_official_api():
+            VIEW3D_MT_Space_Import_BASE.filename = self.filepath
+        else:
+            VIEW3D_MT_Space_Import_BASE.filename = self.filename
 
         c = self.find_class(ext)
         if c is None:
@@ -61,7 +67,11 @@ class DropEventListener(Operator):
 
     def invoke(self, context: Context, event: Event):
         try:
-            path = typing.cast(str, self.filename)  # type: ignore
+
+            path = typing.cast(str, self.filename)
+            if has_official_api():
+                path = typing.cast(str, self.filepath)
+
             _, ext = os.path.splitext(path)
 
             if ext[1:].lower() in conditionals:

@@ -6,6 +6,7 @@
 # pyright: reportGeneralTypeIssues=false
 # pyright: reportUnknownArgumentType=false
 # pyright: reportUnknownMemberType=false
+# pyright: reportInvalidTypeForm=false
 
 import bpy
 
@@ -21,6 +22,7 @@ from .super import (
     ImportsWithCustomSettingsBase,
     VIEW3D_MT_Space_Import_BASE,
 )
+from ..interop import has_official_api
 
 
 class ImportFBXWithDefaults(ImportWithDefaultsBase):
@@ -209,8 +211,24 @@ class VIEW3D_MT_Space_Import_FBX(VIEW3D_MT_Space_Import_BASE):
         return "fbx"
 
 
-OPERATORS = [
+OPERATORS: list[type] = [
     ImportFBXWithDefaults,
     ImportFBXWithCustomSettings,
     VIEW3D_MT_Space_Import_FBX,
 ]
+
+if has_official_api():
+
+    class VIEW3D_FH_Import_FBX(bpy.types.FileHandler):
+        bl_idname = "VIEW3D_FH_Import_FBX"
+        bl_label = "Import FBX File"
+        bl_import_operator = "object.drop_event_listener"
+        bl_file_extensions = ".fbx"
+
+        @classmethod
+        def poll_drop(cls, context: bpy.types.Context | None) -> bool:
+            if context is None:
+                return False
+            return context and context.area and context.area.type == "VIEW_3D"
+
+    OPERATORS.append(VIEW3D_FH_Import_FBX)

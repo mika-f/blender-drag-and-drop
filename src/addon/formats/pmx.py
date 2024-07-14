@@ -171,7 +171,7 @@ class VIEW3D_MT_Space_Import_PMD(VIEW3D_MT_Space_Import_BASE):
 
     @staticmethod
     def format():
-        return "pmd"
+        return "pmx"
 
 
 class VIEW3D_MT_Space_Import_PMX(VIEW3D_MT_Space_Import_BASE):

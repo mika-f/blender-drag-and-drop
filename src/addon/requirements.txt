@@ -1,1 +1,1 @@
-fake-bpy-module-4.0==20231118
+fake-bpy-module-4.1==20240604

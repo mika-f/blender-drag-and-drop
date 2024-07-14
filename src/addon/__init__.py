@@ -35,7 +35,10 @@ else:
     import bpy  # nopep8
 
 
-classes: list[type] = [preferences.DragAndDropPreferences]
+classes: list[type] = []
+
+if not interop.has_official_api():
+    classes.append(preferences.DragAndDropPreferences)
 
 classes.extend(operator.get_operators())
 classes.extend(formats.CLASSES)
@@ -56,7 +59,10 @@ def unregister():
 
     # unregister classes
     for c in classes:
-        bpy.utils.unregister_class(c)  # pyright: ignore[reportUnknownMemberType]
+        try:
+            bpy.utils.unregister_class(c)  # pyright: ignore[reportUnknownMemberType]
+        except:
+            pass
 
     interop.try_unload()
 

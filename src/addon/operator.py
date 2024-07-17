@@ -17,7 +17,6 @@ import typing
 from bpy.props import StringProperty  # pyright: ignore[reportUnknownVariableType]
 from bpy.types import Context, Event, Operator
 
-from .interop import has_official_api
 from .formats import CLASSES
 from .formats.super import VIEW3D_MT_Space_Import_BASE
 
@@ -47,10 +46,7 @@ class DropEventListener(Operator):
                 return typing.cast(VIEW3D_MT_Space_Import_BASE, c)
 
     def inflate(self, name: str, ext: str):
-        if has_official_api():
-            VIEW3D_MT_Space_Import_BASE.filename = self.filepath
-        else:
-            VIEW3D_MT_Space_Import_BASE.filename = self.filename
+        VIEW3D_MT_Space_Import_BASE.filename = self.filepath
 
         c = self.find_class(ext)
         if c is None:
@@ -68,9 +64,7 @@ class DropEventListener(Operator):
     def invoke(self, context: Context, event: Event):
         try:
 
-            path = typing.cast(str, self.filename)
-            if has_official_api():
-                path = typing.cast(str, self.filepath)
+            path = typing.cast(str, self.filepath)
 
             _, ext = os.path.splitext(path)
 

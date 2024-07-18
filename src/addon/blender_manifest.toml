@@ -12,6 +12,7 @@ type = "add-on"
 
 # Optional link to documentation, support, source files, etc
 # website = "https://extensions.blender.org/add-ons/my-example-package/"
+website = "https://docs.natsuneko.com/drag-and-drop-support"
 
 # Optional list defined by Blender and server, see:
 # https://docs.blender.org/manual/en/dev/advanced/extensions/tags.html
@@ -57,9 +58,9 @@ copyright = [
 # # Keep this a single short sentence without a period (.) at the end.
 # # For longer explanations use the documentation or detail page.
 #
-# [permissions]
+[permissions]
 # network = "Need to sync motion-capture data to server"
-# files = "Import/export FBX from/to disk"
+files = "Import FBX from the disk"
 # clipboard = "Copy and paste bone transforms"
 
 # Optional: build settings.

@@ -5,7 +5,7 @@ schema_version = "1.0.0"
 id = "drag_and_drop_support"
 maintainer = "Natsune Mochizuki <me@natsuneko.cat>"
 name = "Drag and Drop Support"
-tagline = "Suoport and Imrpove Drag and Drop Imports in Blender"
+tagline = "Support and improve drag and drop imports in Blender. "
 version = "1.0.0"
 # Supported types: "add-on", "theme"
 type = "add-on"
@@ -60,7 +60,7 @@ copyright = [
 #
 [permissions]
 # network = "Need to sync motion-capture data to server"
-files = "Import FBX from the disk"
+files = "Import models from the disk"
 # clipboard = "Copy and paste bone transforms"
 
 # Optional: build settings.

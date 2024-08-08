@@ -25,8 +25,7 @@ public:
         std::string bpy_interface_BPY_run_string_eval,
         std::string space_view3d_view3d_ima_empty_drop_poll,
         std::string space_view3d_view3d_ima_drop_poll,
-        std::string view3d_select_ED_view3d_give_object_under_cursor
-    )
+        std::string view3d_select_ED_view3d_give_object_under_cursor)
         : _bpy_interface_BPY_run_string_eval(std::move(bpy_interface_BPY_run_string_eval)),
           _space_view3d_view3d_ima_empty_drop_poll(std::move(space_view3d_view3d_ima_empty_drop_poll)),
           _space_view3d_view3d_ima_drop_poll(std::move(space_view3d_view3d_ima_drop_poll)),
@@ -87,7 +86,6 @@ public:
 static std::unordered_map<std::string, BlenderPatchPattern> Patchers{
 #pragma region Blender 3.x
     {
-
         "3.1.0",
         {
             "E8 28 BC 3F 00",
@@ -112,7 +110,7 @@ static std::unordered_map<std::string, BlenderPatchPattern> Patchers{
             "4C 8D 05 65 06 00 00",
             "E8 7B FF FF FF 84 C0",
             "E8 5B 2C 00 00 48 85 C0",
-        }
+        },
     },
     {
         "3.2.0",
@@ -121,7 +119,7 @@ static std::unordered_map<std::string, BlenderPatchPattern> Patchers{
             "4C 8D 05 77 06 00 00",
             "E8 7B FF FF FF 84 C0",
             "E8 BB 2C 00 00 48 85 C0",
-        }
+        },
     },
     {
         "3.2.1",
@@ -130,7 +128,7 @@ static std::unordered_map<std::string, BlenderPatchPattern> Patchers{
             "4C 8D 05 77 06 00 00",
             "E8 7B FF FF FF 84 C0",
             "E8 BB 2C 00 00 48 85 C0",
-        }
+        },
     },
     {
         "3.2.2",
@@ -139,7 +137,7 @@ static std::unordered_map<std::string, BlenderPatchPattern> Patchers{
             "4C 8D 05 77 06 00 00",
             "E8 7B FF FF FF 84 C0",
             "E8 BB 2C 00 00 48 85 C0",
-        }
+        },
     },
     {
         "3.3.0",
@@ -148,7 +146,7 @@ static std::unordered_map<std::string, BlenderPatchPattern> Patchers{
             "4C 8D 05 77 06 00 00",
             "E8 7B FF FF FF 84 C0",
             "E8 CB 2C 00 00 48 85 C0",
-        }
+        },
     },
     {
         "3.3.1",
@@ -157,7 +155,7 @@ static std::unordered_map<std::string, BlenderPatchPattern> Patchers{
             "4C 8D 05 77 06 00 00",
             "E8 7B FF FF FF 84 C0",
             "E8 CB 2C 00 00 48 85 C0",
-        }
+        },
     },
     {
         "3.3.2",
@@ -165,7 +163,7 @@ static std::unordered_map<std::string, BlenderPatchPattern> Patchers{
             "E8 6E BF 39 00",
             "4C 8D 05 77 06 00 00",
             "E8 7B FF FF FF 84 C0",
-            "E8 CB 2C 00 00 48 85 C0"
+            "E8 CB 2C 00 00 48 85 C0",
         },
     },
     {
@@ -174,18 +172,17 @@ static std::unordered_map<std::string, BlenderPatchPattern> Patchers{
             "E8 3E C0 39 00",
             "4C 8D 05 77 06 00 00",
             "E8 7B FF FF FF 84 C0",
-            "E8 CB 2C 00 00 48 85 C0"
-        }
+            "E8 CB 2C 00 00 48 85 C0",
+        },
     },
     {
         "3.3.4",
         {
-
             "E8 5E C0 39 00",
             "4C 8D 05 77 06 00 00",
             "E8 7B FF FF FF 84 C0",
-            "E8 CB 2C 00 00 48 85 C0"
-        }
+            "E8 CB 2C 00 00 48 85 C0",
+        },
     },
     {
         "3.4.0",
@@ -193,8 +190,8 @@ static std::unordered_map<std::string, BlenderPatchPattern> Patchers{
             "E8 2E 7A 3C 00",
             "4C 8D 05 B7 06 00 00",
             "E8 7B FF FF FF 84 C0",
-            "E8 FB B6 00 00 48 85 C0"
-        }
+            "E8 FB B6 00 00 48 85 C0",
+        },
     },
     {
         "3.4.1",
@@ -202,8 +199,8 @@ static std::unordered_map<std::string, BlenderPatchPattern> Patchers{
             "E8 48 C0 3C 00",
             "4C 8D 05 B7 06 00 00",
             "E8 7B FF FF FF 84 C0",
-            "E8 FB B6 00 00 48 85 C0"
-        }
+            "E8 FB B6 00 00 48 85 C0",
+        },
     },
     {
         "3.5.0",
@@ -211,87 +208,92 @@ static std::unordered_map<std::string, BlenderPatchPattern> Patchers{
             "E8 C8 AD 3F 00",
             "4C 8D 05 09 08 00 00",
             "E8 7B FF FF FF 84 C0",
-            "E8 0B BC 00 00 48 85 C0"
-        }
+            "E8 0B BC 00 00 48 85 C0",
+        },
     },
     {
-        "3.5.1", {
+        "3.5.1",
+        {
             "E8 AE 4D 3F 00 84 DB",
             "4C 8D 05 09 08 00 00",
             "E8 7B FF FF FF 84 C0",
-            "E8 0B BC 00 00 48 85 C0"
-        }
+            "E8 0B BC 00 00 48 85 C0",
+        },
     },
     {
-        "3.6.0", {
+        "3.6.0",
+        {
             "E8 FC 8F 41 00 E8 C7 AD 22 04",
             "4C 8D 05 F9 07 00 00",
             "E8 7B FF FF FF 84 C0",
-            "E8 EB BD 00 00 48 85 C0"
-        }
+            "E8 EB BD 00 00 48 85 C0",
+        },
     },
     {
-
-        "3.6.1", {
+        "3.6.1",
+        {
             "E8 AC 90 41 00 E8 B7 AA 22 04",
             "4C 8D 05 F9 07 00 00",
             "E8 7B FF FF FF 84 C0",
-            "E8 EB BD 00 00 48 85 C0"
-        }
+            "E8 EB BD 00 00 48 85 C0",
+        },
     },
     {
-
-        "3.6.2", {
+        "3.6.2",
+        {
             "E8 7C 9C 41 00 E8 47 BC 22 04",
             "4C 8D 05 F9 07 00 00",
             "E8 7B FF FF FF 84 C0",
             "E8 EB BD 00 00 48 85 C0",
-        }
+        },
     },
     {
-
-        "3.6.4", {
+        "3.6.4",
+        {
             "E8 5C 9D 41 00 E8",
             "4C 8D 05 09 08 00 00",
             "E8 7B FF FF FF 84 C0",
             "E8 EB BD 00 00 48 85 C0",
-        }
+        },
     },
     {
-
-        "3.6.5", {
+        "3.6.5",
+        {
             "E8 1C A0 41 00 E8",
             "4C 8D 05 09 08 00 00",
             "E8 7B FF FF FF 84 C0",
             "E8 EB BD 00 00 48 85 C0",
-        }
+        },
     },
 #pragma endregion // Blender 3.x
 
 #pragma region Blender 4.x
     {
-        "4.0.0", {
+        "4.0.0",
+        {
             "E8 A9 4E 45 00",
             "4C 8D 05 09 0A 00 00",
             "E8 7B FF FF FF 84 C0",
-            "E8 FB 26 00 00 48 85 C0"
-        }
+            "E8 FB 26 00 00 48 85 C0",
+        },
     },
     {
-        "4.0.1", {
+        "4.0.1",
+        {
             "E8 89 4E 45 00",
             "4C 8D 05 09 0A 00 00",
             "E8 7B FF FF FF 84 C0",
-            "E8 FB 26 00 00 48 85 C0"
-        }
+            "E8 FB 26 00 00 48 85 C0",
+        },
     },
     {
-        "4.0.2", {
+        "4.0.2",
+        {
             "E8 89 54 45 00",
             "4C 8D 05 09 0A 00 00",
             "E8 7B FF FF FF 84 C0",
-            "E8 FB 26 00 00 48 85 C0"
-        }
+            "E8 FB 26 00 00 48 85 C0",
+        },
     }
 #pragma endregion // Blender 4.x
 };

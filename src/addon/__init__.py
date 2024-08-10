@@ -6,20 +6,40 @@
 # pyright: reportUnboundVariable=false
 # pyright: reportUnknownArgumentType=false
 
+bl_info = {
+    "name": "Drag and Drop Support",
+    "author": "Natsuneko",
+    "description": "Blender add-on for import some files from drag-and-drop",
+    "blender": (3, 1, 0),
+    "version": (4, 0, 0),
+    "location": "Drag and Drop Support",
+    "doc_url": "https://docs.natsuneko.com/en-us/drag-and-drop-support/",
+    "tracker_url": "https://github.com/mika-f/blender-drag-and-drop/issues",
+    "category": "Import-Export",
+}
+
 
 if "bpy" in locals():
     import importlib
 
     importlib.reload(formats)
+    importlib.reload(interop)
     importlib.reload(operator)
+    importlib.reload(preferences)
 else:
     from . import formats
+    from . import interop
     from . import operator
+    from . import preferences
 
     import bpy  # nopep8
 
 
 classes: list[type] = []
+
+if not interop.has_official_api():
+    classes.append(preferences.DragAndDropPreferences)
+
 classes.extend(operator.get_operators())
 classes.extend(formats.CLASSES)
 
@@ -31,6 +51,8 @@ def register():
     for c in classes:
         bpy.utils.register_class(c)
 
+    interop.try_load()
+
 
 def unregister():
     global classes
@@ -41,6 +63,8 @@ def unregister():
             bpy.utils.unregister_class(c)  # pyright: ignore[reportUnknownMemberType]
         except:
             pass
+
+    interop.try_unload()
 
 
 if __name__ == "__main__":

@@ -99,7 +99,14 @@ v4.0.0 supports the following versions of Blender:
 
 ## Release
 
+### 4.x
+
 Create a new pull request from GitHub to bump versions with pr template.
+
+### 3.x
+
+Create a new pull request from `develop` to `blender-3`, bump version, and merge it.
+After pull merge commit, tagging and pushing it.
 
 ## License
 

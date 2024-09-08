@@ -337,6 +337,15 @@ static std::unordered_map<std::string, BlenderPatchPattern> Patchers{
             "E8 EB BD 00 00 48 85 C0",
         },
     },
+    {
+        "3.6.15",
+        {
+            "E8 EC B5 41 00",
+            "4C 8D 05 19 08 00 00",
+            "E8 7B FF FF FF 84 C0",
+            "E8 EB BD 00 00 48 85 C0",
+        },
+    },
 #pragma endregion // Blender 3.x
 
 #pragma region Blender 4.x

@@ -64,6 +64,7 @@ v3.0.0 supports the following versions of Blender:
 - Blender 3.6.15 (x64 - Windows)
 - Blender 3.6.16 (x64 - Windows)
 - Blender 3.6.17 (x64 - Windows)
+- Blender 3.6.18 (x64 - Windows)
 - Blender 3.6.19 (x64 - Windows)
 - Blender 3.6.20 (x64 - Windows)
 - Blender 4.0.0 (x64 - Windows)

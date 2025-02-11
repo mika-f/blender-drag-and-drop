@@ -64,6 +64,9 @@ v3.0.0 supports the following versions of Blender:
 - Blender 3.6.15 (x64 - Windows)
 - Blender 3.6.16 (x64 - Windows)
 - Blender 3.6.17 (x64 - Windows)
+- Blender 3.6.18 (x64 - Windows)
+- Blender 3.6.19 (x64 - Windows)
+- Blender 3.6.20 (x64 - Windows)
 - Blender 4.0.0 (x64 - Windows)
 - Blender 4.0.1 (x64 - Windows)
 - Blender 4.0.2 (x64 - Windows)
@@ -99,6 +102,14 @@ v4.0.0 supports the following versions of Blender:
   - If you enable this addon, load DLL and replace it function.
   - And you disable this addon, unload DLL and restore it function.
 
+## Contributing
+
+1. Fork it
+2. Create your feature branch from `develop` (`git checkout -b my-new-feature`)
+3. Commit your changes (`git commit -am 'Add some feature'`)
+4. Push to the branch (`git push origin my-new-feature`)
+5. Create new Pull Request to `develop`
+
 ## Release
 
 ### 4.x
@@ -107,8 +118,9 @@ Create a new pull request from GitHub to bump versions with pr template.
 
 ### 3.x
 
-Create a new pull request from `develop` to `blender-3`, bump version, and merge it.
-After pull merge commit, tagging and pushing it.
+1. Create a new pull request from `develop` to `blender-3`, and merge it.
+2. Create a new pull request from `blender-3/topic` to `blender-3` for bump version, and merge it.
+3. After pull merge commit, tagging and pushing it.
 
 ## License
 

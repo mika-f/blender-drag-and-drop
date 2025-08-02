@@ -1,6 +1,6 @@
 # ------------------------------------------------------------------------------------------
 #  Copyright (c) Natsuneko. All rights reserved.
-#  Licensed under the MIT License. See LICENSE in the project root for license information.
+#  Licensed under the GPLv3 License. See LICENSE in the project root for license information.
 # ------------------------------------------------------------------------------------------
 
 # pyright: reportGeneralTypeIssues=false
@@ -57,7 +57,6 @@ class DropEventListener(Operator):
         else:
             i = getattr(bpy.ops.object, f"import_{c.format()}_with_defaults")
             if i is not None:
-                print(i)
                 i("EXEC_DEFAULT", filename=self.filename)
         return
 

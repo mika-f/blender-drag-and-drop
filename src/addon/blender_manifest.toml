@@ -6,7 +6,7 @@ id = "drag_and_drop_support"
 maintainer = "Natsune Mochizuki <me@natsuneko.cat>"
 name = "Drag and Drop Support"
 tagline = "Support and improve drag and drop imports in Blender. "
-version = "1.0.0"
+version = "1.1.0"
 # Supported types: "add-on", "theme"
 type = "add-on"
 
@@ -26,11 +26,11 @@ blender_version_min = "4.2.0"
 # License conforming to https://spdx.org/licenses/ (use "SPDX: prefix)
 # https://docs.blender.org/manual/en/dev/advanced/extensions/licenses.html
 license = [
-  "SPDX:MIT",
+  "SPDX:GPL-3.0-or-later",
 ]
 # Optional: required by some licenses.
 copyright = [
-  "2018-2024 Natsune Mochizuki",
+  "2018-2025 Natsune Mochizuki",
 ]
 
 # Optional list of supported platforms. If omitted, the extension will be available in all operating systems.

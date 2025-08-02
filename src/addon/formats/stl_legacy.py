@@ -1,6 +1,6 @@
 # ------------------------------------------------------------------------------------------
 #  Copyright (c) Natsuneko. All rights reserved.
-#  Licensed under the MIT License. See LICENSE in the project root for license information.
+#  Licensed under the GPLv3 License. See LICENSE in the project root for license information.
 # ------------------------------------------------------------------------------------------
 
 # pyright: reportGeneralTypeIssues=false
@@ -99,7 +99,7 @@ class VIEW3D_MT_Space_Import_STLLegacy(VIEW3D_MT_Space_Import_BASE):
         return "stl"
 
 
-OPERATORS = [
+OPERATORS: list[type] = [
     ImportSTLLegacyWithDefaults,
     ImportSTLLegacyWithCustomSettings,
     VIEW3D_MT_Space_Import_STLLegacy,

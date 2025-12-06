@@ -23,6 +23,7 @@ from .formats.super import VIEW3D_MT_Space_Import_BASE
 # formats that Blender does not supported by default
 conditionals: typing.Dict[str, typing.Callable[[], bool]] = {
     "3mf": lambda: hasattr(bpy.ops.import_mesh, "threemf"),
+    "dae": lambda: hasattr(bpy.ops.wm, "collada_import"),  # Removed in Blender 5.0
     "pmd": lambda: hasattr(bpy.ops, "mmd_tools"),
     "pmx": lambda: hasattr(bpy.ops, "mmd_tools"),
     "vmd": lambda: hasattr(bpy.ops, "mmd_tools"),

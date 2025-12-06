@@ -103,9 +103,12 @@ class VIEW3D_FH_Import_DAE(bpy.types.FileHandler):
         return context and context.area and context.area.type == "VIEW_3D"
 
 
-OPERATORS: list[type] = [
-    ImportDAEWithDefaults,
-    ImportDAEWithCustomSettings,
-    VIEW3D_MT_Space_Import_DAE,
-    VIEW3D_FH_Import_DAE,
-]
+# Only register DAE operators if Collada import is available (removed in Blender 5.0)
+OPERATORS: list[type] = []
+if hasattr(bpy.ops.wm, "collada_import"):
+    OPERATORS = [
+        ImportDAEWithDefaults,
+        ImportDAEWithCustomSettings,
+        VIEW3D_MT_Space_Import_DAE,
+        VIEW3D_FH_Import_DAE,
+    ]

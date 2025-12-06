@@ -7,7 +7,7 @@ Blender add-on for importing some files from drag-and-drop.
 - `*.3mf` (Required [Blender 3MF Format](https://github.com/Ghostkeeper/Blender3mfFormat))
 - `*.abc`
 - `*.bvh`
-- `*.dae`
+- `*.dae` (Not supported in Blender 5.0+ due to Collada removal)
 - `*.fbx`
 - `*.glb`
 - `*.gltf`
@@ -76,6 +76,11 @@ v4.0.0 supports the following versions of Blender:
 - Blender 4.1.0
 - Blender 4.1.1
 - Blender 4.2.0 or greater
+
+v1.2.0 supports the following versions of Blender:
+
+- Blender 4.2.0 or greater
+- Blender 5.0 or greater (Note: Collada .dae format not supported due to removal in Blender 5.0)
 
 ## ScreenShot
 

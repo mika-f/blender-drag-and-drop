@@ -1,6 +1,6 @@
 # ------------------------------------------------------------------------------------------
 #  Copyright (c) Natsuneko. All rights reserved.
-#  Licensed under the MIT License. See LICENSE in the project root for license information.
+#  Licensed under the GPLv3 License. See LICENSE in the project root for license information.
 # ------------------------------------------------------------------------------------------
 
 # pyright: reportGeneralTypeIssues=false
@@ -17,13 +17,13 @@ import typing
 from bpy.props import StringProperty  # pyright: ignore[reportUnknownVariableType]
 from bpy.types import Context, Event, Operator
 
-from .interop import has_official_api
 from .formats import CLASSES
 from .formats.super import VIEW3D_MT_Space_Import_BASE
 
 # formats that Blender does not supported by default
 conditionals: typing.Dict[str, typing.Callable[[], bool]] = {
     "3mf": lambda: hasattr(bpy.ops.import_mesh, "threemf"),
+    "dae": lambda: hasattr(bpy.ops.wm, "collada_import"),  # Removed in Blender 5.0
     "pmd": lambda: hasattr(bpy.ops, "mmd_tools"),
     "pmx": lambda: hasattr(bpy.ops, "mmd_tools"),
     "vmd": lambda: hasattr(bpy.ops, "mmd_tools"),
@@ -47,10 +47,7 @@ class DropEventListener(Operator):
                 return typing.cast(VIEW3D_MT_Space_Import_BASE, c)
 
     def inflate(self, name: str, ext: str):
-        if has_official_api():
-            VIEW3D_MT_Space_Import_BASE.filename = self.filepath
-        else:
-            VIEW3D_MT_Space_Import_BASE.filename = self.filename
+        VIEW3D_MT_Space_Import_BASE.filename = self.filepath
 
         c = self.find_class(ext)
         if c is None:
@@ -61,16 +58,13 @@ class DropEventListener(Operator):
         else:
             i = getattr(bpy.ops.object, f"import_{c.format()}_with_defaults")
             if i is not None:
-                print(i)
                 i("EXEC_DEFAULT", filename=self.filename)
         return
 
     def invoke(self, context: Context, event: Event):
         try:
 
-            path = typing.cast(str, self.filename)
-            if has_official_api():
-                path = typing.cast(str, self.filepath)
+            path = typing.cast(str, self.filepath)
 
             _, ext = os.path.splitext(path)
 

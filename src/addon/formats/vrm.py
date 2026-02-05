@@ -1,6 +1,6 @@
 # ------------------------------------------------------------------------------------------
 #  Copyright (c) Natsuneko. All rights reserved.
-#  Licensed under the MIT License. See LICENSE in the project root for license information.
+#  Licensed under the GPLv3 License. See LICENSE in the project root for license information.
 # ------------------------------------------------------------------------------------------
 
 # pyright: reportGeneralTypeIssues=false
@@ -17,7 +17,6 @@ from .super import (
     ImportsWithCustomSettingsBase,
     VIEW3D_MT_Space_Import_BASE,
 )
-from ..interop import has_official_api
 
 
 class ImportVRMWithDefaults(ImportWithDefaultsBase):
@@ -25,7 +24,7 @@ class ImportVRMWithDefaults(ImportWithDefaultsBase):
     bl_label = "Import VRM File"
 
     def execute(self, context: Context):
-        bpy.ops.import_scene.vrm(filepath=self.filepath())
+        bpy.ops.import_scene.vrm(filepath=self.filepath())  # type: ignore
         return {"FINISHED"}
 
 
@@ -89,25 +88,22 @@ class VIEW3D_MT_Space_Import_VRM(VIEW3D_MT_Space_Import_BASE):
         return "vrm"
 
 
+class VIEW3D_FH_Import_VRM(bpy.types.FileHandler):
+    bl_idname = "VIEW3D_FH_Import_VRM"
+    bl_label = "Import  Virtual Reality Model File"
+    bl_import_operator = "object.drop_event_listener"
+    bl_file_extensions = ".vrm"
+
+    @classmethod
+    def poll_drop(cls, context: bpy.types.Context | None) -> bool:
+        if context is None:
+            return False
+        return context and context.area and context.area.type == "VIEW_3D"
+
+
 OPERATORS: list[type] = [
     ImportVRMWithDefaults,
     ImportVRMWithCustomSettings,
     VIEW3D_MT_Space_Import_VRM,
+    VIEW3D_FH_Import_VRM,
 ]
-
-
-if has_official_api():
-
-    class VIEW3D_FH_Import_VRM(bpy.types.FileHandler):
-        bl_idname = "VIEW3D_FH_Import_VRM"
-        bl_label = "Import  Virtual Reality Model File"
-        bl_import_operator = "object.drop_event_listener"
-        bl_file_extensions = ".vrm"
-
-        @classmethod
-        def poll_drop(cls, context: bpy.types.Context | None) -> bool:
-            if context is None:
-                return False
-            return context and context.area and context.area.type == "VIEW_3D"
-
-    OPERATORS.append(VIEW3D_FH_Import_VRM)

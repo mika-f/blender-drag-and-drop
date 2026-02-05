@@ -1,6 +1,6 @@
 # ------------------------------------------------------------------------------------------
 #  Copyright (c) Natsuneko. All rights reserved.
-#  Licensed under the MIT License. See LICENSE in the project root for license information.
+#  Licensed under the GPLv3 License. See LICENSE in the project root for license information.
 # ------------------------------------------------------------------------------------------
 
 # pyright: reportGeneralTypeIssues=false
@@ -22,7 +22,6 @@ from .super import (
     ImportsWithCustomSettingsBase,
     VIEW3D_MT_Space_Import_BASE,
 )
-from ..interop import has_official_api
 
 
 class ImportDAEWithDefaults(ImportWithDefaultsBase):
@@ -91,25 +90,25 @@ class VIEW3D_MT_Space_Import_DAE(VIEW3D_MT_Space_Import_BASE):
         return "dae"
 
 
-OPERATORS: list[type] = [
-    ImportDAEWithDefaults,
-    ImportDAEWithCustomSettings,
-    VIEW3D_MT_Space_Import_DAE,
-]
+class VIEW3D_FH_Import_DAE(bpy.types.FileHandler):
+    bl_idname = "VIEW3D_FH_Import_DAE"
+    bl_label = "Import Collada File"
+    bl_import_operator = "object.drop_event_listener"
+    bl_file_extensions = ".dae"
+
+    @classmethod
+    def poll_drop(cls, context: bpy.types.Context | None) -> bool:
+        if context is None:
+            return False
+        return context and context.area and context.area.type == "VIEW_3D"
 
 
-if has_official_api():
-
-    class VIEW3D_FH_Import_DAE(bpy.types.FileHandler):
-        bl_idname = "VIEW3D_FH_Import_DAE"
-        bl_label = "Import Collada File"
-        bl_import_operator = "object.drop_event_listener"
-        bl_file_extensions = ".dae"
-
-        @classmethod
-        def poll_drop(cls, context: bpy.types.Context | None) -> bool:
-            if context is None:
-                return False
-            return context and context.area and context.area.type == "VIEW_3D"
-
-    OPERATORS.append(VIEW3D_FH_Import_DAE)
+# Only register DAE operators if Collada import is available (removed in Blender 5.0)
+OPERATORS: list[type] = []
+if hasattr(bpy.ops.wm, "collada_import"):
+    OPERATORS = [
+        ImportDAEWithDefaults,
+        ImportDAEWithCustomSettings,
+        VIEW3D_MT_Space_Import_DAE,
+        VIEW3D_FH_Import_DAE,
+    ]

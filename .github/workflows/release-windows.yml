@@ -22,7 +22,7 @@ jobs:
     needs: [setup]
     steps:
       - name: Checkout Repository
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Add MSBuild to PATH
         uses: microsoft/setup-msbuild@v1.1
@@ -63,7 +63,7 @@ jobs:
           Get-FileHash -Algorithm MD5    "$Dest.zip" | Select-Object -ExpandProperty Hash | Tee-Object -FilePath "$Dest.zip.md5"
 
       - name: Upload Artifacts
-        uses: actions/upload-artifact@v3
+        uses: actions/upload-artifact@v4
         with:
           name: Windows-x64-Artifacts
           path: bin/x64/

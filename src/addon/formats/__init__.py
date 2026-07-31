@@ -22,6 +22,7 @@ from . import svg
 from . import usd
 from . import vrm
 from . import x3d
+from . import dxf
 
 CLASSES: list[type] = []
 
@@ -45,3 +46,4 @@ CLASSES.extend(svg.OPERATORS)
 CLASSES.extend(usd.OPERATORS)
 CLASSES.extend(vrm.OPERATORS)
 CLASSES.extend(x3d.OPERATORS)
+CLASSES.extend(dxf.OPERATORS)
